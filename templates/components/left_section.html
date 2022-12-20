@@ -1,0 +1,97 @@
+{% load filters %}
+{% load i18n %}
+<section id="left-panel" class="w-100">
+    {% if request.user.is_authenticated %}
+        {% if request.path|get_nth_string_from_url:"1" != "profile" %}
+            <div class="new-post d-none justify-content-center align-items-center">
+                <span class="d-flex align-items-center new-post-icon">
+                    <img class="create-new-post" alt="Create post">
+                </span>
+                {% if community.unique_code  == 'THEARGUS' %}
+                    <span class="new-post-text">Submit news</span>
+                {% else%}
+                    <span class="new-post-text">Create Post</span>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div class="topics-scrollbar">
+        <div class="topics-text">TOPICS</div>
+        <div class="topics-wrapper">
+
+            {% if hot_link %}
+                <div class="d-flex align-items-center topic-list cursor-pointer hot-link-button btn-anim">
+                        <a href="/{{ language_code }}/topics/{{ hot_link.url_path|safe }}">
+                        <div class="topics-content">
+                            <span class="img-fluid meet-image">
+                                <img class="shimmer-effect" src="{{ hot_link.image|get_webp_format_image }}" width="30px" height="30px" alt="meet image" />
+                            </span>
+                            <span class="meet-name">{{ hot_link.name|safe }}</span>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+            {% for meet in people_to_meet %}
+                {% if community.content_language_filter %}
+                    {% if request.path|get_nth_string_from_url:"3" == meet.url_path and request.path|get_nth_string_from_url:"2" == "topics" %}
+                        <div class="d-flex align-items-center topic-list cursor-pointer">
+                                <a href="/{{ language_code }}/topics/{{ meet.url_path|safe }}">
+                                <span class="active-indicator-topics active"></span>
+                                <div class="topics-content">
+                                    <span class="img-fluid meet-image">
+                                        <img class="shimmer-effect" src="{{ meet.image|get_webp_format_image }}" width="30px" height="30px" alt="meet image" />
+                                    </span>
+                                    <span class="meet-name active">{{ meet.name|safe }}</span>
+                                </div>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="d-flex align-items-center topic-list cursor-pointer">
+                            <a href="/{{ language_code }}/topics/{{ meet.url_path|safe }}">
+                                <div class="topics-content">
+                                    <span class="img-fluid meet-image">
+                                        <img class="shimmer-effect" src="{{ meet.image|get_webp_format_image }}" width="30px" height="30px" alt="meet image" />
+                                    </span>
+                                    <span class="meet-name">{{ meet.name|safe }}</span>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% if request.path|get_nth_string_from_url:"2" == meet.url_path and request.path|get_nth_string_from_url:"1" == "topics" %}
+                        <div class="d-flex align-items-center topic-list cursor-pointer">
+                                <a href="/topics/{{ meet.url_path|safe }}">
+                                <span class="active-indicator-topics active"></span>
+                                <div class="topics-content">
+                                    <span class="img-fluid meet-image">
+                                        <img class="shimmer-effect" src="{{ meet.image|get_webp_format_image }}" width="30px" height="30px" alt="meet image" />
+                                    </span>
+                                    <span class="meet-name active">{{ meet.name|safe }}</span>
+                                </div>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="d-flex align-items-center topic-list cursor-pointer">
+                                <a href="/topics/{{ meet.url_path|safe }}">
+                                <div class="topics-content">
+                                    <span class="img-fluid meet-image">
+                                        <img class="shimmer-effect" src="{{ meet.image|get_webp_format_image }}" width="30px" height="30px" alt="meet image"/>
+                                    </span>
+                                    <span class="meet-name">{{ meet.name|safe }}</span>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% if total_people_to_meet > 0 %}
+            <div class="remainder">
+                +{{ total_people_to_meet|safe }}
+            </div>
+        {% endif %}
+    </div>
+{#    {% include "components/left_section_footer.html" %}#}
+
+</section>

@@ -1,0 +1,46 @@
+{% load filters %}
+{% load i18n %}
+
+{% for scroll_post in scroll_posts %}
+    <div class="bg-white" data-target="videoDetails.middleSection" id="video_details">
+        <div class="post-card">
+            <div class="details-title">{{ scroll_post.title.strip|safe }}</div>
+            <div class="details-timestamp">
+                {# keep below line in one single line to avoid UI break #}
+                {{ scroll_post.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"D, M d | g:i a" }}
+            </div>
+            <div class=" bg-white article position-relative">
+                <div class="img-fluid">
+                    {% if scroll_post.is_youtube_video %}
+                        <div class="first-live-video">
+                            <iframe  src="https://www.youtube.com/embed/{{ scroll_post.youtube_video_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                         </div>
+                    {% else %}
+                        <video class="first-live-video" width="100%" style="background-color: #000000;" height="380" controls
+                            muted>
+                            <source src="{{ scroll_post.get_video }}" type="video/mp4">
+                            <source src="{{ scroll_post.get_video }}" type="video/m3u8">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% endif %}
+                </div>
+                {% autoescape off %}
+                    <div class="details-description preview-description">
+                        {{ scroll_post.text.strip|striptags|safe|generate_short_description:78 }}
+                        <div class="blurred"></div>
+                    </div>
+                {% endautoescape %}
+                <div class="read-full-story">
+                    <a href="/video/{{ scroll_post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ scroll_post.unique_url|urlencode|safe }}">
+                        {# keep below line in one single line to avoid UI break #}
+                        {% trans 'Read full story' %}
+                        <img  src="/app/static/img/down_button.svg" alt="drop down"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+ <div class="post-details-divider"></div>
+
+{% include "components/home_page/pagination_ads.html" %}
+
+{% endfor %}

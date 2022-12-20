@@ -1,0 +1,112 @@
+{% load humanize %}
+{% load filters %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://d3pnd0n3snmitc.cloudfront.net/argus/bootstrap.min.css.gz" rel="stylesheet">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script defer src="https://d3pnd0n3snmitc.cloudfront.net/argus/bootstrap.min.js.gz" ></script>
+
+    <!-- Google API fonts (Lato) -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700&display=swap"
+          rel="stylesheet">
+
+    {# favicon #}
+    <link rel="shortcut icon" href="/app/static/img/argus_favicon.png">
+
+    {# JS file #}
+    <script src={% static 'js/widgets/widgets.js' %}></script>
+
+    {# CSS File #}
+    <link rel="stylesheet" href={% static "css/widgets/widgets.css" %}>
+
+</head>
+<body>
+<div class="widget-wrapper">
+    {# Card has only 2 faces; widgets are dynamically added #}
+    {# check if any widgets are present, else don't show anything #}
+    {% if widgets_list %}
+        <div class="card">
+            <div class="face face1"></div>
+            <div class="face face2"></div>
+        </div>
+    {% else %}
+        <div class="d-none"></div>
+    {% endif %}
+
+    <ul class="store">
+        {# empty check #}
+        {% if widgets_list %}
+            {% for widget in widgets_list %}
+                <li>
+                    {# if custom widget is hidden, show other widgets #}
+                    {% if custom_widget.is_hidden %}
+                        {# desired class names: content1, content2 ... contentn #}
+                        {# n = no of widgets #}
+                        {# n can be obtained by using forloop.counter #}
+                        <div class="content content{{ forloop.counter }}">
+                            {# Covid widget #}
+                            {% if widget.type == "COVID" %}
+                                {# if covid_config.bg_color is absent, color is given from class covid-widget-bg #}
+                                <div class="content content1 covid-widget-bg"
+                                        {% if covid_config and covid_config.bg_color %}
+                                     style="background: {{ covid_config.bg_color }};"
+                                        {% endif %}>
+                                    {% include "components/widgets/covid.html" %}
+                                </div>
+                                {# weather widget #}
+                            {% elif widget.type == "WEATHER" %}
+                                {# if weather_config.bg_color is absent, color is given from class weather-widget-bg#}
+                                <div class="content content2 weather-widget-bg"
+                                        {% if weather_config and weather_config.bg_color %}
+                                     style="background: {{ weather_config.bg_color }};"
+                                        {% endif %}>
+                                    {% include "components/widgets/weather.html" %}
+                                </div>
+                                {# ToDO cricket widget #}
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div
+                                {% if custom_widget_config.link %}
+                                    {# if a link is present, use it to redirect to page #}
+                                    onclick="open_custom_widget_link('{{ custom_widget_config.link }}');"
+                                {% endif %}
+                                    class="content content{{ forloop.counter }}">
+                            {% if widget.type == "CUSTOM" %}
+                                {# class content1 is directly used, as there is only 1 widget in this scenario #}
+                                <div class="content content1 custom-widget-bg bg-white">
+                                    {% include "components/widgets/custom.html" %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+</div>
+
+</body>
+
+<script>
+    // num_widgets are used in js to restart count after last widget
+    var num_widgets = "{{ num_widgets|safe }}";
+
+    /* custom_widget_bg is used in js to set background for custom widget
+        to opacity 10% of given background color
+     */
+    var custom_widget_bg = "{{ custom_widget_config.bg_color|safe }}";
+</script>
+</html>

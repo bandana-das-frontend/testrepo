@@ -1,0 +1,41 @@
+{% load filters %}
+{% load i18n %}
+
+
+<div class="third-post" style="background-color: #{{ posts.2.get_image|get_dominant_color }}">
+    <a href="/article/{{ posts.2.people_to_meet.all.0.url_path|urlencode|safe }}/{{ posts.2.unique_url|urlencode|safe }}">
+        <img class="sp-img-border mx-auto center-cropped-primary-image shimmer-effect"  src="{{ posts.2.get_image_name|get_webp_format_image:"320x180" }}"
+             alt="{{ posts.2.get_meta_title }}"/>
+        <div class="third-posts-content">
+            <div class="topic-timestamp third-topic-timestamp">
+                {% if posts.2.label.strip %}
+                    <div class="third-topic">
+                        {{posts.2.label.strip|truncatechars:25|safe}}
+                    </div>
+                {% else %}
+                    <div class="third-topic">
+                        {{posts.2.people_to_meet.all.first.name|truncatechars:25|safe}}
+                    </div>
+                {% endif %}
+
+                {# Check only if minute time unit present in publish date time of the third post, if present show publish datetime #}
+                {# else hide the publish date time in any other case #}
+                {% if "0m" == posts.2.published_date|timesince|upto|safe %}
+                    <span class="third-topic-timestamp-dot topic-timestamp-dot"></span>
+                    <div class="third-post-timestamp">now</div>
+                {% elif 'min' in posts.2.published_date|timesince and 'hour' not in posts.2.published_date|timesince %}
+                    <span class="third-topic-timestamp-dot topic-timestamp-dot"></span>
+                    <div class="third-post-timestamp">{{ posts.2.published_date|timesince|upto|safe }} ago</div>
+                {% endif %}
+            </div>
+
+            {% if posts.2.title and posts.2.title.strip %}
+                <div class="third-post-title">
+                    <span class="third-post-title-span">
+                        {{ posts.2.title.strip }}
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+    </a>
+</div>

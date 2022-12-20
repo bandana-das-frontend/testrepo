@@ -1,0 +1,130 @@
+{% load filters %}
+    <div class="desktop-widget" {% if topic_obj.url_path == 'corona-update' %} style="margin-bottom: 10px;margin-top:-6px" {% endif %}>
+        <div class="widget-header">
+            <div class="widget-header-texts">
+                <div class="widget-headline">COVID-19 STATS</div>
+            </div>
+            {% if topic_obj.url_path != 'corona-update' %}
+                <div class="widget-detail-btn">DETAILS <img src="/app/static/img/right_arrow.svg" alt="details-arrow"></div>
+             {% else %}
+                <div style="position: relative">
+                    <div class="widget-share-btn" onclick="send_ga_event('web_covid_widget','Click_ShareCovidWidget');" id ="widget-share-btn"><img src="/app/static/img/share_24px.svg" alt="share-arrow">SHARE
+                    </div>
+                    <div class="widget-share-div" id ="widget-share-div">
+                        <div class="widget_share_text">Share Post</div>
+                        <div class="widget_share_icons d-flex justify-content-end">
+                            <div class="footer_share_icon">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.META.HTTP_HOST }}/topics/corona-update"
+                                   target="_blank">
+                                    <img alt="Share on Facebook" class="footer_fb">
+                                </a>
+                            </div>
+                            <img class="share_divider" alt="share section divider">
+                            <div class="footer_share_icon">
+                                <a href="https://api.whatsapp.com/send?text=http://{{ request.META.HTTP_HOST }}/topics/corona-update">
+                                    <img alt="Share on WhatsApp" class="footer_whatsapp">
+                                </a>
+                            </div>
+                            <img class="share_divider" alt="share section divider">
+                            <div class="footer_share_icon">
+                                <a data-show-count="false"
+                                   href="https://twitter.com/intent/tweet?url={{ request.META.HTTP_HOST }}%2Ftopics%2Fcorona-update"
+                                   target="_blank">
+                                    <img alt="Share on Twitter" class="footer_twitter">
+                                </a>
+                            </div>
+                            <img class="share_divider" alt="share section divider">
+                            <div class="footer_share_icon">
+                                <a href="mailto:?subject={{ post.title.strip }}&body=I%20found%20this%20article%20interesting%20and%20thought%20of%20sharing%20it%20with%20you.%20Check%20it%20out:%20{{ request.META.HTTP_HOST }}%2Ftopics%2Fcorona-update">
+                                    <img alt="Share on mail" class="footer_mail">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="widget-data">
+            <div class="widget-section" id="odisha_data" data-widget-section="odisha_result">
+                <div class="data_areas"><span class="covid-region active-region">ODISHA</span> <span class="covid-region">INDIA</span><span class="covid-region">WORLD</span></div>
+                <div class="widget-data-div">
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">TOTAL</div>
+                        <div class="widget-data-value">{{ covid_data.odisha_total_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">ACTIVE</div>
+                        <div class="widget-data-value text-danger">
+                            {{ covid_data.odisha_active_cases|get_indian_num_sys}}</div>
+                    </div>
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">RECOVERED</div>
+                        <div class="widget-data-value">{{ covid_data.odisha_recovered_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">DEATHS</div>
+                        <div class="widget-data-value">{{ covid_data.odisha_death_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class='data-item'>
+                        <div class="widget-data-field">VACCINATED</div>
+                        <div class="widget-data-value text-success">
+                            {{ covid_data.odisa_total_vaccinated|get_indian_num_sys }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-section" id="india_data" data-widget-section="india_result">
+                <div class="data_areas"><span class="covid-region">ODISHA</span> <span class="covid-region active-region">INDIA</span><span class="covid-region">WORLD</span></div>
+                <div class="widget-data-div">
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">TOTAL</div>
+                        <div class="widget-data-value">{{ covid_data.india_total_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">ACTIVE</div>
+                        <div class="widget-data-value text-danger">
+                            {{ covid_data.india_active_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">RECOVERED</div>
+                        <div class="widget-data-value">{{ covid_data.india_recovered_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">DEATHS</div>
+                        <div class="widget-data-value">{{ covid_data.india_death_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="widget-data-field">VACCINATED</div>
+                        <div class="widget-data-value text-success">
+                            {{ covid_data.ind_total_vaccinated|get_indian_num_sys }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-section" id="world_data"  data-widget-section="world_result">
+               <div class="data_areas"><span class="covid-region">ODISHA</span> <span class="covid-region">INDIA</span><span class="active-region covid-region">WORLD</span></div>
+                <div class="widget-data-div">
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">TOTAL</div>
+                        <div class="widget-data-value">{{ covid_data.world_total_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">ACTIVE</div>
+                        <div class="widget-data-value text-danger">
+                            {{ covid_data.world_active_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">RECOVERED</div>
+                        <div class="widget-data-value">{{ covid_data.world_recovered_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class='data-item dotted-border-right'>
+                        <div class="widget-data-field">DEATHS</div>
+                        <div class="widget-data-value">{{ covid_data.world_death_cases|get_indian_num_sys }}</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="widget-data-field">VACCINATED</div>
+                        <div class="widget-data-value text-success">
+                            {{ covid_data.world_fully_vaccinated|get_indian_num_sys }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

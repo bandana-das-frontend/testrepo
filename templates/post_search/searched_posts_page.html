@@ -1,0 +1,86 @@
+{% load filters %}
+{% load i18n %}
+{# pagination posts in search page #}
+{% for post in scroll_posts %}
+    {% if post.video %}
+        <div class="bg-white cursor-pointer"
+             onclick="Turbolinks.visit('/video/{{ post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ post.unique_url|urlencode|safe }}');">
+            <div class="bg-white d-flex gp-card position-relative">
+                {% if post.get_image and post.get_image.strip %}
+                    <div class="play-btn">
+                        <img class="play-btn-img lazyload" data-src="/app/static/img/play_btn.svg"
+                             alt="play button">
+                    </div>
+                    <div class="img-fluid">
+                        <img class="gp-img-border mx-auto center-cropped-gp lazyload"
+                             data-src="{{ post.get_image|safe }}"
+                             alt="{{ post.title.strip|safe }}"/>
+                    </div>
+                {% else %}
+                    <!-- Showing placeholder image if post image is not available  -->
+                    <div class="play-btn">
+                        <img class="play-btn-img lazyload" data-src="/app/static/img/play_btn.svg"
+                             alt="play button">
+                    </div>
+                    <div class="img-fluid">
+                        <img class="gp-img-border mx-auto center-cropped-gp post-placeholder"
+                             alt="Image"/>
+                    </div>
+                {% endif %}
+                <div class="position-relative w-100">
+                    {# Added generic ideo topic timestamp component. #}
+                    {% include "components/home_page/generic_video_topic_timestamp.html" %}
+
+                    <div class="gp-card-wrapper">
+                        {% if post.title and post.title.strip %}
+                            <div class="gp-title">{{ post.title.strip|safe }}</div>
+                        {% endif %}
+                        {% autoescape off %}
+                        {% if post.text %}
+                            <div class="gp-card-text">
+                                {{ post.text|striptags|safe|generate_short_description:50 }}</div>
+                        {% endif %}
+                    {% endautoescape %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="post-end"></div>
+    {% else %}
+        <a href="/article/{{ post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ post.unique_url|urlencode|safe }}"
+           class="cursor-pointer">
+            {% if post.get_image and post.get_image.strip %}
+                <div class="bg-white d-flex gp-card">
+                    {% if post.get_image and post.get_image.strip %}
+                        <div class="img-fluid">
+                            <img class="gp-img-border mx-auto center-cropped-gp" src="{{ post.get_image|safe }}"
+                                 alt="{{ post.title.strip|safe }}"/>
+                        </div>
+                    {% else %}
+                        <!-- Showing placeholder image if post image is not available  -->
+                        <div class="img-fluid">
+                            <img class="gp-img-border mx-auto center-cropped-gp post-placeholder" alt="Image"/>
+                        </div>
+                    {% endif %}
+
+                    <div class="position-relative w-100">
+                        {# Added generic posts topic timestamp component. #}
+                        {% include "components/home_page/generic_post_topic_timestamp.html" %}
+                        <div class="gp-card-wrapper">
+                            {% if post.title and post.title.strip %}
+                                <div class="gp-title">{{ post.title.strip|safe }}</div>
+                            {% endif %}
+                            {% autoescape off %}
+                            {% if post.text %}
+                                <div class="gp-card-text">
+                                    {{ post.text|striptags|safe|generate_short_description:50 }}</div>
+                            {% endif %}
+                        {% endautoescape %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </a>
+        <div class="post-end"></div>
+    {% endif %}
+{% endfor %}

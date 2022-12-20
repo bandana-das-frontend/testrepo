@@ -1,0 +1,117 @@
+{% load filters %}
+{% load i18n %}
+
+{% if request.user_agent.is_mobile %}
+    <div class="hs-mobile-section">
+            <a href="/live-tv/" class="cursor-pointer">
+                <div class="hs-topic-name">ଭିଡିଓଗୁଡିକ |</div>
+            </a>
+
+            <div class="hs-mobile-wrapper position-relative">
+                {% for video in horizontal_videos|slice:"0:5" %}
+                    <div class="hs-mobile-card">
+                        <a href="/video/{{ video.people_to_meet.all.0.url_path|urlencode|safe }}/{{ video.unique_url|urlencode|safe }}" class="cursor-pointer">
+                            <div class="position-relative">
+                            {% if video.get_optimal_image %}
+                                <img class="hs-mob-img shimmer-effect lazyload" data-src="{{ video.image.name|get_webp_format_image:"280x200" }}"  alt="{{ video.get_meta_title }}">
+                                <img class="hs-mob-play" src="/app/static/img/play_btn.svg" alt="play button">
+                            {% else %}
+                                <img class="hs-mob-img shimmer-effect lazyload" data-src="https://d267x6x6dh1ejh.cloudfront.net/posts/a4d8815a-53e9-440c-9859-2042cfd8d836.png"  alt="{{ video.get_meta_title }}">
+                                <img class="hs-mob-play" src="/app/static/img/play_btn.svg" alt="play button">
+
+                            {% endif %}
+                            </div>
+
+                            <div class="hs-mobile-content-wrapper hs-content-video-wrapper position-relative">
+                                {% if video.title.strip %}
+                                    <div class="hs-mob-title">{{ video.title.strip|generate_short_description:8|safe }}</div>
+                                {% endif %}
+
+                                {% if video.text.strip %}
+                                    <div class="hs-mob-desc">{{ video.text.strip|striptags|generate_short_description:15|safe }}</div>
+                                {% endif %}
+
+                                {% if "0m" == video.published_date|timesince|upto|safe %}
+                                    <div class="hs-mob-timestamp">now</div>
+                                {% elif 'day' in video.published_date|timesince or 'month' in video.published_date|timesince or 'week' in video.published_date|timesince or 'year' in video.published_date|timesince %}
+                                    <div class="hs-mob-timestamp">
+                                    {{ video.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"M d" }}</div>
+                                {% else %}
+                                    <div class="hs-mob-timestamp">{{ video.published_date|timesince|upto|safe }} ago</div>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                <a class="hs-mob-more" href="/live-tv" >
+                    <div class="hs-mob-more-icon"></div>
+                    <div class="hs-mob-more-text">See all</div>
+                </a>
+            </div>
+
+            <div class="hs-mob-end"></div>
+    </div>
+
+{% else %}
+{# Desktop Site #}
+    {% if  horizontal_videos|length >= 3 %}
+        <div class="hs-desktop-section position-relative">
+            <a href="/live-tv/" class="cursor-pointer">
+                <div class="hs-topic-name">ଭିଡିଓଗୁଡିକ |</div>
+            </a>
+            <div class="hs-wrapper d-flex justify-content-between align-items-center position-relative">
+                {% for video in horizontal_videos|slice:"0:3" %}
+                    <div class="hs-card-wrapper">
+                        <a href="/video/{{ video.people_to_meet.all.0.url_path|urlencode|safe }}/{{ video.unique_url|urlencode|safe }}"  class="cursor-pointer">
+
+                            {% if video.get_optimal_image %}
+                                <img class="hs-card-img shimmer-effect lazyload" data-src="{{ video.image.name|get_webp_format_image:"380x212" }}"  alt="{{ video.get_meta_title }}">
+                                <img class="hs-play" src="/app/static/img/play_btn.svg" alt="play button">
+                            {% else %}
+                                <div class="play-btn">
+                                    <img class="play-btn-img" src="/app/static/img/play_btn.svg" alt="play button">
+                                </div>
+                                <div class="img-fluid">
+                                    <img class="hs-card-img shimmer-effect lazyload post-placeholder"  alt="{{ video.get_meta_title }}">
+<!--                                    <img class="gp-img-border mx-auto center-cropped-gp hs-card-img  post-placeholder"  alt="Image"/>-->
+                                </div>
+                            {% endif %}
+
+                            <div class="hs-content-wrapper hs-content-video-wrapper d-flex flex-column">
+                                <div class="topic-timestamp hs-topic-timestamp">
+                                {# Topic name for video card in horizontal section in desktop web. #}
+                                    <div class="hs-topic">
+                                        {% if video.label.strip %}
+                                            {{ video.label.strip|truncatechars:20|safe}}
+                                        {% else %}
+                                            {{ video.people_to_meet.all.first.name|truncatechars:20|safe}}
+                                        {% endif %}
+                                    </div>
+                                {# Added horizontal section timestamp components to video horizontal section in desktop. #}
+                                    {% if "0m" == video.published_date|timesince|upto|safe %}
+                                        <span class="hs-topic-timestamp-dot topic-timestamp-dot"></span>
+                                        <div class="hs-timestamp">now</div>
+                                    {% elif 'min' in video.published_date|timesince and 'hour' not in video.published_date|timesince %}
+                                        <span class="hs-topic-timestamp-dot topic-timestamp-dot"></span>
+                                        <div class="hs-timestamp">{{ video.published_date|timesince|upto|safe }} ago</div>
+                                    {% endif %}
+                                </div>
+                                {% if video.title.strip %}
+                                    <div class="hs-title">{{ video.title.strip|truncatechars:40|safe }}</div>
+                                {% endif %}
+
+                                {% if video.text.strip %}
+                                    <div class="hs-desc">{{ video.text.strip|striptags|generate_short_description:20|safe }}</div>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                <a href="/live-tv">
+                    <div class="hs-more"></div>
+                </a>
+            </div>
+            <div class="hs-end"></div>
+        </div>
+    {% endif %}
+{% endif %}

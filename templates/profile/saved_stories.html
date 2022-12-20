@@ -1,0 +1,30 @@
+{% load filters %}
+
+<div id="user-info-section">
+    <div class="comment-end"></div>
+    {% for user_activity in user_activities %}
+        {% if user_activity.activity_type %}
+            <div class="saved-stories-card bg-white d-flex gp-card position-relative">
+                <div class="img-fluid">
+                    <img class="gp-img-border mx-auto center-cropped" src="{{ user_activity.content_object.get_image|safe }}" alt="image"/>
+                </div>
+                <div class="position-relative w-100">
+                    {% if user_activity.content_object.label.strip %}
+                        <div class="gp-topic">{{user_activity.content_object.label.strip|safe|truncatechars:25}}</div>
+                    {% else %}
+                        <div class="gp-topic">{{user_activity.content_object.people_to_meet.all.first.name|truncatechars:25}}</div>
+                    {% endif %}
+                    {% if user_activity.content_object.title and user_activity.content_object.title.strip %}
+                        <div class="gp-title">{{ user_activity.content_object.title.strip }}</div>
+                    {% endif %}
+                    {% if user_activity.content_object.created %}
+                        <div class="saved-stories-card-timestamp">{{ user_activity.content_object.created|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"F m, Y g:i a" }} IST
+                        </div>
+                    <img class="saved-stories-checked" alt="image">
+                {% endif %}
+            </div>
+        </div>
+        <div class="comment-end"></div>
+        {% endif %}
+    {% endfor %}
+</div>

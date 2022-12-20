@@ -1,0 +1,59 @@
+{% load filters %}
+<section class="w-100 position-relative">
+    {% include "components/home_page/desktop_square_ad.html" %}
+    {% if not request.user_agent.is_mobile %}
+        <div  style="margin-bottom:-31px; margin-left: -2px;" >
+        {% include "components/social_media_stats.html" %}
+        {% include "components/home_page/newsletter_card.html" %}
+        </div>
+    {% endif %}
+    <div data-controller="load_more_livetv" class="comments-wrapper" id="comments-wrapper">
+        <div class="mb-3">
+            <div class="comment-counter-details">
+                {% if total_comments != 1 %}
+                    <span class="comment-count-details-livetv">{{ total_comments }}</span>
+                    <span class="comment-text-details-livetv">Comments</span>
+                {% else %}
+                    <span class="comment-count-details-livetv">{{ total_comments }}</span>
+                    <span class="comment-text-details-livetv">Comment</span>
+                {% endif %}
+            </div>
+            <div data-controller="comments" class="write-comment d-flex align-items-center position-relative">
+                {% csrf_token %}
+                <input data-target="comments.post" type="hidden" value="{{ live_id }}">
+                <input data-target="comments.type" type="hidden" value="live">
+                <input class="write-comment-hint" autofill="off" autocomplete="off" id="write-comment" 
+                    data-target="comments.comment_text" type="text"
+                    {% if not request.user.is_authenticated %} 
+                        data-action="click->comments#open_login_prompt"
+                    {% endif %}
+                        placeholder="Write a comment..." required />
+                <span id="character-count" class="character-count">200</span>
+                <input 
+                    {% if request.user.is_authenticated %} 
+                        data-action="click->comments#write_comment" class="cursor-pointer"
+                    {% else %}
+                        disabled 
+                    {% endif %}
+                        type="image" src="/app/static/img/post_a_comment.svg"
+                        border="0" alt="Submit" />
+            </div>
+            {% if comments %}
+                <div id="comments-card" class="livetv-page-comments">
+                    {% for comment in comments %}
+                        <div class="d-flex justify-content-start align-items-start position-relative">
+                            <img src="{{ comment.created_by.get_profile_picture }}" class="live-comment-avatar shimmer-effect" alt="{{ comment.created_by.get_full_name }}">
+                            <div class="live-comment-content-wrapper">
+                                <span class="comment-live-name">{{ comment.created_by.get_full_name | safe }}</span>
+                                <span class="comment-live-text">{{ comment.text | safe }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-livetv-comments">No comments to display</div>
+            {% endif %}
+
+        </div>
+    </div>
+</section>

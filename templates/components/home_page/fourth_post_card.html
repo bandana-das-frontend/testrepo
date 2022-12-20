@@ -1,0 +1,56 @@
+{% load filters %}
+{% load i18n %}
+
+
+<div class="right-post-div bg-white">
+    <a href="/article/{{ posts.3.people_to_meet.all.0.url_path|urlencode|safe }}/{{ posts.3.unique_url|urlencode|safe }}">
+        <div class="right-section-post ">
+            <div class="rs-post-image">
+                <img class="rs-img-border mx-auto center-cropped-primary-image shimmer-effect lazyload"
+                     data-src="{{ posts.3.get_image|safe }}" alt="{{ posts.3.title.strip|safe }}"/>
+            </div>
+
+            <div class="rs-post-content">
+                {# Topic timestamp section for the fourth news post in desktop web #}
+                <div class="topic-timestamp fourth_post-topic-timestamp">
+                    {% if posts.3.label.strip %}
+                    <div class="rs-post-topic">
+                        {{ posts.3.label.strip|truncatechars:25|safe }}
+                    </div>
+                    {% else %}
+                    <div class="rs-post-topic">
+                        {{ posts.3.people_to_meet.all.first.name|truncatechars:25|safe }}
+                    </div>
+                    {% endif %}
+
+                    {# Check if only minute time unit present in publish date time of the post, if present show publish datetime #}
+                    {# else hide the publish date time in any other case #}
+
+                    {% if "0m" == posts.3.published_date|timesince|upto|safe %}
+                        <span class="rs-topic-timestamp-dot topic-timestamp-dot"></span>
+                        <div class="rs-timestamp">now</div>
+                    {% elif 'min' in posts.3.published_date|timesince and 'hour' not in posts.3.published_date|timesince %}
+                        <span class="rs-topic-timestamp-dot topic-timestamp-dot"></span>
+                        <div class="rs-timestamp">{{ posts.3.published_date|timesince|upto|safe }} ago</div>
+                    {% endif %}
+                </div>
+                <div class="rs-wrapper">
+                    {% if posts.3.title and posts.3.title.strip %}
+                    <div class="rs-post-title">
+                        {{ posts.3.title.strip }}
+                    </div>
+                    {% endif %}
+
+                    {% autoescape off %}
+                    {% if posts.3.text and posts.3.text.strip %}
+                    <div class="rs-post-text">
+                        {{ posts.3.text.strip|safe|striptags|generate_short_description:80 }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endautoescape %}
+
+            </div>
+        </div>
+    </a>
+</div>

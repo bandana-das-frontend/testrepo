@@ -1,0 +1,202 @@
+{% load filters %}
+<section>
+    <div data-controller="load_more" class="comments-wrapper" id="comments-wrapper">
+        <div class=" bg-white mb-3">
+
+            <div class="right-section-top-2">
+                {% include "components/home_page/desktop_square_ad.html" %}
+<!--                {% include "components/social_media_stats.html" %}-->
+            </div>
+
+                {% include "components/home_page/newsletter_card.html" %}
+
+            {% if recommended_posts %}
+            <div class="recommended-head">RECOMMENDED FOR YOU</div>
+
+            <div id="carousel-rs" class="carousel slide recommended-container" data-ride="carousel" data-interval="3000">
+                <div class="carousel-inner">
+                    {% for recommended in recommended_posts %}
+                    {% if forloop.counter == 1 %}
+                    <div class="carousel-item active">
+                        <a href="/article/{{ recommended.people_to_meet.all.0.url_path|urlencode|safe }}/{{ recommended.unique_url|urlencode|safe }}">
+                            <div class="recommended-card">
+                                <img class="recommended-image shimmer-effect" src="{{ recommended.get_image_name|get_webp_format_image:"376x212" }}" alt="{{ recommended.title.strip|safe }}"/>
+                                <div class="recommended-gradient-overlay">
+                                </div>
+                                <div class="recommended-title">
+                                    {{ recommended.title.strip|safe }}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% else %}
+
+                    <div class="carousel-item">
+                        <a href="/article/{{ recommended.people_to_meet.all.0.url_path|urlencode|safe }}/{{ recommended.unique_url|urlencode|safe }}">
+                            <div class="recommended-card">
+                                <img class="recommended-image shimmer-effect" src="{{ recommended.get_image_name|get_webp_format_image:"376x212" }}" alt="{{ recommended.title.strip|safe }}"/>
+                                <div class="recommended-gradient-overlay">
+                                </div>
+                                <div class="recommended-title">
+                                    {{ recommended.title.strip|safe }}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                <ol class="carousel-indicators">
+                    {% for recommended in recommended_posts %}
+                    {% if forloop.counter == 1 %}
+                    <li data-target="#carousel-rs" data-slide-to="{{ forloop.counter|get_loop_index }}" class="paging-dot active"></li>
+                    {% else %}
+                    <li data-target="#carousel-rs" data-slide-to="{{ forloop.counter|get_loop_index }}" class="paging-dot"></li>
+                    {% endif %}
+                    {% endfor %}
+                </ol>
+                <div style="display: flex;">
+                    <a class="carousel-control-prev rs-prev-nav" href="#carousel-rs" role="button" data-slide="prev"><span aria-hidden="true"></span></a>
+                    <a class="carousel-control-next rs-next-nav" href="#carousel-rs" role="button" data-slide="next"><span aria-hidden="true"></span></a>
+                </div>
+            </div>
+
+            {% endif %}
+
+            <div class="recommended-head">LATEST VIDEOS</div>
+
+            <div class="latest-videos-container">
+
+                <div class="row">
+
+                    <a class="col" href="/video/{{ latest_video_1.people_to_meet.all.0.url_path|urlencode|safe }}/{{ latest_video_1.unique_url|urlencode|safe }}">
+                        <div class="latest-videos-card">
+                            <img class="lv-post-image shimmer-effect" src="{{ latest_video_1.image|get_webp_format_image:"176x102" }}" alt="{{ latest_video_1.title.strip|safe }}"/>
+                            <img alt="play-btn" class="lv-play-btn">
+                            <div class="lv-post-content">
+                                <div class="topic-timestamp gp-topic-timestamp">
+                                    {% if latest_video_1.people_to_meet %}
+                                        <div class="lv-post-topic">
+                                            {{ latest_video_1.people_to_meet.all.first.name|truncatechars:20}}
+                                        </div>
+                                    {% endif %}
+                                    {# Check only if minute time unit present in publish date time of the video, if present show publish datetime #}
+                                    {# else hide the publish date time in any other case  #}
+                                    {% if "0m" == latest_video_1.published_date|timesince|upto|safe %}
+                                        <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                        <div class="lv-timestamp">now</div>
+                                    {% elif 'min' in latest_video_1.published_date|timesince and 'hour' not in latest_video_1.published_date|timesince %}
+                                        <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                        <div class="lv-timestamp">{{ latest_video_1.published_date|timesince|upto|safe }} ago</div>
+                                    {% endif %}
+                                </div>
+                                {% if latest_video_1.title and latest_video_1.title.strip %}
+                                <div class="lv-post-title">
+                                    {{latest_video_1.title}}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="col" href="/video/{{ latest_video_2.people_to_meet.all.0.url_path|urlencode|safe }}/{{ latest_video_2.unique_url|urlencode|safe }}">
+                        <div class="latest-videos-card">
+                            <img class="lv-post-image shimmer-effect" src="{{ latest_video_2.image|get_webp_format_image:"176x102" }}" alt="{{ latest_video_2.title.strip|safe }}"/>
+                            <img alt="play-btn"  class="lv-play-btn">
+
+                            <div class="lv-post-content">
+                                <div class="topic-timestamp gp-topic-timestamp">
+                                    {% if latest_video_2.people_to_meet %}
+                                        <div class="lv-post-topic">
+                                            {{latest_video_2.people_to_meet.all.first.name|truncatechars:20}}
+                                        </div>
+                                    {% endif %}
+                                    {# Check only if minute time unit present in publish date time of the video, if present show publish datetime #}
+                                    {# else hide the publish date time in any other case  #}
+                                    {% if "0m" == latest_video_2.published_date|timesince|upto|safe %}
+                                        <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                        <div class="lv-timestamp">now</div>
+                                    {% elif 'min' in latest_video_2.published_date|timesince and 'hour' not in latest_video_2.published_date|timesince %}
+                                        <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                        <div class="lv-timestamp">{{ latest_video_2.published_date|timesince|upto|safe }} ago </div>
+
+                                    {% endif %}
+                                </div>
+                                {% if latest_video_2.title and latest_video_2.title.strip %}
+                                    <div class="lv-post-title">
+                                        {{latest_video_2.title}}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+
+                <div class="row">
+                    <a class="col" href="/video/{{ latest_video_3.people_to_meet.all.0.url_path|urlencode|safe }}/{{ latest_video_3.unique_url|urlencode|safe }}">
+                        <div class="latest-videos-card">
+                            <img class="lv-post-image shimmer-effect" src="{{ latest_video_3.image|get_webp_format_image:"176x102" }}" alt="{{ latest_video_3.title.strip|safe }}"/>
+                            <img alt="play-btn"  class="lv-play-btn">
+                            <div class="lv-post-content">
+                                <div class="topic-timestamp gp-topic-timestamp">
+                                    {% if latest_video_3.people_to_meet %}
+                                        <div class="lv-post-topic">{{latest_video_3.people_to_meet.all.first.name|truncatechars:20}}</div>
+                                    {% endif %}
+                                    {# Check only if minute time unit present in publish date time of the video, if present show publish datetime #}
+                                    {# else hide the publish date time in any other case  #}
+                                    {% if "0m" == latest_video_3.published_date|timesince|upto|safe %}
+                                        <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                        <div class="lv-timestamp">now</div>
+                                    {% elif 'min' in latest_video_3.published_date|timesince and 'hour' not in latest_video_3.published_date|timesince %}
+                                        <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                        <div class="lv-timestamp">{{ latest_video_3.published_date|timesince|upto|safe }} ago</div>
+                                    {% endif %}
+                                </div>
+                                {% if latest_video_3.title and latest_video_3.title.strip %}
+                                <div class="lv-post-title">
+                                    {{latest_video_3.title}}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="col" href="/video/{{ latest_video_4.people_to_meet.all.0.url_path|urlencode|safe }}/{{ latest_video_4.unique_url|urlencode|safe }}">
+                        <div class="latest-videos-card">
+                            <img class="lv-post-image shimmer-effect" src="{{ latest_video_4.image|get_webp_format_image:"176x102" }}" alt="{{ latest_video_4.title.strip|safe }}"/>
+                            <img alt="play-btn"  class="lv-play-btn">
+                            <div class="lv-post-content">
+                                 <div class="topic-timestamp gp-topic-timestamp">
+                                    {% if latest_video_4.people_to_meet %}
+                                        <div class="lv-post-topic">{{latest_video_4.people_to_meet.all.first.name|truncatechars:20}}</div>
+                                    {% endif %}
+                                    {# Check only if minute time unit present in publish date time of the video, if present show publish datetime #}
+                                    {# else hide the publish date time in any other case  #}
+                                    {% if "0m" == latest_video_4.published_date|timesince|upto|safe %}
+                                        <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                        <div class="lv-timestamp">now</div>
+                                    {% elif 'min' in latest_video_4.published_date|timesince and 'hour' not in latest_video_4.published_date|timesince %}
+                                        <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                        <div class="lv-timestamp">{{ latest_video_4.published_date|timesince|upto|safe }} ago</div>
+                                    {% endif %}
+                                </div>
+
+                                {% if latest_video_4.title and latest_video_4.title.strip %}
+                                <div class="lv-post-title">
+                                    {{latest_video_4.title}}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>

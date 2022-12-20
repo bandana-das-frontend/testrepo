@@ -1,0 +1,19 @@
+{% load filters %}
+{# Topic timestamp section for the first main posts in latest page #}
+<div class="topic-timestamp fp-topic-timestamp">
+    {% if posts.0.label.strip %}
+        <div class="fp-topic">{{ posts.0.label.strip|truncatechars:25|safe}}</div>
+    {% else %}
+        <div class="fp-topic">
+            {{ posts.0.people_to_meet.all.first.name|truncatechars:25|safe}}</div>
+    {% endif %}
+    {# check only if minute time unit present in publish date time of the post, if present show publish datetime #}
+    {# else hide the publish date time in any other case  #}
+    {% if "0m" == posts.0.published_date|timesince|upto|safe %}
+        <span class="fp-topic-timestamp-dot topic-timestamp-dot"></span>
+        <div class="fp-timestamp">now</div>
+    {% elif 'min' in posts.0.published_date|timesince and 'hour' not in posts.0.published_date|timesince %}
+        <span class="fp-topic-timestamp-dot topic-timestamp-dot"></span>
+        <div class="fp-timestamp">{{ posts.0.published_date|timesince|upto|safe }} ago</div>
+    {% endif %}
+</div>

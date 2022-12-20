@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load compress static %}
+{% block content %}
+    <div class="container">
+        <div id="success_div">
+            <img id="success_img" src="/app/static/img/submit_success.svg" width="120px" height="120px"
+                 style="margin: auto">
+            <div id="success_title">Thank you</div>
+            <div id="success_mess">Your submission has been received.</div>
+            <a href="/"><div id="back_home">BACK TO HOME</div></a>
+        </div>
+    </div>
+{% endblock %}

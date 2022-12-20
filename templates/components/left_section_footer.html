@@ -1,0 +1,47 @@
+{% load i18n %}
+
+
+<div class="right-pane-footer">
+    <div class="footer-icons-wrapper display-flex justify-content-start align-items-center">
+        <a href="{{ community.facebook_page_url }}" target="_blank">
+            <img alt="Argus Facebook page" class="footer-fb-page-link">
+        </a>
+        <a href="{{ community.twitter_page_url }}" target="_blank">
+            <img alt="Argus Twitter page" class="footer-twitter-page-link">
+        </a>
+        <a href="https://argusnews.in/rss/{{language_code}}/feed" target="_blank">
+            <img alt="Argus RSS page" class="footer-rss-page-link">
+        </a>
+    </div>
+
+    {# App/Play Store CTAs #}
+    <div class="app-links-footer d-flex justify-content-start align-items-center">
+
+        {# Get it on Apple App Store CTA and redirect to App store #}
+        <div onclick="window.open('{{community.app_store_url}}')">
+            <img alt="Download on the App Store" class="app-store-dark cursor-pointer"/>
+        </div>
+
+        {# Get it on Google Play Store CTA and redirect to Play Store #}
+        <div onclick="window.open('{{community.play_store_url}}')">
+            <img alt="Get it on Google Play" class="play-store-dark cursor-pointer"/>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-start align-items-center">
+        <a class="home-footer-text" href="/about-us">{% trans 'About' %}</a>
+
+        {# CTA to Jobs page #}
+        <a  class="home-footer-text-sec" href='{{community.footer_banner_cta_link}}' target="_blank">{% trans 'Jobs' %}</a>
+
+        <a class="home-footer-text-sec home-footer-common-text"
+           href="/privacy-policy">{% trans 'Privacy' %}</a>
+        <a class="home-footer-text home-footer-common-text" href="/terms-of-use">{% trans 'Terms' %}</a>
+    </div>
+
+    <div class="contactus-footer-container">
+        <a class="contactus-footer-text" href="/contact-us">{% trans 'Contact Us' %}</a>
+    </div>
+
+    <div class="home-footer-copyright-text">Copyright © {% now 'Y' %} Argus News | Pratham <br/> Broadcast India Pvt. Ltd. | All right reserved.</div>
+</div>

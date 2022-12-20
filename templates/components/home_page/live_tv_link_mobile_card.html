@@ -1,0 +1,41 @@
+{% load filters %}
+{% load i18n %}
+
+
+{% if hot_link %}
+
+<a class="live-tv-link-mob hot-link-mob" href="/{{ language_code }}/topics/{{ hot_link.url_path|safe }}">
+    <div class="w-100 d-flex justify-content-start align-items-center">
+        <div class="home-livetv-icon-mob">
+            <img class="img-crop" src="{{ hot_link.get_optimal_image|safe }}" width="36" height="24" alt="Thumbnail">
+        </div>
+        <div class="home-livetv-mob-wrapper">
+            <span class="home-livetv-mob-text">{{ hot_link.name|safe }}</span>
+        </div>
+    </div>
+</a>
+
+{% else %}
+
+<a class="live-tv-link-mob" href="/live-tv">
+    <div class="w-100 d-flex justify-content-start align-items-center">
+        <div class="home-livetv-indicator-mob">
+            <div id="live_tv_icon_mob">
+                <img src="/app/static/img/live_animation.gif" alt="Live TV animation">
+            </div>
+        </div>
+        <div class="home-livetv-icon-mob">
+            <img class="img-crop" src="/app/static/img/live-icon.svg" style="object-fit: unset !important;"
+                width="36" height="24" alt="Thumbnail">
+        </div>
+        <div class="home-livetv-mob-wrapper">
+            <span class="home-livetv-mob-text">LIVE TV: </span>
+            {% if request.user_agent.is_mobile %}
+            <span class="home-livetv-mob-title">{{ live.title|get_nth_string:0 }}</span>
+            {% else %}
+            <span class="home-livetv-mob-title">{{ live.title.strip }}</span>
+            {% endif %}
+        </div>
+    </div>
+</a>
+{% endif %}

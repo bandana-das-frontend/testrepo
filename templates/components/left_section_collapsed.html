@@ -1,0 +1,51 @@
+{% load filters %}
+{% load i18n %}
+<section class="w-100 only-icons d-flex flex-column justify-content-center align-items-center">
+    {% if request.user.is_authenticated %}
+        {% if request.path|get_nth_string_from_url:"1" != "profile" %}
+            <div class="collapsed new-post d-none justify-content-center align-items-center">
+                <span class="d-flex align-items-center new-post-icon">
+                    <img class="create-new-post" alt="Create post">
+                </span>
+                <span class="new-post-text">New Post</span>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="topics-text">{% trans 'TOPICS' %}</div>
+    
+        {% if hot_link %}
+        <div class="d-flex align-items-center topic-list cursor-pointer hot-link-collapsed-button">
+            <a href="/topics/{{ hot_link.url_path|safe }}">
+                <div class="topics-content">
+                    <span class="img-fluid meet-image">
+                        <img class="shimmer-effect"  src="{{ hot_link.image|get_webp_format_image }}" width="36px" height="36px" alt="meet image"/>
+                    </span>
+                </div>
+                <div class="meet-name-collapsed">{{ hot_link.name|safe }}</div>
+            </a>
+        </div>
+        {% endif%}
+
+        {% for meet in people_to_meet %}
+            <div class="d-flex align-items-center topic-list cursor-pointer">
+                <a href="/topics/{{ meet.url_path|safe }}">
+                    <div class="topics-content">
+                        <span class="img-fluid meet-image">
+                            <img class="shimmer-effect"  src="{{ meet.image|get_webp_format_image }}" width="36px" height="36px" alt="meet image"/>
+                        </span>
+                    </div>
+                    <div class="meet-name-collapsed">{{ meet.name|safe }}</div>
+                </a>
+            </div>
+        {% endfor %}
+        {% if total_people_to_meet > 0 %}
+            <div class="remainder">
+                +{{ total_people_to_meet|safe }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="left-menu-end"></div>
+</section>

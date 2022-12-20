@@ -1,0 +1,222 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-18 11:06+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\glynk_website\settings copy.py:390 .\glynk_website\settings.py:140
+msgid "English"
+msgstr ""
+
+#: .\glynk_website\settings copy.py:391 .\glynk_website\settings.py:141
+msgid "Oria"
+msgstr ""
+
+#: .\templates\components\desktop_footer.html:22
+#: .\templates\components\left_section_footer.html:32
+#: .\templates\components\mobile_footer.html:41
+#: .\templates\components\mobile_web_footer.html:20
+#: .\templates\components\modals\signin_modal_footer.html:7
+#: .\templates\home\home_amp.html:1025
+#: .\templates\post\google_amp_template.html:869
+#: .\templates\topics\topics_amp.html:785
+#: .\templates\trending\trending_amp.html:932
+msgid "About"
+msgstr "ବିଷୟରେ"
+
+#: .\templates\components\desktop_footer.html:23
+#: .\templates\components\left_section_footer.html:35
+#: .\templates\components\mobile_footer.html:44
+#: .\templates\components\mobile_web_footer.html:21
+#: .\templates\home\home_amp.html:1026
+#: .\templates\post\google_amp_template.html:870
+#: .\templates\topics\topics_amp.html:786
+#: .\templates\trending\trending_amp.html:933
+msgid "Jobs"
+msgstr "ଚାକିରି"
+
+#: .\templates\components\desktop_footer.html:24
+#: .\templates\components\left_section_footer.html:38
+#: .\templates\components\mobile_footer.html:47
+#: .\templates\components\mobile_web_footer.html:22
+#: .\templates\components\modals\signin_modal_footer.html:8
+#: .\templates\home\home_amp.html:1027
+#: .\templates\post\google_amp_template.html:871
+#: .\templates\topics\topics_amp.html:787
+#: .\templates\trending\trending_amp.html:934
+msgid "Privacy"
+msgstr "ଗୋପନୀୟତା"
+
+#: .\templates\components\desktop_footer.html:25
+#: .\templates\components\left_section_footer.html:39
+#: .\templates\components\mobile_footer.html:50
+#: .\templates\components\mobile_web_footer.html:23
+#: .\templates\components\modals\signin_modal_footer.html:9
+#: .\templates\home\home_amp.html:1028
+#: .\templates\post\google_amp_template.html:872
+#: .\templates\topics\topics_amp.html:788
+#: .\templates\trending\trending_amp.html:935
+msgid "Terms"
+msgstr "ସର୍ତ୍ତାବଳୀ"
+
+#: .\templates\components\desktop_footer.html:26
+#: .\templates\components\left_section_footer.html:43
+#: .\templates\components\mobile_footer.html:53
+#: .\templates\components\mobile_web_footer.html:24
+#: .\templates\home\home_amp.html:1029
+#: .\templates\post\google_amp_template.html:873
+#: .\templates\topics\topics_amp.html:789
+#: .\templates\trending\trending_amp.html:936
+msgid "Contact Us"
+msgstr "ଯୋଗାଯୋଗ"
+
+#: .\templates\components\header.html:18
+msgid "DOWNLOAD APP"
+msgstr "ଆପ୍ ଡାଉନଲୋଡ୍ କରନ୍ତୁ"
+
+#: .\templates\components\header.html:21
+msgid "LIVE TV"
+msgstr "ଲାଇଭ୍ ଟିଭି"
+
+#: .\templates\components\header.html:30
+msgid "FOLLOW US ON"
+msgstr "ଆମକୁ ଅନୁସରଣ କରନ୍ତୁ"
+
+#: .\templates\components\header.html:55 .\templates\components\header.html:64
+#: .\templates\components\mobile_header.html:77
+#: .\templates\components\mobile_header.html:86
+#: .\templates\home\home_amp.html:817 .\templates\home\home_amp.html.py:826
+#: .\templates\post\google_amp_template.html:709
+#: .\templates\post\google_amp_template.html:718
+#: .\templates\trending\trending_amp.html:750
+#: .\templates\trending\trending_amp.html:759
+msgid "Latest"
+msgstr "ତାଜା"
+
+#: .\templates\components\header.html:76 .\templates\components\header.html:85
+#: .\templates\components\mobile_header.html:98
+#: .\templates\components\mobile_header.html:107
+#: .\templates\home\home_amp.html:838 .\templates\home\home_amp.html.py:847
+#: .\templates\post\google_amp_template.html:730
+#: .\templates\post\google_amp_template.html:739
+#: .\templates\trending\trending.html:58
+#: .\templates\trending\trending_amp.html:771
+#: .\templates\trending\trending_amp.html:780
+msgid "Trending"
+msgstr "ଟ୍ରେଣ୍ଡିଂ"
+
+#: .\templates\components\header.html:97 .\templates\components\header.html:106
+#: .\templates\components\mobile_header.html:119
+#: .\templates\components\mobile_header.html:128
+#: .\templates\home\home_amp.html:859 .\templates\home\home_amp.html.py:868
+#: .\templates\post\google_amp_template.html:751
+#: .\templates\post\google_amp_template.html:760
+#: .\templates\trending\trending_amp.html:792
+#: .\templates\trending\trending_amp.html:801
+msgid "Channel Number"
+msgstr "ଚ୍ୟାନେଲ୍ ନମ୍ବର"
+
+#: .\templates\components\header.html:206
+#: .\templates\components\header.html:262
+msgid "Log out"
+msgstr "ସାଇନ୍ ଆଉଟ୍"
+
+#: .\templates\components\header.html:211
+#: .\templates\components\header.html:247
+msgid "Sign in"
+msgstr "ସାଇନ୍‌ ଇନ୍‌"
+
+#: .\templates\components\home_page\breaking_news_card.html:10
+#: .\templates\components\home_page\breaking_news_card.html:35
+#: .\templates\home\home_amp.html:902
+msgid "Breaking news"
+msgstr "ବ୍ରେକିଂ ନ୍ୟୁଜ"
+
+#: .\templates\components\home_right_section.html:23
+msgid "Live Argus News"
+msgstr "ଲାଇଭ୍ ଅର୍ଗସ ନ୍ୟୁଜ୍"
+
+#: .\templates\components\home_right_section.html:41
+msgid "Now Playing"
+msgstr "ନାଓ ପ୍ଲେଇଂ"
+
+#: .\templates\components\home_right_section.html:49
+msgid "Comments"
+msgstr "କମେଣ୍ଟ ଗୁଡିକ"
+
+#: .\templates\components\home_right_section.html:52
+msgid "Comment"
+msgstr "କମେଣ୍ଟ"
+
+#: .\templates\components\left_section_collapsed.html:16
+msgid "TOPICS"
+msgstr "ବିଷୟଗୁଡିକ"
+
+#: .\templates\components\mobile_header.html:140
+#: .\templates\components\mobile_header.html:149
+msgid "Live TV"
+msgstr "ଲାଇଭ୍ ଟିଭି"
+
+#: .\templates\components\social_media_stats.html:4
+msgid "STAY CONNECTED"
+msgstr "ସଂଯୋଜିତ ରୁହନ୍ତୁ |"
+
+#: .\templates\jobs\job_banner.html:13
+msgid "Argus News is hiring!"
+msgstr "ଅର୍ଗସ ନ୍ୟୁଜରେ ନିଯୁକ୍ତି ସୁଯୋଗ !"
+
+#: .\templates\jobs\job_banner.html:14
+msgid "Seeking highly motivated professionals."
+msgstr "ଉଚ୍ଚାଭିଳାଷୀ ପେଷାଦର ଆବଶ୍ୟକ।"
+
+#: .\templates\jobs\job_banner.html:17
+msgid "APPLY NOW"
+msgstr "ଆବେଦନ କରନ୍ତୁ"
+
+#: .\templates\live_details\live_details.html:59
+#: .\templates\post\post_details.html:75
+msgid "Home"
+msgstr "ଘର"
+
+#: .\templates\live_details\live_details.html:205
+#: .\templates\pagination\details_live.html:36
+#: .\templates\pagination\details_posts.html:32
+#: .\templates\post\post_details.html:321
+msgid "Read full story"
+msgstr "ସଂପୂର୍ଣ୍ଣ ଷ୍ଟୋରି ପଢନ୍ତୁ"
+
+#: .\templates\post_search\post_searched.html:51
+msgid "Search results"
+msgstr ""
+
+#: .\templates\topics\topic.html:110
+msgid "...Read more"
+msgstr "...ଅଧିକ ପଢ"
+
+#~ msgid "Mobile Channel Number"
+#~ msgstr "ଚ୍ୟାନେଲ୍ ନମ୍ବର"
+
+#~ msgid "Commando Shakti"
+#~ msgstr "କମାଣ୍ଡୋ ଶକ୍ତି"
+
+#~ msgid "Type here to search"
+#~ msgstr "ସନ୍ଧାନ କରିବାକୁ ଏଠାରେ ଟାଇପ୍ କରନ୍ତୁ"
+
+#~ msgid "RECOMMENDED FOR YOU"
+#~ msgstr "ଆପଣଙ୍କ ପାଇଁ"
+
+#~ msgid "Whether Place"
+#~ msgstr "ଭୁବନେଶ୍ୱର"

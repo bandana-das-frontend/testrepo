@@ -1,0 +1,12 @@
+{% load filters %}
+{% load i18n %}
+{# Timestamp component for the horizontal row sections present in desktop and mobile web #}
+{# check only if minute time unit present in publish date time of the post, if present show publish datetime #}
+{# else hide the publish date time in any other case  #}
+{% if "0m" == topic.published_date|timesince|upto|safe %}
+    <span class="hs-topic-timestamp-dot topic-timestamp-dot"></span>
+    <div class="hs-timestamp">now</div>
+{% elif 'min' in topic.published_date|timesince and 'hour' not in topic.published_date|timesince %}
+    <span class="hs-topic-timestamp-dot topic-timestamp-dot"></span>
+    <div class="hs-timestamp">{{ topic.published_date|timesince|upto|safe }} ago</div>
+{% endif %}

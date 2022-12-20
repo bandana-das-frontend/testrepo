@@ -1,0 +1,19 @@
+{% if weather_data.city_name %}
+    <div class="weather_city">{{ weather_data.city_name }}</div>
+{% endif %}
+
+<div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex flex-column">
+        {% if weather_data.temperature %}
+            <div class="weather_temperature">{{ weather_data.temperature }} &#xb0; C</div>
+        {% endif %}
+
+        {% if weather_data.short_description %}
+            <div class="weather_short_desc">{{ weather_data.short_description }}</div>
+        {% endif %}
+    </div>
+
+    {% if weather_data.icon_url %}
+        <img class="weather_icon" src="{{ weather_data.icon_url }}" alt="Weather Icon"/>
+    {% endif %}
+</div>

@@ -1,0 +1,261 @@
+html, body {
+    /* Giving transparent color for body */
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    background: transparent;
+    font-family: 'Lato', sans-serif;
+}
+
+.widget-wrapper {
+    position: relative;
+    width: 172px;
+    height: 94px;
+    border-radius: 4px;
+    margin: 0 auto 40px auto;
+    -webkit-perspective: 800px;
+    -moz-perspective: 800px;
+    -ms-perspective: 800px;
+    -o-perspective: 800px;
+    perspective: 800px;
+}
+
+.widget-wrapper .card {
+    position: absolute;
+    width: 172px;
+    height: 94px;
+    border-radius: 4px;
+    border: none;
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -ms-transition: -ms-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    background: transparent;
+}
+
+.widget-wrapper .card .face {
+    position: absolute;
+    width: 172px;
+    height: 94px;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.widget-wrapper .card.flipped,
+.widget-wrapper .card .face2 {
+    -webkit-transform: rotateX(180deg);
+    -moz-transform: rotateX(180deg);
+    -ms-transform: rotateX(180deg);
+    -o-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+}
+
+.widget-wrapper .card .face .content1 {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.widget-wrapper .card .face .content2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.widget-wrapper .card .face .content3 {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.widget-wrapper .card .face .content4 {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.store {
+    display: none;
+}
+
+/* Below are text CSS */
+.covid-cases {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.covid-state {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.covid-stats-section {
+    margin-top: 4px;
+}
+
+.covid-total-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 8px;
+    line-height: 10px;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.covid-total {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.covid-active-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 8px;
+    line-height: 10px;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.covid-active {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.covid-delta {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 9px;
+    line-height: 11px;
+    color: #E21E22;
+    margin-left: 3px;
+}
+
+.rise-indicator {
+    height: 6px;
+    width: 4px;
+}
+
+.weather_city {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: left;
+}
+
+.weather_city:first-letter {
+    text-transform: capitalize
+}
+
+.weather_temperature {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 29px;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: left;
+}
+
+.weather_icon {
+    width: 48px;
+    height: 48px;
+}
+
+.weather_short_desc {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: left;
+}
+
+.weather_short_desc:first-letter {
+    text-transform: capitalize;
+}
+
+.covid-widget-bg {
+    background: #1A1A1A;
+    padding: 12px;
+}
+
+.weather-widget-bg {
+    background: #2D334B;
+    padding-left: 16px;
+    padding-top: 16px;
+}
+
+.custom-widget-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-left: 12px;
+    padding-top: 12px;
+}
+
+.news-icon {
+    /* news icon in custom widget */
+    content: url("/app/static/img/ic_custom_widget_news.svg");
+    width: 20px;
+    height: 20px;
+}
+
+.custom-title {
+    /* custom widget title */
+    margin-left: 6px;
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 1);
+}
+
+a {
+    /* to prevent underline showing up for 'a' tag content */
+    text-decoration: none !important;
+}
+
+.custom-text {
+    /* custom widget text */
+    margin-top: 8px;
+    margin-right: 12px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 12px;
+    color: #4A434E;
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+}

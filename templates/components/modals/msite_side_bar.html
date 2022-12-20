@@ -1,0 +1,65 @@
+{% load filters %}
+{% load i18n %}
+
+<div class="modal hide left fade in" id="side-bar-mobile" tabindex="" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-content-sidebar">
+            <div class="modal-body">
+
+                <div class="pb-3 mb-50">
+                    <div class="topics-text">TOPICS</div>
+
+                        <div class="d-flex align-items-center topic-list ml-16">
+                                <a href="/{{ language_code }}/topics/ratha_yatra_2022">
+                                    {% if language_code == 'or' %}
+                                        <img class="shimmer-effect rath-yatra-topic" src="https://dbdchmu23h7zg.cloudfront.net/fit-in/245x44/posts/argusnews-img-20220603-wa0003-5c2a1c91-a62b-4bea-ab73-b41feb25eb91.jpg" width="220px" height="38px" alt="meet image" />
+                                    {% else %}
+                                        <img class="shimmer-effect rath-yatra-topic" src="https://dbdchmu23h7zg.cloudfront.net/fit-in/245x44/posts/argusnews-rath-yatra-09936bc7-f2d4-4947-b70c-273c816ae1ba_optimal.jpeg" width="220px" height="38px" alt="meet image" />
+                                    {% endif %}
+                                </a>
+                        </div>
+
+                    {% for meet in people_to_meet %}
+                        {% if request.path|get_nth_string_from_url:"2" == meet.name %}
+                            <div class="d-flex align-items-center topic-list">
+                                <a href="/topics/{{ meet.url_path|safe }}">
+                                    <span class="active-indicator-topics active"></span>
+                                    <div class="topics-content">
+                                        <span class="img-fluid meet-image">
+                                            <img class="shimmer-effect lazyload " data-src="{{ meet.name|get_webp_format_image }}" width="24px" height="24px" alt="image"/>
+                                        </span>
+                                        <span class="meet-name active">{{ meet.name|safe }}</span>
+                                    </div>
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="d-flex align-items-center topic-list">
+                                <a href="/topics/{{ meet.url_path|safe }}">
+                                    <div class="topics-content">
+                                        <span class="img-fluid meet-image">
+                                            <img class="shimmer-effect lazyload" data-src="{{ meet.image|get_webp_format_image }}" width="24px" height="24px" alt="image"/>
+                                        </span>
+                                        <span class="meet-name">{{ meet.name|safe }}</span>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if total_people_to_meet > 0 %}
+                        <div class="remainder">
+                            +{{ total_people_to_meet|safe }}
+                        </div>
+                    {% endif %}
+
+                    {# Topic separator #}
+                    <div class="topics-divider-mobile"></div>
+
+                    {# Mobile site footer in left menu bottom #}
+                    {% include "components/mobile_footer.html" %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

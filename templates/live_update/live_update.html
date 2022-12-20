@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load i18n %}
+{% load static %}
+
+
+{% block head %}
+<script src="/app/static/js/live_update.js"></script>
+<link href='{% static "css/live_update.css" %}' rel="stylesheet" xmlns="http://www.w3.org/1999/html">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<meta content="{{ live_update.title.strip }}" property='twitter:title'/>
+<meta content="{{ live_update.get_image }}" property='twitter:image'/>
+<meta content="{{ live_update.get_meta_title }}" property="og:title"/>
+<meta content="{{ live_update.get_image }}" property="og:image"/>
+<meta content="{{ live_update.get_meta_description|striptags }}" property="og:description"/>
+<meta content="https://{{ request.META.HTTP_HOST }}/live-updates/{{live_update.unique_url}}" property="og:url"/>
+<link rel="canonical" href="https://{{ request.META.HTTP_HOST }}/live-updates/{{live_update.unique_url}}" >
+<meta content="live-updates" property="og:type">
+<meta content="Argus News" property="og:site_name">
+
+
+    <title>{% block title %} {{ live_update.get_meta_title }} {% endblock %}</title>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+{# desktop top ad  #}
+{% if not request.user_agent.is_mobile %}
+    <div class="top-ads-container"></div>
+{% endif %}
+
+<div class="compressed live-update-main">
+    <div class="wrapper position-relative details-container data-turbolinks-temporary" data-controller="liveUpdateController" id="main-container">
+        
+           <div class="content bg-white live-update-content">
+           {# mobile top ad  #}
+           {% if request.user_agent.is_mobile %}
+                <div class="top-ads-container"></div>
+           {% endif %}
+
+
+               <button class="live-update-page-head-cta" onclick="Turbolinks.visit('/');">
+                   <img  src="/app/static/img/live_update_back_icon.svg"/>
+                  <span> Live Update </span>
+               </button>
+
+
+               <div class="post-card fp-detail-post">
+                    <div class="post-details-title">{{ live_update.title.strip|safe }}</div>
+                            {% autoescape off %}
+
+                        {% if live_update.text.strip|safe|striptags %}
+                            <div class="details-description fp-para-text">{{ live_update.text.strip|safe }}</div>
+                        {% endif %}
+
+                    {% endautoescape %}
+
+                    <div class="timestamp-share-icons align-items-center">
+
+                        {# On click of location tag, go to search page with location as a search query and also location selected in location dropdown  #}
+                        <div class="floating-left details-timestamp">
+                               {% if "0m" == live_update.published_date|timesince|upto|safe %}
+                                    now  &nbsp; ({{ live_update.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"D, M d | g:i a" }})
+                                {% elif 'min' in live_update.published_date|timesince and 'hour' not in live_update.published_date|timesince %}
+                                    {{ live_update.published_date|timesince|upto|safe }} ago &nbsp; ({{ live_update.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"D, M d | g:i a" }})
+                                {% else %}
+                                    {{ live_update.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"D, M d | g:i a" }}
+                                {% endif %}
+                        </div>
+                        <div class="share_icons d-flex justify-content-end">
+                            {% include "components/live_update_share.html" %}
+                        </div>
+
+                    </div>
+                    <div class=" bg-white article position-relative">
+                        <div class="img-fluid">
+                            <!-- Showing post image, if it is available, otherwise not showing the post image   -->
+                            {% if request.user_agent.is_mobile %}
+                                {% if live_update.get_image and live_update.get_image.strip %}
+                                <img class="fp-img-border mx-auto center-cropped-fp details-fp shimmer-effect" src="{{ live_update.get_image }}" alt="{{ post.get_meta_title  }}"
+                                     height="300px"
+                                     width="100%"/>
+                                {% endif %}
+                            {% else %}
+                                {% if live_update.get_image and live_update.get_image.strip %}
+                                <img class="fp-img-border mx-auto center-cropped-fp details-fp lazyload shimmer-effect" data-src="{{ live_update.get_image }}" alt="{{ live_update.get_meta_title  }}"
+                                     height="300px"
+                                     width="100%"/>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if request.user_agent.is_mobile %}
+                        <div class="mob_top_share">
+                            <div class="btm_share_icons d-flex justify-content-start">
+                                {% include "components/live_update_share.html" %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+               <div class="horizontal-border"></div>
+
+               {% if live_update_details %}
+
+                   <div class="thread-posts">
+                       <div class="vertical-boder"></div>
+                    {% for live_update_post in live_update_details %}
+                       <div class="thread-post-card">
+                           <div class="thread-dot-space-top"></div>
+                           <div class="thread-dot"></div>
+                            <div class="thread-dot-space-bottom"></div>
+                           <div class="thread-post-data">
+                               <div class="align-items-center thread-post-timestamp">
+                                {# On click of location tag, go to search page with location as a search query and also location selected in location dropdown  #}
+                                <div class="floating-left details-timestamp">
+                                   {% if "0m" == live_update_post.published_date|timesince|upto|safe %}
+                                        now &nbsp; ({{ live_update_post.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"D, M d | g:i a" }})
+                                    {% elif 'min' in live_update_post.published_date|timesince and 'hour' not in live_update_post.published_date|timesince %}
+                                        {{ live_update_post.published_date|timesince|upto|safe }} ago &nbsp;  ({{ live_update_post.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"D, M d | g:i a" }})
+                                    {% else %}
+                                        {{ live_update_post.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"D, M d | g:i a" }}
+                                    {% endif %}
+                                </div>
+                                <div class="thread-post-user d-flex justify-content-end">
+                                    <span class="posted-by">Posted by : </span>
+                                    <span class="posted-user-name"> &nbsp; Argus</span>
+                                </div>
+                                </div>
+                               {% if live_update_post.title %}
+                                    <div class="thread-post-title">{{ live_update_post.title }}</div>
+                               {% endif %}
+                               {% if live_update_post.get_image %}
+                                    <div class="img-fluid">
+                                        <!-- Showing post image, if it is available, otherwise not showing the post image   -->
+                                        {% if request.user_agent.is_mobile %}
+                                            {% if live_update_post.get_image and live_update_post.get_image.strip %}
+                                            <img class="fp-img-border mx-auto thread-post-image shimmer-effect" src="{{ live_update_post.get_image }}" alt="{{ post.get_meta_title  }}"
+                                                 height="300px"
+                                                 width="100%"/>
+                                            {% endif %}
+                                        {% else %}
+                                            {% if live_update_post.get_image and live_update_post.get_image.strip %}
+                                            <img class="fp-img-border mx-auto thread-post-image  lazyload shimmer-effect" data-src="{{ live_update_post.get_image }}" alt="{{ live_update_post.get_meta_title  }}"
+                                                 height="300px"
+                                                 width="100%"/>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                               {% endif %}
+
+                               {% if live_update_post.text %}
+                                    {% autoescape off %}
+                                            <div class="thread-post-text fp-para-text">{{ live_update_post.text|safe }}</div>
+                                    {% endautoescape %}
+                               {% endif %}
+                           </div>
+
+                       </div>
+                          {% endfor %}
+                   </div>
+
+               {% endif %}
+           </div>
+
+
+    {% if not request.user_agent.is_mobile %}
+        <!-- div id name has to be different than home div to avoid turbolink header merge -->
+        <div class="right-sidebar right-section-details-page" class="d-none d-lg-block bg-white mr-neg-8" data-target="postDetails.rightSection"
+             id="comments_post">
+            <div class="sticky-spacer"></div>
+            <div class="sticky-content">
+                {% block right_section %}
+                {% include "components/post_right_section.html" %}
+                {% endblock %}
+            </div>
+        </div>
+    {% endif %}
+    </div>
+
+    {% if request.user_agent.is_mobile %}
+        <div style="position: relative; bottom: 0px; margin:0px;" id="post_details_footer_section">
+            {% include "components/mobile_web_footer.html" %}
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block endscript %}
+{% endblock %}

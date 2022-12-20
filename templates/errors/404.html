@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load filters %}
+
+{% block title %} Page not found – Argus News {% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <div class="container error-page">
+        <div class="row">
+            <div class="error-message col">
+                <div class="error-num">
+                    404
+                </div>
+                <div class="error-description-head">Whoops, that page is gone!</div>
+                <div class="error-description-body">The link you clicked may be broken or the page may have been removed.</div>
+            </div>
+            <div class="col">
+                <img class="icon-error" src="/app/static/img/error_page.svg" alt="error"/>
+            </div>
+        </div>
+        <div class="row">
+            <a href="/">
+                <div class="error-description-back"><img class="error-page-header-back" alt="Back">GO BACK TO HOME</div>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block endscript %}
+{% endblock %}

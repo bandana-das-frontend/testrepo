@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load i18n %}
+
+{% block head %}
+    <script src="/app/static/js/topic.js"></script>
+
+    <meta property="og:title" content="{{ topic_obj.seo_page_title }}">
+    <meta property="og:description" content="{{ topic_obj.seo_description }}"/>
+    <meta property="twitter:title' content="{{ topic_obj.seo_page_title }}">
+    <link rel="amphtml" href="https://{{ request.META.HTTP_HOST }}/amp/{{ language_code }}/topics/{{ topic_obj.url_path }} ">
+
+    {% if topic_obj.url_path != 'corona-update' %}
+
+        {% if topic_obj.url_path == 'up+4' %}
+            <meta property="og:image" content="{{ topic_obj.get_image }}"/>
+        {% else %}
+            <meta property="og:image" content="{{ community.get_og_image }}"/>
+        {% endif %}
+        <!--for twitter-->
+        <meta property='twitter:image' content="{{ community.get_og_image }}"/>
+        <meta name="twitter:card" content="summary_large_image"/>
+    {% else %}
+        <meta property="og:image"
+              content="https://d267x6x6dh1ejh.cloudfront.net/questions/52c20786-0c80-4916-a72d-8a75ffbe68c8.png"/>
+        <!--for twitter-->
+        <meta property='twitter:image'
+              content="https://d267x6x6dh1ejh.cloudfront.net/questions/52c20786-0c80-4916-a72d-8a75ffbe68c8.png"/>
+        <meta name="twitter:card" content="summary_large_image"/>
+    {% endif %}
+    {# canonical url kept same as homepage url #}
+    <link rel="canonical"
+          href="https://{{ request.META.HTTP_HOST }}/{{ language_code }}/topics/{{ topic_obj.url_path.strip|lower|safe }}">
+
+
+    <title>{% block title %} {{ topic_obj.seo_page_title }} {% endblock %}</title>
+    <meta name="description" {% block meta_description %} content="{{ topic_obj.seo_description }}" {% endblock %} >
+{% endblock %}
+
+{% block h1_tag %}
+    {# h1 to h6 tags are important for SEO (h1 tags are very important!) #}
+    <h1 class="d-none">{{ topic_obj.seo_page_title }}</h1>
+{% endblock %}
+
+{% block content %}
+    {# desktop top ad  #}
+    {% if not request.user_agent.is_mobile %}
+        <div class="top-ads-container"></div>
+    {% endif %}
+    <div class="wrapper position-relative" data-controller="topicController" id="main-container">
+        <input type="hidden" data-target="topicController.live_id" value="{{ live_id }}">
+        <input type="hidden" data-target="topicController.topic_id" value="{{ topic_id }}">
+        <div class="left-sidebar">
+            <div class="d-none d-lg-block justify-content-between bg-white left-pane position-relative">
+                {% block left_section %}
+                    {% include "components/left_section.html" %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="content position-relative bg-white" id="home-posts">
+            <div class="left-separator"></div>
+            <div class="right-separator"></div>
+            <div class="sticky-spacer"></div>
+            <div class="sticky-content">
+                {# mobile top ad  #}
+                {% if request.user_agent.is_mobile %}
+                    <div class="top-ads-container"></div>
+                {% endif %}
+                {% if topic_obj %}
+                    <div class="topic-header">
+                        <a href="/latest-news">
+                        <span class="d-flex justify-content-start align-items-center">
+                            <img class="live-tv-header-back" alt="Back">
+                            <span class="topics-page-text">{{ topic_obj|get_translated_name:language_code }}</span>
+                        </span>
+                        </a>
+                        {% if topic_obj.name == 'Odisha' %}
+                            <div class="topic_loc_dropdown">
+                                <div class="btn-group">
+                                    <button class="btn btn-sm dropdown-toggle search_location_select" type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        {% if location %}{{ location }}{% else %}Select Location{% endif %}
+                                    </button>
+                                    <div class="dropdown-menu search_option_items" id="location_search_options">
+                                        {% for location in locations %}
+                                            <div class="search_location_option_topic dropdown-item">{{ location }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% if location or topic %}
+                                    <div class="clear_filter" id='clear_filter_topic'>Clear</div>
+                                {% endif %}
+                            </div>
+                            <input data-target="searchResults.searchlocation" id="search_location_topic" type="hidden"
+                                   value="{{ location }}">
+
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if topic_obj.url_path == 'corona-update' %}
+                    {% if community.enable_widgets %}
+                        {% if request.user_agent.is_mobile %}
+                            {#  mobile widget section  #}
+                            {% include "components/widgets/mobile_web_widget.html" %}
+                        {% else %}
+                            {#  desktop widget section  #}
+                            {% include "components/widgets/desktop_web_widget.html" %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if first_post %}
+                    <div class="fp-wrapper bg-white position-relative cursor-pointer">
+                        <a href="/article/{{ first_post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ first_post.unique_url|urlencode|safe }}">
+                            {% if first_post.get_image and first_post.get_image.strip %}
+                                <div class="img-fluid">
+                                    <img class="fp-img-border mx-auto center-cropped-fp shimmer-effect lazyload"
+                                         data-src="{{ first_post.get_large_image|safe }}"
+                                         alt="{{ first_post.get_meta_title|safe|striptags }}"/>
+                                </div>
+                            {% endif %}
+                            {# Added first post topic timestamp component. #}
+                            {% include "components/home_page/firstpost_topic_timestamp.html" %}
+                            {% if first_post.title and first_post.title.strip %}
+                                <div class="fp-title">{{ first_post.title.strip }}</div>
+                            {% endif %}
+
+                            {% autoescape off %}
+                                {% if first_post.text and first_post.text.strip %}
+
+                                    <div class="fp-text fp-topic-text">
+                                        {% if request.user_agent.is_mobile %}
+                                            {{ first_post.text.strip|safe|striptags|generate_short_description:50 }} {% else %}
+                                            {{ first_post.text.strip|safe|striptags|generate_short_description:80 }} {% endif %}
+                                        <span class="fp-read-more">{% trans '...Read more' %} <span></div>
+                                    {#                                    <div class="fp-text fp-topic-text"> <span class="fp-read-more">... {% trans 'Read more' %}<span></div>#}
+
+                                {% endif %}
+                            {% endautoescape %}
+                        </a>
+                    </div>
+                {% endif %}
+
+                {# ad 1 start  #}
+
+                {% if request.user_agent.is_mobile %}
+                    <div class="google-mobile-square-ad"></div>
+                {% else %}
+                    {% if ads_list.0 %}
+                        <div class="main-ads" onclick='update_ad_clicks({{ ads_list.0.id }})'>
+                            {# If the admin ad present, check for the format of the ad  #}
+                            {# If the format is video include video ad component else display image ad #}
+                            {% if ads_list.0.ad_format == "Video" %}
+                                {% include "components/home_page/admin_video_ad.html" with media_url=ads_list.0.get_ad_media ad_link=ads_list.0.ad_link %}
+                            {% else %}
+                                <a target="_blank" href="{{ ads_list.0.ad_link }}">
+                                    <img data-src="{{ ads_list.0.get_ad_image }}" class="lazyload" alt="creative">
+                                </a>
+                            {% endif %}
+                        </div>
+                        {% if not request.user_agent.is_mobile %}
+                            <div class="post-end"></div>
+                        {% endif %}
+                    {% elif community.enable_ads and community.enable_google_ads and google_square_ad %}
+                        <div class="google_ad"
+                             id="{{ google_square_ad.ad_unit_id }}">
+                        </div>
+                        <script>
+                            $(document).ready(function () {
+                                $("#{{ google_square_ad.ad_unit_id }}").show();
+                                $("#{{ google_square_ad.ad_unit_id }}").empty();
+                                googletag.cmd.push(function () {
+                                    googletag.display("{{ google_square_ad.ad_unit_id }}");
+                                });
+                                if ($.trim($('#{{ google_square_ad.ad_unit_id }}').text()) == "") {
+                                    $('#{{ google_square_ad.ad_unit_id }}').hide();
+                                }
+                            });
+                        </script>
+                        {% if not request.user_agent.is_mobile %}
+                            <div class="post-end"></div>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+
+                {# ad 1 end  #}
+
+                {% if request.user_agent.is_mobile %}
+                    {% include "components/home_page/newsletter_card.html" %}
+                    <div class="hs-mob-end"></div>
+                {% endif %}
+                {% if posts %}
+                    {% for post in posts %}
+                        <a href="/article/{{ post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ post.unique_url|urlencode|safe }}"
+                           class="cursor-pointer">
+                            {% if post.get_image and post.get_image.strip %}
+                                <div class="bg-white d-flex gp-card">
+                                    {% if post.get_image and post.get_image.strip %}
+                                        <div class="img-fluid">
+                                            <img class="gp-img-border mx-auto center-cropped-gp lazyload"
+                                                 data-src="{{ post.get_image|safe }}"
+                                                 alt="{{ post.get_meta_title|safe|striptags }}"/>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="position-relative w-100">
+                                        {# Added generic posts topic timestamp component. #}
+                                        {% include "components/home_page/generic_post_topic_timestamp.html" %}
+                                        <div class="gp-card-wrapper">
+                                            {% if post.title and post.title.strip %}
+                                                <div class="gp-title">{{ post.title.strip|safe }}</div>
+                                            {% endif %}
+                                            {% autoescape off %}
+                                                {% if post.text %}
+                                                    <div class="gp-card-text">{{ post.text|striptags|safe|generate_short_description:50 }}</div>
+                                                {% endif %}
+                                            {% endautoescape %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </a>
+                        <div class="post-end"></div>
+
+                        {# ad 2 start #}
+
+                        {% if forloop.counter == 4 %}
+                            {#  If ads list is not empty show the second ad below first 4 news feeds in latest page in both mobile and desktop view #}
+                            {#  If the admin ad is not present and if enable google ad is true show the google ad #}
+                            {% if ads_list.1 %}
+                                <div class="main-ads" onclick='update_ad_clicks({{ ads_list.1.id }})'>
+                                    {# If the admin ad present, check for the format of the ad  #}
+                                    {# If the format is video include video ad component else display image ad #}
+                                    {% if ads_list.1.ad_format == "Video" and request.user_agent.is_mobile %}
+                                        {% include "components/home_page/admin_video_ad.html" with media_url=ads_list.1.get_ad_media ad_link=ads_list.1.ad_link %}
+                                    {% else %}
+                                        <a target="_blank" href="{{ ads_list.1.ad_link }}">
+                                            <img src="{{ ads_list.1.get_ad_image }}" alt="creative">
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% elif community.enable_google_ads and community.enable_ads %}
+                                {% if google_square_ad  and request.user_agent.is_mobile %}
+                                    <div class="google_ad" id="gpt-ad-{{ post.id }}">
+                                        <script>
+                                            generate_ad_unit("gpt-ad-{{ post.id }}");
+                                        </script>
+                                    </div>
+                                {% elif google_desktop_horizontal_ad and not request.user_agent.is_mobile %}
+                                    <div class="google_ad" id="gpt-ad-{{ post.id }}">
+                                        <script>
+                                            generate_ad_unit("gpt-ad-{{ post.id }}");
+                                        </script>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+
+                            {# ad 2 end #}
+
+                            {% if request.user_agent.is_mobile %}
+                                {% include "components/social_media_stats.html" %}
+                                <div class="hs-mob-end"></div>
+                            {% endif %}
+                        {% endif %}
+
+                        {# ad 3 start #}
+
+                        {% if forloop.counter == 8 %}
+                            {# If third ad is present in list show that ad below second 4 news feeds in latest page in both mobile and desktop view#}
+                            {#  If the admin ad is not present and if enable google ad is true show the google ad #}
+                            {% if ads_list.2 %}
+                                <div class="main-ads" onclick='update_ad_clicks({{ ads_list.2.id }})'>
+                                    {% if ads_list.2.ad_format == "Video" and request.user_agent.is_mobile %}
+                                        {# If the admin ad present, check for the format of the ad  #}
+                                        {# If the format is video include video ad component else display image ad #}
+                                        {% include "components/home_page/admin_video_ad.html" with media_url=ads_list.2.get_ad_media ad_link=ads_list.2.ad_link %}
+                                    {% else %}
+                                        <a target="_blank" href="{{ ads_list.2.ad_link }}">
+                                            <img class="shimmer-effect" src="{{ ads_list.2.get_ad_image }}"
+                                                 alt="creative">
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% elif community.enable_google_ads and community.enable_ads %}
+                                {% if google_square_ad  and request.user_agent.is_mobile %}
+                                    <div class="google_ad" id="gpt-ad-{{ post.id }}">
+                                        <script>
+                                            generate_ad_unit("gpt-ad-{{ post.id }}");
+                                        </script>
+                                    </div>
+                                {% elif google_desktop_horizontal_ad and not request.user_agent.is_mobile %}
+                                    <div class="google_ad" id="gpt-ad-{{ post.id }}">
+                                        <script>
+                                            generate_ad_unit("gpt-ad-{{ post.id }}");
+                                        </script>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {# ad 3 end #}
+
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% if request.user_agent.is_mobile %}
+                <div style="position: relative; bottom: 0px; margin:0px; display: none;" id="topic_footer_section">
+                    <div id='topic_read_more' class="post_load_more"><span>Load More <img
+                            src="/app/static/img/load_more_arrow.png"> </span>
+                    </div>
+                    {% include "components/mobile_web_footer.html" %}
+                </div>
+            {% endif %}
+            {# Prompt to download App in mobile site #}
+            {% include "components/download_app_prompt.html" %}
+
+        </div>
+
+        <div class="right-sidebar-main">
+            <div class="sticky-spacer"></div>
+            <div class="sticky-content">
+                <div class="d-none d-lg-block justify-content-between live-tv-comments-section right-pane position-relative"
+                     id="comments_home">
+                    {% block right_section %}
+                        {% include "components/topics_right_section.html" %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block endscript %}
+{% endblock %}

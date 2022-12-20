@@ -1,0 +1,24 @@
+{% if request.user_agent.is_mobile %}
+
+    <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+        <script>
+          window.googletag = window.googletag || {cmd: []};
+          googletag.cmd.push(function() {
+            googletag.pubads().refresh()
+            googletag.defineSlot('/78016009/mobile_square_ad', [300, 250], 'div-gpt-ad-1659608816386-0-{{ google_ad_div_id }}').addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+          });
+        </script>
+
+        <!-- /78016009/mobile_square_ad -->
+    <div class="google-ad-square">
+        <div id='div-gpt-ad-1659608816386-0-{{ google_ad_div_id }}' style='min-width: 300px; min-height: 250px;'>
+          <script>
+            googletag.cmd.push(function() {
+                googletag.pubads().clear()
+                googletag.display('div-gpt-ad-1659608816386-0-{{ google_ad_div_id }}'); });
+          </script>
+        </div>
+    </div>
+{% endif %}

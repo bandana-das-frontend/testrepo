@@ -1,0 +1,12 @@
+{% load filters %}
+{% for comment in comments %}
+    <div data-controller="comments">
+        <div class="d-flex justify-content-start align-items-start position-relative">
+            <img src="{{ comment.created_by.get_profile_picture }}" class="live-comment-avatar shimmer-effect" alt="{{ comment.created_by.get_full_name }}">
+            <div class="live-comment-content-wrapper">
+                <span class="comment-live-name">{{ comment.created_by.get_full_name | safe }}</span>
+                <span class="comment-live-text">{{ comment.text | safe }}</span>
+            </div>
+        </div>
+    </div>
+{% endfor %}

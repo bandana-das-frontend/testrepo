@@ -1,0 +1,283 @@
+{% load filters %}
+{% load i18n %}
+{% load cache %}
+
+{% block head %}
+<!--    <script src="/app/static/js/main.js"></script>-->
+{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">#}
+{% endblock %}
+<header>
+    <div class="w-100 header-global">
+        <div id="top-thin-line" class="top-thin-line w-100"></div>
+        {# top header section with date, weather information, social media information #}
+
+        {% cache request.cache_time "desktop_top_header" "desktop_header" %}
+        <div class="container mx-auto d-flex justify-content-between align-items-center" style="height:48px;">
+            <div id='header-date'>{% now 'D, M d, Y'%} | {{ weather_data.city_name|upper }} <span id="weather-degree">{{ weather_data.temperature }}° C <img src={{ weather_data.web_weather_icon_url }} id='weather-icon-img'/></span></div>
+            <div style="margin-top: 8px;">
+                <div id='header_app_prompt'>{% trans 'DOWNLOAD APP' %}<a target="_blank" href="https://argusnews.in/download"><img  src="/app/static/img/desktop_header_app_download_prompt.svg" id="header-app-download-prompt"  /></a>
+                <button class="header-live-tv-btn" onclick="Turbolinks.visit('/live-tv');">
+                    <img  src="/app/static/img/live_tv_play_icon.svg"/>
+                    {% trans  'LIVE TV' %}</button>
+<!--                    <a class="header-live-tv-btn">-->
+<!--                    <img  src="/app/static/img/live_tv_play_icon.svg"/>-->
+<!--                    Live TV</a>-->
+                </div>
+<!--                <div id="header-live-tv-btn">-->
+<!--                    -->
+<!--                </div>-->
+                <div id="header_social_section">
+                        <span>{% trans  'FOLLOW US ON' %}</span>
+                        <a target="_blank" href="https://www.facebook.com/argusnews.in"><img src="/app/static/img/footer_fb_logo.svg"  class="header-social-media-icons" /></a>
+                        <a target="_blank" href="https://twitter.com/ArgusNews_in"><img src="/app/static/img/footer_twitter_logo.svg" class="header-social-media-icons" /></a>
+                        <a target="_blank" href="https://www.youtube.com/c/TheArgusNewsOdia/featured"><img src="/app/static/img/footer_yt_logo.svg" class="header-social-media-icons" /></a>
+                        <a target="_blank" href="https://www.instagram.com/argusnewsin/"><img src="/app/static/img/instagram_app_icon.svg" class="header-social-media-icons social-media-instagram-icon" /></a>
+                        <a target="_blank" href="https://www.kooapp.com/profile/ArgusNews"><img src="/app/static/img/koo_icon.png" class="header-social-media-icons" /></a>
+                </div>
+                <div></div>
+            </div>
+    </div>
+    {% endcache %}
+    <div style="border-bottom: 2px solid #F2F2F2"></div>
+        <div class="header-custom container mx-auto d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center" id="brand-logo-sec-wrapper">
+                <!-- Toggle click functionality of brand-name as per desktop/mobile -->
+                <a class="brand-name" href="/"></a>
+                <img class="mg-10 cursor-default d-none" id="side-bar-btn" src="/app/static/img/phone_code_dropdown.svg"
+                    alt="Profile options" width="9" height="6" data-toggle="modal" data-target="#side-bar-mobile" />
+
+                {% if community.unique_code  == 'THEARGUS' %}
+                    <div id="header-nav" class="justify-content-between align-items-center">
+                        {% if request.path == "/" or request.path|get_nth_string_from_url:"1" == "latest-news" or request.path|get_nth_string_from_url:"2" == "latest-news" or request.path|get_nth_string_from_url:"1" == "profile" %}
+                            <div class="position-relative">
+                                <a href="/{{ language_code }}/latest-news">
+                                    <div class="header-nav-menu cursor-pointer active">
+                                        {% trans 'Latest' %}
+                                    </div>
+                                    <div class="header-nav-indicator active"></div>
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="position-relative">
+                                <a href="/{{ language_code }}/latest-news">
+                                    <div class="header-nav-menu cursor-pointer">
+                                        {% trans 'Latest' %}
+                                    </div>
+                                    <div class="header-nav-indicator"></div>
+                                </a>
+                            </div>
+                        {% endif %}
+
+
+                        {% if request.path|get_nth_string_from_url:"2" == "trending" %}
+                            <div class="position-relative">
+                                <a href="/{{ language_code }}/trending">
+                                    <div class="header-nav-menu cursor-pointer ml-36 active">
+                                        {% trans 'Trending' %}
+                                    </div>
+                                    <div class="ml-36 header-nav-indicator active"></div>
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="position-relative">
+                                <a href="/{{ language_code }}/trending">
+                                    <div class="header-nav-menu cursor-pointer ml-36">
+                                        {% trans 'Trending' %}
+                                    </div>
+                                    <div class="ml-36 header-nav-indicator"></div>
+                                </a>
+                            </div>
+                        {% endif %}
+
+
+                        {% if request.path|get_nth_string_from_url:"1" == "channel_number" %}
+                        <div class="position-relative">
+                            <a href="/channel_number">
+                                <div class="header-nav-menu cursor-pointer ml-36 active">
+                                    {% trans 'Channel Number' %}
+                                </div>
+                                <div class="ml-36 header-nav-indicator active"></div>
+                            </a>
+                        </div>
+                        {% else %}
+                            <div class="position-relative">
+                                <a href="/channel_number">
+                                    <div class="header-nav-menu cursor-pointer ml-36">
+                                        {% trans 'Channel Number' %}
+                                    </div>
+                                    <div class="ml-36 header-nav-indicator"></div>
+                                </a>
+                            </div>
+                        {% endif %}
+
+{#                        {% if request.path|get_nth_string_from_url:"1" == "commando-shakti" %}#}
+{#                            <div class="position-relative">#}
+{#                                <a href="/commando-shakti">#}
+{#                                    <div class="header-nav-menu cursor-pointer ml-36 active shimmer-tab-name">#}
+{#                                        {% trans 'Commando Shakti' %}#}
+{#                                    </div>#}
+{#                                    <div class="ml-36 header-nav-indicator active"></div>#}
+{#                                </a>#}
+{#                            </div>#}
+{#                        {% else %}#}
+{#                            <div class="position-relative">#}
+{#                                <a href="/commando-shakti">#}
+{#                                    <div class="header-nav-menu cursor-pointer ml-36 shimmer-tab-name">#}
+{#                                        {% trans 'Commando Shakti' %}#}
+{#                                    </div>#}
+{#                                    <div class="ml-36 header-nav-indicator"></div>#}
+{#                                </a>#}
+{#                            </div>#}
+{#                        {% endif %}#}
+
+
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div class="header-back-btn d-none">
+                <a class="d-flex justify-content-center align-items-center" href="/latest-news">
+                    <img class="live-tv-header-back" width="10" height="16" alt="Latest news">
+                    <div class="header-back-btn-text">Latest news</div>
+                </a>
+            </div>
+
+            {% if request.user.is_authenticated %}
+                <!-- <section class="d-lg-block d-none">
+                    <div class="search-wrapper-header justify-content align-items-center">
+                        <div class="search-bar border">
+                            <input id="search-header" name="search" class="search-hint" type="text"
+                                placeholder="Search..." required/>
+                            <input class="search-icon" type="image" src="/app/static/img/search_icon.svg"
+                                border="0" alt="Submit"/>
+                        </div>
+                    </div>
+                </section>-->
+                <div id="log-out-section">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <img class="search-icon" src="/app/static/img/search_icon_only_icon.svg" id ="search-icon" alt="search icon">
+                        <div class="position-relative d-none">
+                            <!-- Hard coded for demo-->
+                            <span class="notification-icon">
+                                <img src="/app/static/img/notification_icon.svg" alt="Notifications">
+                            </span>
+                            <span class="header-notif-counter counter">23</span>
+                        </div>
+
+                            <div class="lang-switch-box position-relative mr-0">
+                                {% if community.content_language_filter %}
+                                    <div class="lang-select">
+                                        <ul id="lang_options">
+                                            {% if language_code == 'en' %}
+                                                <li class="lang_opt active_lang">English</li>
+                                                <li class="lang_opt" onclick="window.open('/or/latest-news','_self')">
+                                                    ଓଡ଼ିଆ
+                                                </li>
+                                            {% else %}
+                                                <li class="lang_opt" onclick="window.open('/en/latest-news','_self')">
+                                                    English
+                                                </li>
+                                                <li class="lang_opt active_lang">ଓଡ଼ିଆ</li>
+                                            {% endif %}
+                                        </ul>
+                                        <span style="display: none" id="selected_lang" data-lang={{ language }}></span>
+                                        <span {% if language_code == 'en' %} style="position: absolute; left:0%; width: 50px;" {% else %} style="position: absolute; left:40%;  width: 35px;" {% endif %} id="lang_border"></span>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                        {% if request.user.get_profile_picture %}
+                            <img class="profile-picture-header" src="{{ request.user.get_profile_picture }}"
+                                alt="Profile picture" width="36" height="36" />
+                        {% else %}
+                            <img class="profile-picture-header" src="/app/static/img/header_user_placeholder.svg"
+                                alt="Profile picture" width="36" height="36" />
+                        {% endif %}
+                            <!-- <span class="header-text-1">Hi</span> -->
+                        {% if request.user.first_name %}
+                            <!-- <span class="header-text-2"><a href="/profile/{{ request.user.username }}">{{ request.user.first_name }}</a></span> -->
+                            <span class="header-text-2">{{ request.user.first_name }}</span>
+                        {% else %}
+                            <span class="header-text-2">User</span>
+                        {% endif %}
+                        <!-- <img class="mleft-3 cursor-default" src="/app/static/img/phone_code_dropdown.svg"
+                            alt="Profile options" width="9" height="6" /> -->
+                        <div class="log-out-text text-center" id="log-out-btn">{% trans 'Log out' %}</div>
+                    </div>
+                </div>
+                <div class="sign-in-text text-center d-none" id="sign-in-btn" data-toggle="modal"
+                    data-target="sign-in-first-modal">
+                    {% trans 'Sign in' %}</div>
+                {% else %}
+                <!-- <section id="searchBar" class="d-lg-block d-none">
+                    <div class="search-wrapper-header justify-content align-items-center not-authenticated">
+                        <div class="search-bar border">
+                            <input id="search-header" name="search" class="search-hint" type="text"
+                                   placeholder="Search..." required/>
+                            <input class="search-icon" type="image" src="/app/static/img/search_icon.svg"
+                                   border="0" alt="Submit"/>
+                        </div>
+                    </div>
+                </section>-->
+                <!-- Intentional duplicate ID reference. At any point, ID will be always unique when rendered -->
+                <div class="d-flex justify-content-center align-items-center">
+                    {% if not request.user_agent.is_mobile %}
+                            {% if community.content_language_filter %}
+                        {# Language switch in the header #}
+                                <div class="lang-select">
+                                    <ul id="lang_options">
+                                        {% if language_code == 'en' %}
+                                            <li class="lang_opt active_lang">English</li>
+                                            <li class="lang_opt" onclick="window.open('/or/latest-news','_self')">ଓଡ଼ିଆ</li>
+                                        {% else %}
+                                            <li class="lang_opt" onclick="window.open('/en/latest-news','_self')">English</li>
+                                            <li class="lang_opt active_lang">ଓଡ଼ିଆ</li>
+                                        {% endif %}
+                                    </ul>
+                                    <span style="display: none" id="selected_lang" data-lang={{ language }}></span>
+                                    <span {% if language_code == 'en' %} style="position: absolute; left:0%; width: 50px;" {% else %} style="position: absolute; left:40%;  width: 35px;" {% endif %} id="lang_border"></span>
+                                </div>
+
+                        {% endif %}
+                    {% endif %}
+                  <img id ="search-icon"  class="search-icon" src="/app/static/img/search_icon_only_icon.svg" alt="search icon">
+                    <div class="sign-in-text text-center" id="sign-in-btn" data-toggle="modal"
+                    data-target="sign-in-first-modal">
+                    {% trans 'Sign in' %}
+                    </div>
+                </div>
+                <div id="log-out-section" class="d-none">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <img class="profile-picture-header" src="/app/static/img/header_user_placeholder.svg"
+                            alt="Profile picture" width="36" height="36" />
+                        <!-- <span class="header-text-1">Hi</span> -->
+                        {% if request.user.first_name %}
+                            <span class="header-text-2"><a href="/profile">{{ request.user.first_name }}</a></span>
+                        {% else %}
+                            <span class="header-text-2">User</span>
+                        {% endif %}
+                        <img class="mleft-3 cursor-default" src="/app/static/img/phone_code_dropdown.svg"
+                            alt="Phone code drop down" width="9" height="6" />
+                        <div class="log-out-text text-center" id="log-out-btn">{% trans 'Log out' %}</div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="header-body-seperator w-100"></div>
+
+        {# search bar in desktop web   #}
+        <div style="width: 100vw; height: 56px;  margin: auto; background: #f7f7f7; display: none" id="search-section">
+            <div style="width: 596px; height: 40px; top:8px; margin: auto; position: relative;" class="input-group border rounded-pill">
+                <input style="border-radius: 96px;" type="search" placeholder="{% trans 'Type here to search' %}" aria-describedby="search-addon"
+                       class="form-control bg-none border-0" name="search-input" id="search-input">
+                <div class="input-group-append border-0">
+                    <button id="search-addon" type="button" class="btn btn-link"><i style="font-size: 20px; color: #888;" class="fa fa-search"></i></button>
+                </div>
+                <div id="close_search_bar"><img src="/app/static/img/search_bar_close.svg" alt='close search icon'>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>

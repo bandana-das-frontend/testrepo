@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+{% load filters %}
+
+{% block head %}
+    <script src="/app/static/js/live_tv.js"></script>
+    <meta property='twitter:title' content="Watch 24x7 Live TV Online | Argus News"/>
+    <meta property='twitter:image' content="https://d267x6x6dh1ejh.cloudfront.net/posts/eb54c0ee-5bc8-4c2a-bcba-273a1da694ad.png" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta property="og:image" content="https://d267x6x6dh1ejh.cloudfront.net/posts/eb54c0ee-5bc8-4c2a-bcba-273a1da694ad.png" />
+    <meta property="og:title" content="{{ current_live.seo_page_title }}"/>
+    <meta property="og:description" content="{{ current_live.seo_meta_description }}"/>
+
+    <link href="https://d3pnd0n3snmitc.cloudfront.net/argus/video-js.min.css.gz" rel="stylesheet" />
+    <link href="https://d3pnd0n3snmitc.cloudfront.net/argus/videojs-fantasy.css.gz" rel="stylesheet">
+
+    {# canonical url #}
+    {% if topic %}
+        <link rel="canonical" href="https://{{ request.META.HTTP_HOST }}/live-tv/{{ topic }}" >
+    {% else %}
+        <link rel="canonical" href="https://{{ request.META.HTTP_HOST }}/live-tv" >
+    {% endif %}
+
+    <title>{% block title %} {{ current_live.seo_page_title }} {% endblock %}</title>
+    <meta name="description" {% block meta_description %} content="{{ current_live.seo_meta_description }}" {% endblock %} />
+
+{% endblock %}
+
+{% block h1_tag %}
+    {# h1 to h6 tags are important for SEO (h1 tags are very important!) #}
+    <h1 class="d-none">Watch 24x7 Live TV Online | Argus News</h1>
+{% endblock %}
+
+{% block content %}
+    {# desktop top ad  #}
+    {% if not request.user_agent.is_mobile %}
+        <div class="top-ads-container"></div>
+    {% endif %}
+<div data-controller="livetvController" class="wrapper live-tv" id="main-container">
+    <input type="hidden" data-target="livetvController.live_id" value="{{ live_id }}">
+    <div class="left-sidebar">
+        <div class="d-none d-lg-block justify-content-between bg-white left-pane position-relative">
+            {% block left_section %}
+                {% include "components/left_section.html" %}
+            {% endblock %}
+        </div> 
+    </div>
+
+    <div class="content position-relative bg-white" id="video-list">
+        <div class="left-separator"></div>
+        <div class="right-separator"></div>
+        <div class="sticky-spacer"></div>
+        {% if request.user_agent.is_mobile %}
+            <div  style="margin-top:-20px;" onclick="window.open('https://www.youtube.com/watch?v=FWc7dkIiYD0')" class="timedown-div">
+                <div class="commingsoon-div"> Coming soon</div>
+                <div class="argus-launch-title"> Argus News Satellite Channel Virtual Launch</div>
+                <div class="launch-time">May 15 2021 | 10:45 AM</div>
+                <a href="https://logwork.com/countdown-pxvv" class="countdown-timer"
+                   data-timezone="Asia/Kolkata"
+                   data-textcolor="#e21e22" data-date="2021-05-15 10:45" data-background="#ffffff"
+                   data-digitscolor="#000000" data-unitscolor="#ffffff">.</a>
+            </div>
+        {% endif %}
+
+        {# mobile top ad  #}
+        {% if request.user_agent.is_mobile %}
+                <div class="top-ads-container"></div>
+        {% endif %}
+        <div class="live-head-section">
+        <div class="live-tv-header">
+            <a href="/latest-news">
+                <span class="live-tv-header-text">
+                    <img class="live-tv-header-back" alt="Back">
+                    Live TV
+                </span>
+            </a>
+        </div>
+        </div>
+        <div class="bg-white" id="live-tv-top-fixed">
+            <div class="live-tv-player cursor-pointer">
+                <div id="livetv-video-wrapper">
+                    
+                    <div id="livetv-video" class="d-flex justify-content-center live-video-wrapper cursor-pointer">
+                        <div id="livetv-player"></div>
+                        <script>
+                            var source = "{{current_live.video_url|safe}}"
+                        </script>
+        
+                        <style>
+                            #livetv-video-wrapper * {
+                                color: #ffffff;
+                            }
+                        </style>
+        
+                    </div>
+                </div>
+            </div>
+
+            <!-- ToDo Fix this. -->
+            <!-- <a href="/live_details/{{ current_live.unique_url|safe }}"> -->
+            <div>
+                <!--- check the live news topic is not empty.-->
+                {% if current_live.topic and current_live.topic.strip %}
+                    <!--- Topic entered from dashboard will display here.-->
+                    <div class="fp-topic">{{current_live.topic|truncatechars:25|safe}}</div>
+                {% endif %}
+                <div class="fp-title mb-20">{{ current_live.title.strip|safe }}</div>
+
+                {# ad 1 start  #}
+                  {% if request.user_agent.is_mobile %}
+                       <div class="google-mobile-square-ad"></div>
+                  {% else %}
+
+                            {% if ads_list.0 %}
+                                <div class="main-ads" onclick='update_ad_clicks({{ ads_list.0.id }})' >
+                                    {# If the admin ad present, check for the format of the ad  #}
+                                    {# If the format is video include video ad component else display image ad #}
+                                    {% if ads_list.0.ad_format == "Video" %}
+                                        {% include "components/home_page/admin_video_ad.html" with media_url=ads_list.0.get_ad_media ad_link=ads_list.0.ad_link %}
+                                    {% else %}
+                                        <a target="_blank" href="{{ ads_list.0.ad_link }}">
+                                            <img data-src="{{ ads_list.0.get_ad_image }}" class="lazyload" alt="creative">
+                                        </a>
+                                    {% endif %}
+                                </div>
+
+                            {% elif community.enable_ads and community.enable_google_ads and google_square_ad %}
+                                <div class="google_ad"
+                                     id="{{ google_square_ad.ad_unit_id }}">
+                                </div>
+                                <script>
+                                    $(document).ready(function () {
+                                        $("#{{ google_square_ad.ad_unit_id }}").show();
+                                        $("#{{ google_square_ad.ad_unit_id }}").empty();
+                                        googletag.cmd.push(function () {
+                                            googletag.display("{{ google_square_ad.ad_unit_id }}");
+                                        });
+                                        if ($.trim($('#{{ google_square_ad.ad_unit_id }}').text()) == "") {
+                                            $('#{{ google_square_ad.ad_unit_id }}').hide();
+                                        }
+                                    });
+                                </script>
+                            {% endif %}
+                    {% endif %}
+
+                {# ad 1 end  #}
+
+            </div>
+            <!-- </a> -->
+        </div>
+        {% if request.user_agent.is_mobile %}
+            <div style="margin-top:32px; margin-bottom:32px">
+            {% include "components/home_page/newsletter_card.html" %}
+            </div>
+        {% endif %}
+        <div class="first-post-end"></div>
+        <div class="topics-section live-tv-topic-section">
+            <input data-target="livetvController.topic" type="hidden" value="{{ topic }}">
+            {% if request.path|check_live_tv_url_last_param %}
+                <span class="video-topics live-tv-topic-active">
+                    <a href="/live-tv">All</a>
+                </span>
+            {% else %}
+                <span class="video-topics">
+                    <a href="/live-tv">All</a>
+                </span>
+            {% endif %}
+            {% for video_topic in video_topics %}
+                {% if request.path|get_nth_string_from_url:"2" == video_topic.url_path and request.path|get_nth_string_from_url:"1" == "live-tv" %}
+                    <span class="video-topics live-tv-topic-active">
+                        <a href="/live-tv/{{ video_topic.url_path|safe }}">{{ video_topic.name|truncatechars:20|safe }}</a>
+                    </span>
+                {% else %}
+                    <span class="video-topics">
+                        <a href="/live-tv/{{ video_topic.url_path|safe }}">{{ video_topic.name|truncatechars:20|safe }}</a>
+                    </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="blurred-live-tv"></div>
+        <div class="first-post-end"></div>
+        <div class="live-tv-first-post-end"></div>
+        {% if live %}
+            {% for video in live %}
+                <div class="bg-white gp-card cursor-pointer"
+                     onclick="Turbolinks.visit('/video/{{ video.people_to_meet.all.0.url_path|urlencode|safe }}/{{ video.unique_url|urlencode|safe }}');">
+
+                    <div class="bg-white d-flex gp-card position-relative">
+                        {% if video.get_optimal_image and video.get_optimal_image.strip %}
+                            <div class="play-btn">
+                                <img class="play-btn-img" src="/app/static/img/play_btn.svg" alt="play button">
+                            </div>
+                            <div class="img-fluid">
+                                <img class="gp-img-border mx-auto center-cropped-gp" src="{{ video.get_optimal_image|safe }}" alt="{{ video.get_meta_title }}"/>
+                            </div>
+                        {% else %}
+                        <!-- Showing placeholder image if post image is not available  -->
+                            <div class="play-btn">
+                                <img class="play-btn-img" src="/app/static/img/play_btn.svg" alt="play button">
+                            </div>
+                            <div class="img-fluid">
+                                <img class="gp-img-border mx-auto center-cropped-gp post-placeholder"  alt="Image"/>
+                            </div>
+                        {% endif %}
+
+                        <div class="position-relative w-100">
+                            {% include "components/home_page/generic_video_topic_timestamp.html" %}
+                            <div class="gp-card-wrapper">
+                                {% if video.title and video.title.strip %}
+                                    <div class="gp-title">{{ video.title.strip|safe }}</div>
+                                {% endif %}
+                            {% autoescape off %}
+                                {% if video.text %}
+                                    <div class="gp-card-text">{{ video.text|striptags|safe|generate_short_description:50 }} </div>
+                                {% endif %}
+                            {% endautoescape %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-end"></div>
+        {% if forloop.counter == 4 %}
+            {% if request.user_agent.is_mobile %}
+                {% include "components/social_media_stats.html" %}
+            {% endif %}
+        {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if request.user_agent.is_mobile %}
+            <div style="position: relative; bottom: 0px; margin:0px; display: none;" id="livetv_footer_section">
+                <div id='livetv_read_more' class="post_load_more"><span>Load More <img
+                        src="/app/static/img/load_more_arrow.png"> </span>
+                </div>
+                {% include "components/mobile_web_footer.html" %}
+            </div>
+        {% endif %}
+
+        {# Prompt to download App in mobile site #}
+        {% include "components/download_app_prompt.html" %}
+
+    </div>
+
+    <!-- div id name has to be different than post div to avoid turbolink header merge -->
+    <div class="right-sidebar-main">
+        <div class="sticky-spacer"></div>
+        <div class="sticky-content">
+            <div class="d-none d-lg-block justify-content-between live-tv-comments-section right-pane position-relative" id="comments_live_tv">
+                {% block right_section %}
+                    {% include "components/live_tv_right_section.html" %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block endscript %}
+{% endblock %}

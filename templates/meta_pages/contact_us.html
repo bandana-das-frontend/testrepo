@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <meta property="og:image" content="{{ community.get_og_image }}" />
+    <meta property="og:title" content="{{ community.og_title }}">
+    <meta property="og:description" content="{{ community.og_description }}" />
+    <!--for twitter-->
+    <meta property='twitter:title' content="{{ community.og_title }}">
+    <meta property='twitter:image' content="{{ community.get_og_image }}" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <link rel="canonical" href="https://{{ request.META.HTTP_HOST }}/contact-us" >
+
+    <title>{% block title %} Argus News: Contact us {% endblock %}</title>
+    <meta name="description" {% block meta_description %} content="{{ community.og_description }}" {% endblock %} >
+{% endblock %}
+
+{% block h1_tag %}
+    {# h1 to h6 tags are important for SEO (h1 tags are very important!) #}
+    <h1 class="d-none">Argus News: Contact us</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="contactus-page">
+        <div class="container contactus-container">
+
+            <div class="contactus-wrapper">
+
+                <div class="contactus-header">
+                    <a href="{{request.META.HTTP_REFERER}}">
+                        <span class="d-flex justify-content-start align-items-center">
+                            <img class="live-tv-header-back" alt="Back">
+                            <span class="topics-page-text">Back</span>
+                        </span>
+                    </a>
+                </div>
+
+                <div class="contactus-title">
+                    <label>
+                        Contact Us
+                    </label>
+                </div>
+
+                <div class="contactus_details">
+                    <label>ARGUS
+                        </br>
+                        PRATHAM BROADCAST INDIA PVT LTD
+                        </br>
+                    </label>
+                    </br>
+                    </br>
+                    <span>
+                        4th Floor, Symphony Mall, NH-16
+                        <br>
+                        Rudrapur, Bhubaneswar, Odisha - 752101
+                        <br>
+                        Contact No : 0674-6818181
+                        <br>
+                        Email ID : contact@argusnews.in
+                    </span>
+                </div>
+                
+            </div>
+        </div>
+
+        {% if request.user_agent.is_mobile %}
+            {% include "components/mobile_web_footer.html" %}
+        {% else %}
+            {% include "components/footer.html" %}
+        {% endif %}
+        
+    </div>
+
+{% endblock %}

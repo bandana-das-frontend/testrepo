@@ -1,0 +1,20 @@
+{% load filters %}
+{% load i18n %}
+
+{# Timestamp topic component for the generic posts present in desktop and mobile web #}
+<div class="topic-timestamp gp-topic-timestamp">
+    {% if video.people_to_meet %}
+        <div class="gp-topic">
+            {{ video.people_to_meet.all.first.name|truncatechars:25|safe}}</div>
+    {% endif %}
+    {# check only if minute time unit present in publish date time of the post, if present show publish datetime #}
+    {# else hide the publish date time in any other case  #}
+    {% if "0m" == video.published_date|timesince|upto|safe %}
+        <span class="gp-topic-timestamp-dot topic-timestamp-dot"></span>
+        <div class="gp-timestamp">now</div>
+    {% elif 'min' in video.published_date|timesince and 'hour' not in video.published_date|timesince %}
+        <span class="gp-topic-timestamp-dot topic-timestamp-dot"></span>
+        <div class="gp-timestamp">{{ video.published_date|timesince|upto|safe }} ago
+        </div>
+    {% endif %}
+</div>

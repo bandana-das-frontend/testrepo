@@ -1,0 +1,180 @@
+{% load filters %}
+{% load i18n %}
+
+<div class="header-mob-main position-relative" id ='mob-header'>
+    <div id="header-mob-main" 
+        class="h-74 d-flex justify-content-between align-items-center w-100 ">
+        <div id="top-thin-line" class="top-thin-line w-100"></div>
+        <div class="logo-dropdown d-flex align-items-center" id="logo-dropdown">
+             <img rel="preload" class="mobile-header-logo" src="/app/static/img/mobile_argus_logo.svg" alt="and-logo">
+<!--            <div class="brand-name-mob"></div>-->
+<!--            <div class="left-nav-btn"></div>-->
+        </div>
+        <button class="header-live-tv-btn" onclick="Turbolinks.visit('/live-tv');">
+                    <img  src="/app/static/img/live_tv_play_icon.svg"/>
+                    {% trans  'LIVE TV' %}
+        </button>
+        <div class="lang-change">
+            {% if request.path|get_nth_string_from_url:"1" == "latest-news" or request.path|get_nth_string_from_url:"2" == "latest-news" or request.path == "/" %}
+                {% include "components/home_page/lang_switch_search.html" %}
+            {% elif request.path|get_nth_string_from_url:"1" == "search-articles" or request.path|get_nth_string_from_url:"2" == "search-articles" %}
+                 {% include "components/home_page/lang_switch_search.html" %}
+            {% else %}
+                {% if request.user_agent.os.family == "iOS" %}
+                    <a href="{{ community.app_store_url }}" target="_blank">
+                        <div class="header-download-prompt"
+                             onclick="send_ga_event('download_app_prompt_page','DLApp_Button_Click');">
+                             <img class="header-prompt-logo" src="/app/static/img/header_apple_icon.svg" alt="and-logo">
+                            <div>
+                                <div class="download-text">Download</div>
+                                <div class="argus-app-text">Argus App</div>
+                            </div>
+                        </div>
+                    </a>
+                {% else %}
+
+                    <a href="{{ community.play_store_url }}" target="_blank">
+                        <div class="header-download-prompt"
+                             onclick="send_ga_event('download_app_prompt_page','DLApp_Button_Click');">
+                             <img class="header-prompt-logo" src="/app/static/img/header_playstore_icon.svg" alt="and-logo">
+                            <div>
+                                <div class="download-text">Download</div>
+                                <div class="argus-app-text">Argus App</div>
+                            </div>
+                        </div>
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div style="width: 100vw; height: 70px; z-index: 10000; display:none; position: sticky; margin: auto; top:0px; background: #fff;"
+     id="mob-search-section">
+    <div class="d-flex justify-content-start align-items-center" style="padding-top: 8px">
+        <img class="search-back-mob" id ="search-back-mob" alt="Back">
+        <div style="width: 306px; height: 40px; top:8px; margin: auto; position: relative;"
+             class="input-group border rounded-pill">
+            <input style="border-radius: 96px;" type="search" placeholder="{% trans 'Type here to search' %}"
+                   aria-describedby="search-addon"
+                   class="form-control bg-none border-0" name="mob-search-input" id="mob-search-input">
+            <div class="input-group-append border-0">
+                 <button id="mob-search-addon" type="button" class="btn btn-link"><i style="font-size: 20px; color: #888;" class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if community.unique_code  == 'THEARGUS' %}
+    <div class="header-mob-sub" id="header-mob-sub">
+        <div class="position-relative">
+            <div class="header-mob-seperator"></div>
+            <div class="mob-hor-menu d-flex justify-content-start align-items-center">
+                {% if request.path == "/" or request.path|get_nth_string_from_url:"1" == "latest-news" or request.path|get_nth_string_from_url:"2" == "latest-news" or request.path|get_nth_string_from_url:"1" == "profile" %}
+                    <div class="position-relative">
+                        <a href="/{{ language_code }}/latest-news">
+                            <div class="header-nav-menu-mob cursor-pointer active">
+                                {% trans 'Latest' %}
+                            </div>
+                            <div class="header-nav-indicator active"></div>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="position-relative">
+                        <a href="/{{ language_code }}/latest-news">
+                            <div class="header-nav-menu-mob cursor-pointer">
+                                {% trans 'Latest' %}
+                            </div>
+                            <div class="header-nav-indicator"></div>
+                        </a>
+                    </div>
+                {% endif %}
+
+                
+                {% if request.path|get_nth_string_from_url:"2" == "trending" %}
+                    <div class="position-relative">
+                        <a href="/{{ language_code }}/trending">
+                            <div class="header-nav-menu-mob cursor-pointer ml-28 active">
+                                {% trans 'Trending' %}
+                            </div>
+                            <div class="ml-28 header-nav-indicator active"></div>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="position-relative">
+                        <a href="/{{ language_code }}/trending">
+                            <div class="header-nav-menu-mob cursor-pointer ml-28">
+                                {% trans 'Trending' %}
+                            </div>
+                            <div class="ml-28 header-nav-indicator"></div>
+                        </a>
+                    </div>
+                {% endif %}
+
+
+                {% if request.path|get_nth_string_from_url:"1" == "channel_number" %}
+                <div class="position-relative">
+                    <a href="/channel_number">
+                        <div class="header-nav-menu-mob cursor-pointer ml-28 active">
+                            {% trans 'Channel Number' %}
+                        </div>
+                        <div class="ml-28 header-nav-indicator active"></div>
+                    </a>
+                </div>
+                {% else %}
+                    <div class="position-relative">
+                        <a href="/channel_number">
+                            <div class="header-nav-menu-mob cursor-pointer ml-28">
+                                {% trans 'Channel Number' %}
+                            </div>
+                            <div class="ml-28 header-nav-indicator"></div>
+                        </a>
+                    </div>
+                {% endif %}
+                
+                
+<!--                {% if request.path|get_nth_string_from_url:"1" == "live-tv" %}-->
+<!--                <div class="position-relative">-->
+<!--                    <a href="/live-tv">-->
+<!--                        <div class="header-nav-menu-mob cursor-pointer ml-36 active">-->
+<!--                            {% trans 'Live TV' %}-->
+<!--                        </div>-->
+<!--                        <div class="ml-36 header-nav-indicator active"></div>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                {% else %}-->
+<!--                    <div class="position-relative">-->
+<!--                        <a href="/live-tv">-->
+<!--                            <div class="header-nav-menu-mob cursor-pointer ml-36">-->
+<!--                                {% trans 'Live TV' %}-->
+<!--                            </div>-->
+<!--                            <div class="ml-36 header-nav-indicator"></div>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                {% endif %}-->
+
+
+{#                {% if request.path|get_nth_string_from_url:"1" == "commando-shakti" %}#}
+{#                    <div class="position-relative">#}
+{#                        <a href="/commando-shakti">#}
+{#                            <div class="header-nav-menu-mob cursor-pointer shimmer-tab-name ml-16 mr-16 active">#}
+{#                                {% trans 'Commando Shakti' %}#}
+{#                            </div>#}
+{#                            <div class="ml-16 header-nav-indicator active"></div>#}
+{#                        </a>#}
+{#                    </div>#}
+{#                {% else %}#}
+{#                    <div class="position-relative">#}
+{#                        <a href="/commando-shakti">#}
+{#                            <div class="header-nav-menu-mob cursor-pointer shimmer-tab-name ml-16 mr-16">#}
+{#                                {% trans 'Commando Shakti' %}#}
+{#                            </div>#}
+{#                            <div class="ml-16 header-nav-indicator"></div>#}
+{#                        </a>#}
+{#                    </div>#}
+{#                {% endif %}#}
+            </div>
+            <div class="active-indicator-row"></div>
+        </div>
+    </div>
+{% endif %}

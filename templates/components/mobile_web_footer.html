@@ -1,0 +1,46 @@
+{% load i18n %}
+
+<div id='mobile_base_footer'>
+    <div class="footer_topics">
+        {% for meet in people_to_meet %}
+            <a href="/{{ language_code }}/topics/{{ meet.url_path|safe }}">
+                <div class="footer-meet-name">{{ meet.name|safe }}</div>
+            </a>
+            {% if not forloop.last %}
+                <span class="dot"></span>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="mob_footer_logo_div">
+        <a href="/">
+            <img class="footer_logo" src="/app/static/img/argus_footer_logo.svg" alt="footer logo">
+        </a>
+    </div>
+    <div class="static_content">
+        <a href="/about-us">{% trans 'About' %}</a>
+        <a href="/jobs">{% trans 'Jobs' %}</a>
+        <a href="/privacy-policy"> {% trans 'Privacy' %}</a>
+        <a href="/terms-of-use"> {% trans 'Terms' %}</a>
+        <a href="/contact-us"> {% trans 'Contact Us' %}</a>
+    </div>
+    <div class="footer_copyright">
+        <span>Copyright © {% now 'Y' %} Argus News | Pratham Broadcast India Pvt. Ltd. | All right reserved.</span>
+    </div>
+    <div class="footer_app_download">
+        <div>DOWNLOAD APP</div>
+        <a target="_blank" href="https://argusnews.in/download">
+            <img src="/app/static/img/desktop_header_app_download_prompt.svg">
+        </a>
+    </div>
+    <div class="footer_social_media_sec">
+        <div>FOLLOW US ON</div>
+        <a href="https://www.facebook.com/argusnews.in" target="_blank"><img
+                src="/app/static/img/footer_fb_logo.svg"></a>
+        <a href="https://twitter.com/ArgusNews_in" target="_blank"><img
+                src="/app/static/img/footer_twitter_logo.svg"></a>
+        <a href="https://www.youtube.com/c/TheArgusNewsOdia/featured" target="_blank"><img
+                src="/app/static/img/footer_yt_logo.svg"></a>
+        <a href="https://www.instagram.com/argusnewsin/" target="_blank"><img
+              class="social-media-instagram-icon"  src="/app/static/img/instagram_app_icon.svg"></a>
+    </div>
+</div>

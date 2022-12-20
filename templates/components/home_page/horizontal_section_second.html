@@ -1,0 +1,115 @@
+{% load filters %}
+{% load i18n %}
+{% load cache %}
+
+
+{% if request.user_agent.is_mobile %}
+
+    {% cache request.cache_time "horizontal_section_second_mobile" language_code %}
+
+    <!-- Horizontal Section 2nd Row Mobile-->
+    <div class="hs-mobile-section">
+        {% if topic_posts_second_row and topic_posts_second_row|length >= 3 %}
+
+            {% if community.content_language_filter %}
+                <a href="/{{ language_code }}/topics/{{ topic_second_row_obj.url_path|safe }}" class="cursor-pointer">
+                    <div class="hs-topic-name">{{ topic_second_row_obj.name }}</div>
+                </a>
+            {% endif %}
+
+            <div class="hs-mobile-wrapper position-relative">
+
+                {% for topic in topic_posts_second_row|slice:"0:5" %}
+                    <div class="hs-mobile-card">
+                        <a href="/article/{{ topic_second_row_obj.url_path|urlencode|safe }}/{{ topic.unique_url|urlencode|safe }}"
+                           class="cursor-pointer">
+                            <img class="hs-mob-img shimmer-effect lazyload" data-src="{{ topic.get_image_name|get_webp_format_image:"280x200"  }}" alt="{{ topic.get_meta_title }}">
+
+                            <div class="hs-mobile-content-wrapper position-relative">
+                                {% if topic.title.strip %}
+                                    <div class="hs-mob-title">{{ topic.title.strip|generate_short_description:8|safe }}</div>
+                                {% endif %}
+
+                                {% if topic.text.strip %}
+                                    <div class="hs-mob-desc">{{ topic.text.strip|striptags|generate_short_description:15|safe }}</div>
+                                {% endif %}
+
+                                {% if "0m" == topic.published_date|timesince|upto|safe %}
+                                    <div class="hs-mob-timestamp">now</div>
+                                {% elif 'day' in topic.published_date|timesince or 'month' in topic.published_date|timesince or 'week' in topic.published_date|timesince or 'year' in topic.published_date|timesince %}
+                                    <div class="hs-mob-timestamp">
+                                        {{ topic.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"M d" }}
+                                    </div>
+                                {% else %}
+                                    <div class="hs-mob-timestamp">{{ topic.published_date|timesince|upto|safe }} ago</div>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                <a class="hs-mob-more" href="/{{ language_code }}/topics/{{ topic_second_row_obj.url_path|safe }}">
+                    <div class="hs-mob-more-icon"></div>
+                    <div class="hs-mob-more-text">See all</div>
+                </a>
+            </div>
+
+            <div class="hs-mob-end"></div>
+        {% endif %}
+    </div>
+
+    {% endcache %}
+
+{% else %}
+
+    {% cache request.cache_time "horizontal_section_second_desktop" language_code %}
+
+    {% if topic_posts_second_row and topic_posts_second_row|length >= 3 %}
+        <div class="hs-desktop-section position-relative">
+
+            {% if community.content_language_filter %}
+                <a href="/{{ language_code }}/topics/{{ topic_second_row_obj.url_path|safe }}" class="cursor-pointer">
+                    <div class="hs-topic-name">{{ topic_second_row_obj.name }}</div>
+                </a>
+            {% endif %}
+
+            <div class="hs-wrapper d-flex justify-content-between align-items-center position-relative">
+                {% for topic in topic_posts_second_row|slice:"0:3" %}
+                    <div class="hs-card-wrapper">
+                        <a href="/article/{{ topic_second_row_obj.url_path|urlencode|safe }}/{{ topic.unique_url|urlencode|safe }}" class="cursor-pointer">
+                            <img class="hs-card-img shimmer-effect lazyload" data-src="{{ topic.get_image_name|get_webp_format_image:"380x212"  }}" alt="{{ topic.get_meta_title }}">
+                            <div class="hs-content-wrapper d-flex flex-column">
+                                {# horizontal section topic and timestamp fields in desktop web #}
+                                <div class="topic-timestamp hs-topic-timestamp">
+                                    <div class="hs-topic">
+                                        {% if topic.label.strip %}
+                                            {{ topic.label.strip|truncatechars:20|safe}}
+                                        {% else %}
+                                            {{ topic.people_to_meet.all.first.name|truncatechars:20|safe}}
+                                        {% endif %}
+                                    </div>
+                                    {# Added horizontal section timestamp components to second horizontal section in desktop. #}
+                                    {% include "components/home_page/horizontal_section_timestamp.html" %}
+                                </div>
+
+                                {% if topic.title.strip %}
+                                    <div class="hs-title">{{ topic.title.strip|truncatechars:40|safe }}</div>
+                                {% endif %}
+
+                                {% if topic.text.strip %}
+                                    <div class="hs-desc">{{ topic.text.strip|striptags|generate_short_description:20|safe }}</div>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                <a href="/{{ language_code }}/topics/{{ topic_second_row_obj.url_path|safe }}">
+                    <div class="hs-more"></div>
+                </a>
+            </div>
+            <div class="hs-end"></div>
+        </div>
+    {% endif %}
+
+    {% endcache %}
+
+{% endif %}

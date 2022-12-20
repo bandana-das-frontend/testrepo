@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load filters %}
+
+{% block head %}
+<script src="/app/static/js/profile.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="wrapper position-relative">
+    <div class="left-sidebar">
+        <div class="d-none d-lg-block justify-content-between bg-white left-pane position-relative">
+            {% block left_section %}
+                {% include "components/left_section.html" %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <div class="content position-relative bg-white">
+        <div class="left-separator"></div>
+        <div class="profile-right-separator"></div>
+            <div class=" bg-white">
+                <div class="user-content">
+                    <div class="row">
+                        <div class="col-4">
+                            <img class="profile-picture" src="{{ user.get_profile_picture }}" alt="profile picture">
+                        </div>
+                        <div class="col-8 profile-name">
+                            <span>{{ user.get_full_name }}</span>
+                            {% if user.apartment_flat_number and user.apartment_tower %}
+                            <div class="profile-location">
+                                <span class="profile-location">{{ user.apartment_flat_number }}, {{ user.apartment_tower }}</span>
+                            </div>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="profile-location-details">
+                        {% if user.city_place_ref %}
+                            <div class="row profile-location-item">
+                                <div class="col">
+                                    <img src="/app/static/img/profile_lives.svg" alt="city">
+                                    <span class="profile-location-item-text">Lives in
+                                        <span class="profile-location-item-highlight">{{ user.city_place_ref }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if user.hometown_place_ref %}
+                            <div class="row profile-location-item">
+                                <div class="col">
+                                    <img src="/app/static/img/profile_from.svg" alt="from">
+                                    <span class="profile-location-item-text">From
+                                        <span class="profile-location-item-highlight">{{ user.hometown_place_ref }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if user.workplace_ref %}
+                            <div class="row profile-location-item">
+                                <div class="col">
+                                    <img src="/app/static/img/profile_work.svg" alt="work">
+                                    <span class="profile-location-item-text">Works at
+                                        <span class="profile-location-item-highlight">{{ user.workplace_ref }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if user.college_location %}
+                            <div class="row profile-location-item">
+                                <div class="col">
+                                    <img src="/app/static/img/profile_college.svg" alt="college">
+                                    <span class="profile-location-item-text">Studied at
+                                        <span class="profile-location-item-highlight">{{ user.college_location }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment-end"></div>
+
+            <div class=" bg-white">
+                <div class="user-topics-content">
+                    <div class="profile-topic-head">
+                        Interests
+                    </div>
+                    <div class="profile-user-topics">
+                        {% for interest in user_interests %}
+                            <span class="badge badge-pill">{{ interest.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment-end"></div>
+
+            <div data-controller="profileMenuController" class="bg-white">
+                <div class="profile-menu">
+                    {% if user_activities_count == 0 %}
+                        <span class="profile-menu-item active">
+                            ACTIVITY
+                            <img class="profile-menu-selected" alt="activity">
+                        </span>
+                    {% else %}
+                        <span style="cursor: pointer;" class="profile-menu-item active" data-action="click->profileMenuController#userActivities">
+                            ACTIVITY
+                            <img class="profile-menu-selected" alt="activity">
+                        </span>
+                    {% endif %}
+                    {% if saved_stories_count == 0 %}
+                        <span class="profile-menu-item-disabled">
+                            SAVED STORIES
+                        </span>
+                    {% else %}
+                        <span style="cursor: pointer;" class="profile-menu-item" data-action="click->profileMenuController#userSavedStories">
+                            SAVED STORIES
+                            <img class="profile-menu-selected d-none" alt="saved stories">
+                        </span>
+                    {% endif %}
+                </div>
+                <div id="user-info-section">
+                    {% if user_activities_count == 0 %}
+                        <div class="activities-null-case-title">
+                            Nothing here yet!
+                        </div>
+                        <div class="activities-null-case-description">
+                            The stories you like and comment on will appear here
+                        </div>
+                    {% endif %}
+                    {% for user_activity in user_activities %}
+                        {% if user_activity.activity_type == "LIKE_POST" %}
+                            <div class="activity-item">
+                                <div class="activity-head">
+                                    <img class="activity-like-icon" alt="like icon"> <span class="activity-type-description">Liked</span> this article
+                                </div>
+                                <div class="activity-preview">
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <img class="activity-item-img" src="{{ user_activity.content_object.get_image }}" alt="image">
+                                        </div>
+                                        <div class="col position-relative">
+                                            <span class="activity-item-title">{{ user_activity.content_object.title.strip }}</span>
+                                            <div class="activities-timestamp">
+                                                {{ user_activity.created|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"d M | g:i A" }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if user_activity.activity_type == "COMMENT_POST" %}
+                                <div class="activity-item">
+                                    <div class="activity-head">
+                                        <img class="activity-comment-icon" alt="activity comment"> <span class="activity-type-description">Commented</span> on this article
+                                    </div>
+                                    <div class="activity-preview">
+                                        <div class="row">
+                                            <div class="col-1">
+                                                <img class="activity-item-img" src="{{ user_activity.content_object.get_image }}" alt="activity image">
+                                            </div>
+                                            <div class="col">
+                                                <span class="activity-item-title">{{ user_activity.content_object.title.strip }}</span>
+                                                <div class="activities-timestamp">
+                                                    {{ user_activity.created|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"d M | g:i A" }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+    </div>
+
+    <div class="right-sidebar-main bg-white">
+        <div class="sticky-spacer"></div>
+        <div class="sticky-content">
+            <div class="d-none d-lg-block justify-content-between bg-white right-pane position-relative">
+                {% block right_section %}
+                    {% include "components/profile_right_section.html" %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block endscript %}
+{% endblock %} 

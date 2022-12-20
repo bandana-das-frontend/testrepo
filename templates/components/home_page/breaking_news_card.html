@@ -1,0 +1,87 @@
+{% load filters %}
+{% load i18n %}
+
+
+{% if request.user_agent.is_mobile %}
+    <div class="bn-mobile-card">
+        <a href="/article/{{ breaking_news_post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ breaking_news_post.unique_url|urlencode|safe }}">
+            <div class="bn-head-mobile">
+                <img class="menu-icon icon-flash" alt="Breaking news"/>
+                <span> {% trans 'Breaking news' %} </span>
+            </div>
+            <div class="bn-content-mobile">
+                {% if breaking_news_post.get_image and breaking_news_post.get_image.strip %}
+                    <div id="bn-image-div">
+                        <img class="bn-image-mobile"  src="{{ breaking_news_post.get_image_name|get_webp_format_image:"112x112" }}"
+                            alt="{{ breaking_news_post.title.strip|safe }}"/>
+                    </div>
+                {% endif %}
+
+                <div id="bn-title-div">
+                    {% if breaking_news_post.title and breaking_news_post.title.strip %}
+                        <div class="bn-title-mobile">{{ breaking_news_post.title.strip }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+    </div>
+{% else %}
+    <div class="right-post-div">
+        <a href="/article/{{ breaking_news_post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ breaking_news_post.unique_url|urlencode|safe }}">
+            <div class="breaking-news-post">
+                <div class="bn-head">
+                    <img class="menu-icon icon-flash" alt="Breaking news"/>
+                    <span>
+                        {% trans 'Breaking news' %}
+                    </span>
+                </div>
+                <h1>{{ breaking_news_post.get_image_name }}</h1>
+                <div class="bn-post-image">
+                    <img class="bn-img mx-auto center-cropped-primary-image shimmer-effect" src="{{ breaking_news_post.get_image_name|get_webp_format_image }}"
+                        alt="{{ breaking_news_post.title.strip|safe }}"/>
+                </div>
+
+                <div class="bn-post-content">
+                    {# Topic timestamp section for the breaking news post in desktop web #}
+                    <div class="topic-timestamp bn-topic-timestamp">
+                        {% if breaking_news_post.label.strip %}
+                            <div class="bn-post-topic">
+                                {{ breaking_news_post.label.strip|truncatechars:25|safe}}
+                            </div>
+                        {% else %}
+                            <div class="bn-post-topic">
+                                {{ breaking_news_post.people_to_meet.all.first.name|truncatechars:25|safe}}
+                            </div>
+                        {% endif %}
+
+                        {# Check only if minute time unit present in publish date time of the post, if present show publish datetime #}
+                        {# else hide the publish date time in any other case #}
+
+                        {% if "0m" == breaking_news_post.published_date|timesince|upto|safe %}
+                            <span class="bn-topic-timestamp-dot topic-timestamp-dot"></span>
+                            <div class="bn-post-timestamp">now</div>
+                        {% elif 'min' in breaking_news_post.published_date|timesince and 'hour' not in breaking_news_post.published_date|timesince %}
+                            <span class="bn-topic-timestamp-dot topic-timestamp-dot"></span>
+                            <div class="bn-post-timestamp">{{ breaking_news_post.published_date|timesince|upto|safe }} ago </div>
+                        {% endif %}
+                    </div>
+                    <div class="bn-wrapper">
+                        {% if breaking_news_post.title and breaking_news_post.title.strip %}
+                            <div class="bn-post-title">
+                                {{breaking_news_post.title.strip}}
+                            </div>
+                        {% endif %}
+
+                        {% autoescape off %}
+                            {% if breaking_news_post.text and breaking_news_post.text.strip %}
+                                <div class="bn-post-text">
+                                    {{ breaking_news_post.text.strip|safe|striptags|generate_short_description:80 }}
+                                </div>
+                            {% endif %}
+                        {% endautoescape %}
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+{% endif %}

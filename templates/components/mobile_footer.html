@@ -1,0 +1,58 @@
+{% load filters %}
+{% load i18n %}
+
+<div class="mobile-footer-wrapper">
+    <div class="footer-icons-wrapper display-flex justify-content-start align-items-center">
+
+        {# Facebook page link #}
+        <a href="{{ community.facebook_page_url }}" target="_blank">
+            <img alt="Argus Facebook page" class="footer-fb-page-link">
+        </a>
+
+        {# Twitter page link #}
+        <a href="{{ community.twitter_page_url }}" target="_blank">
+            <img alt="Argus Twitter page" class="footer-twitter-page-link">
+        </a>
+
+        {# RSS page link #}
+        <a href="https://argusnews.in/rss/{{ language_code }}/feed" target="_blank">
+            <img alt="Argus RSS page" class="footer-rss-page-link">
+        </a>
+
+    </div>
+
+    {# App/Play Store CTAs #}
+    <div class="app-links-footer app-links-footer-mobile d-flex flex-column justify-content-start">
+
+        {# Get it on Apple App Store CTA and redirect to App store #}
+        <div onclick="window.open('{{ community.app_store_url }}')">
+            <img alt="Download on the App Store" class="app-store-dark cursor-pointer"/>
+        </div>
+
+        {# Get it on Google Play Store CTA and redirect to Play Sore #}
+        <div onclick="window.open('{{ community.play_store_url }}')">
+            <img alt="Get it on Google Play" class="play-store-dark play-store-dark-footer cursor-pointer"/>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column justify-content-start mob-footer-ctas">
+
+        {# About Us CTA #}
+        <a class="mob-footer-cta-text" href="/about-us">{% trans 'About' %}</a>
+
+        {# Jobs page CTA #}
+        <a class="mob-footer-cta-text mob-footer-cta-item" href='{{ community.footer_banner_cta_link }}' target="_blank">{% trans 'Jobs' %}</a>
+
+        {# Privacy page CTA #}
+        <a class="mob-footer-cta-text mob-footer-cta-item" href="/privacy-policy">{% trans 'Privacy' %}</a>
+
+        {# Terms CTA #}
+        <a class="mob-footer-cta-text mob-footer-cta-item" href="/terms-of-use">{% trans 'Terms' %}</a>
+
+        {# Contact Us CTA #}
+        <a class="mob-footer-cta-text mob-footer-cta-item" href="/contact-us">{% trans 'Contact Us' %}</a>
+    </div>
+
+    {# Copyright text #}
+    <div class="mob-footer-copyright mob-footer-ctas">Copyright © {% now 'Y' %} Argus News | Pratham <br/> Broadcast India Pvt. Ltd. | All right reserved.</div>
+</div>

@@ -1,0 +1,854 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load i18n %}
+{% load compress static %}
+
+
+{% block head %}
+ <link href='{% static "css/channel_number.css" %}' rel="stylesheet">
+    {% compress js %}
+        <script src='{% static "js/channel_number.js" %}' defer></script>
+
+    {% endcompress %}
+    <meta property="og:image" content="{{ community.get_og_image }}"/>
+    <meta property="og:title" content="{{ community.og_title }}">
+    <meta property="og:description" content="{{ community.og_description }}"/>
+    <!--for twitter-->
+    <meta property='twitter:title' content="{{ community.og_title }}">
+    <meta property='twitter:image' content="{{ community.get_og_image }}"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+
+    {# canonical url kept same as homepage url #}
+    <link rel="canonical" href="{{ community.invite_url }}">
+
+    <title>{% block title %} {{ community.og_title }} {% endblock %}</title>
+    <meta name="description" {% block meta_description %} content="{{ community.og_description }}" {% endblock %} >
+{% endblock %}
+{% block content %}
+    {# desktop top ad  #}
+    {% if not request.user_agent.is_mobile %}
+        <div class="top-ads-container"></div>
+    {% endif %}
+
+    {# mobile top ad  #}
+    {% if request.user_agent.is_mobile %}
+      <div class="top-ads-container padding-left-right-12"></div>
+    {% endif %}
+
+    <div class="wrapper" data-controller="channelNumberController">
+        <input type="hidden" data-target="channelNumberController.live_id" value="{{ live_id }}">
+
+        {# Left Section #}
+        {% if not request.user_agent.is_mobile %}
+            <div class="left-sidebar">
+                <div class="d-none d-lg-block justify-content-between bg-white left-pane position-relative">
+                    {% block left_section %}
+                        {% include "components/left_section.html" %}
+                    {% endblock %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div id="channe-no-container">
+                <table id="satellite-no-table" class="table table-bordered" style="margin-top: 20px">
+                  <thead class="thead-light">
+                      <tr>
+                        <td>
+                        Satellite TV Available on:
+                        </td>
+                        <td>
+                          TataPlay  - 1780, Airtel TV  - 609, Dish TV  - 1369, d2h  - 1757, SITI Networks (HYD) - 12, SITI Networks (KOL) - 460, Hathway - 732, GTPL KCBPL -713
+                        </td>
+                      </tr>
+                  </thead>
+                </table>
+
+                <div>
+                    <form class="input-group mar-top-10 mar-bot-25 channel-search-form">
+                        <input type="text" id="myInput" placeholder="Type to search here"
+                            class="form-control" onkeydown="return (event.keyCode!=13);">
+                    </form>
+                </div>
+
+                <table id="myTable" class="table table-bordered" style="margin-top: 20px">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>District</th>
+                            <th>Name of MSO</th>
+                            <th>Address for Correspondence</th>
+{#                            <th>Contact Number</th>#}
+                            <th>Channel no</th>
+                        </tr>
+                    </thead>
+                  <tbody>
+                      <tr>
+                          <td class="channelcell">ANGUL</td>
+                          <td>TTV Cable Network</td>
+                          <td>Talcher</td>
+{#                          <td>9437157349</td>#}
+                          <td>25</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">ANGUL</td>
+                          <td>Talcher Tv Home Cable</td>
+                          <td>South Balanda</td>
+{#                          <td>9437213682</td>#}
+                          <td>22</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">ANGUL</td>
+                          <td>ABCO</td>
+                          <td>Nalco Town</td>
+{#                          <td>9861444555</td>#}
+                          <td>123</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">ANGUL</td>
+                          <td>Mishra Cable Network</td>
+                          <td>Purunagada</td>
+{#                          <td>9937900251</td>#}
+                          <td>16</td>
+                      </tr>
+
+
+                      <tr class="row5">
+                          <td class="channelcell">BALASORE</td>
+                          <td>Altimeric digital </td>
+                          <td>Laxmannath Road / balesore</td>
+{#                          <td>9937140589</td>#}
+                          <td>19</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">BALASORE</td>
+                          <td>Jaleswar Cable link</td>
+                          <td>Jaleswar</td>
+{#                          <td>9583333403</td>#}
+                          <td>33</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">BALASORE</td>
+                          <td>Digital Cable Network   </td>
+                          <td>ramuna</td>
+{#                          <td>7978203335</td>#}
+                          <td>34</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">BALASORE</td>
+                          <td >Khetramani Cable Vision </td>
+                          <td>Panada / </td>
+{#                          <td>1</td>#}
+                          <td>29</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">BARGARH</td>
+                          <td >SATCO </td>
+                          <td>AT-P.O Bargarh, Ward No.12, Bargarh – 768028 </td>
+{#                          <td>1</td>#}
+                          <td>423</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">BHADRAK</td>
+                          <td >Purnima Cable Network </td>
+                          <td> Motto<br />
+                          </td>
+{#                          <td>7978161403</td>#}
+                          <td>122</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">BHADRAK</td>
+                          <td >Mahesh Cable Network. </td>
+                          <td>Bhadrak </td>
+{#                          <td>9337521370</td>#}
+                          <td>35</td>
+                      </tr>
+
+                     <tr>
+                          <td class="channelcell">BHADRAK</td>
+                          <td >Sampark Cable Network </td>
+                          <td>Padmapur / Eartal  </td>
+{#                          <td>9776076444</td>#}
+                          <td>119</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">BHADRAK</td>
+                          <td>Jayshree Cable </td>
+                          <td>Olaga</td>
+{#                          <td>8457055167</td>#}
+                          <td>16</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">BHADRAK</td>
+                          <td>Maa Home Cable</td>
+                          <td>Tihidi</td>
+{#                          <td>7008808439</td>#}
+                          <td>18</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Bhadrak</td>
+                          <td >Bilas Digital</td>
+                          <td>Ghanteswar</td>
+{#                          <td>9937441508</td>#}
+                          <td>27</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">BOUDH</td>
+                          <td>Jay Ambe Traders. </td>
+                          <td>BOUDH</td>
+{#                          <td>9937682212</td>#}
+                          <td>25</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">CUTTACK</td>
+                          <td>Sweet Digital</td>
+                          <td>Kanpur </td>
+{#                          <td>9861607070</td>#}
+                          <td>14</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">CUTTACK</td>
+                          <td >Sai Cable TV Digital </td>
+                          <td>Choudwar</td>
+{#                          <td>9861613524</td>#}
+                          <td>123</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">CUTTACK</td>
+                          <td>Lucky Star Vision</td>
+                          <td>Kalapathar</td>
+{#                          <td>9437520526</td>#}
+                          <td>22</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">DHENKANAL</td>
+                          <td>MOO BOX / NXT ( KAMAKHYA NAGAR )</td>
+                          <td> Parjanga</td>
+{#                          <td>9938661001</td>#}
+                          <td>16</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">DHENKANAL</td>
+                          <td>Bajarangi Cable Network </td>
+                          <td> Bainsia</td>
+{#                          <td>9938661001</td>#}
+                          <td>24</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">DHENKANAL</td>
+                          <td>Sai Cable TV Network </td>
+                          <td>Odisha </td>
+{#                          <td>9776669362</td>#}
+                          <td>26</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">DHENKANAL</td>
+                          <td >Sahoo Cable TV Network/td>
+                          <td >Chandara/Ekatali</td>
+{#                          <td>9938858945</td>#}
+                          <td>10</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GAJAPATI</td>
+                          <td>Omm SarbedebadebiDigital Cable</td>
+                          <td>R Udayagiri </td>
+{#                          <td>9437212276</td>#}
+                          <td>26</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Patri Cable Network</td>
+                          <td>Buguda</td>
+{#                          <td>9338093306</td>#}
+                          <td>14</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Trisakti Cable Network</td>
+                          <td>Belaguntha</td>
+{#                          <td>9437357850</td>#}
+                          <td>96</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Maa Tara Tarini Digital</td>
+                          <td>Purussotampur</td>
+{#                          <td>9437514303</td>#}
+                          <td>116</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Chitra Cable Network</td>
+                          <td>Mandiapalli</td>
+{#                          <td>9861108327</td>#}
+                          <td>124</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td >Trisakti Digital Cable TV </td>
+                          <td>Lathhi</td>
+{#                          <td>9439958654</td>#}
+                          <td>30</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Khemundi Digital</td>
+                          <td>Digapahandi</td>
+{#                          <td>9437749563</td>#}
+                          <td>26</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Sasmita Digital Cable tv</td>
+                          <td>Sadasibpur Sasana </td>
+{#                          <td>9437407335</td>#}
+                          <td>127</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Panda Doordarshan</td>
+                          <td>Nuapada</td>
+{#                          <td>9938275243</td>#}
+                          <td>11</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Ujawaleswari Cable Network</td>
+                          <td>Bhismagiri</td>
+{#                          <td>9938427234</td>#}
+                          <td>24</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Maa Mangala Doora Darshan </td>
+                          <td>Gaudagaon</td>
+{#                          <td>8249584921</td>#}
+                          <td>15</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>SS Vision</td>
+                          <td>Seragarh</td>
+{#                          <td>9938566266</td>#}
+                          <td>28</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>BMT Digital</td>
+                          <td>Khetriyabarapur</td>
+{#                          <td>7978473601</td>#}
+                          <td>103</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Ganjam</td>
+                          <td>Brundaban Satelite communication</td>
+                          <td>Badagada</td>
+{#                          <td>9938326587</td>#}
+                          <td>108</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Kaleswar Cable Network</td>
+                          <td>Kirakhai / Kodala</td>
+{#                          <td>9937412989</td>#}
+                          <td>833</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Sanyashi cable Service</td>
+                          <td>Jagannth Prasad</td>
+{#                          <td>9437662404</td>#}
+                          <td>23</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Shiv Shakti Cable Network</td>
+                          <td>Aska</td>
+{#                          <td>9438209147</td>#}
+                          <td>136</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Mahapatra DD Cable Network System</td>
+                          <td>Patrapur</td>
+{#                          <td>9438042052</td>#}
+                          <td>126</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Trimurti star vision</td>
+                          <td>Bhanja Nagar</td>
+{#                          <td>9861685777</td>#}
+                          <td>25</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Chitra Cable Network</td>
+                          <td>Mandiapalli</td>
+{#                          <td>9861108327</td>#}
+                          <td>124</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">GANJAM</td>
+                          <td>Vision point</td>
+                          <td>Hinjilikatu</td>
+{#                          <td>9853273377</td>#}
+                          <td>108</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">JAGATSINGHPUR</td>
+                          <td>MC & CATV Network</td>
+                          <td>Kujanga</td>
+{#                          <td>9937098429</td>#}
+                          <td>11</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">JAGATSINGHPUR</td>
+                          <td>Sahoo Cable Network</td>
+                          <td>Jagatsinghpur Town</td>
+{#                          <td>9337516398</td>#}
+                          <td>123</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">JAGATSINGHPUR</td>
+                          <td>B K Vision</td>
+                          <td>Balikuda</td>
+{#                          <td>9438536511</td>#}
+                          <td>26</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">JAGATSINGHPUR</td>
+                          <td>Bagaban Gosein Digital</td>
+                          <td>Lankapada</td>
+{#                          <td>9178456646</td>#}
+                          <td>27</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Jajpur</td>
+                          <td>Biraja Cable TV</td>
+                          <td>Jajpur Town</td>
+{#                          <td>9861234400</td>#}
+                          <td>112</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Jajpur</td>
+                          <td>Rajat Sky TV</td>
+                          <td>Boulanga</td>
+{#                          <td>9778142000</td>#}
+                          <td>115</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Jajpur</td>
+                          <td >Jajpur digital network services pvt ltd</td>
+                          <td>Panikoili</td>
+{#                          <td>9437127952</td>#}
+                          <td>36</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Jajpur</td>
+                          <td>Mahaveer Digital </td>
+                          <td>Charigharapur</td>
+{#                          <td>9437670545</td>#}
+                          <td>32</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Jajpur</td>
+                          <td>Utkal Cable Vision</td>
+                          <td>Singpur</td>
+{#                          <td>9583100104</td>#}
+                          <td>35</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Jajpur</td>
+                          <td>Chandrasekhar Digital</td>
+                          <td>Banapur</td>
+{#                          <td>9438321134</td>#}
+                          <td>117</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Jajpur</td>
+                          <td>Cable Vision</td>
+                          <td>Kuakhai</td>
+{#                          <td>9937519521</td>#}
+                          <td>23</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Jajpur </td>
+                          <td>Barsa Vision cable network</td>
+                          <td>Balichandrapur</td>
+{#                          <td>9437196692</td>#}
+                          <td>106</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KALAHANDI</td>
+                          <td>Pallavi Digital</td>
+                          <td>Junagarh</td>
+{#                          <td>8249805896</td>#}
+                          <td>66</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KANDHAMAL</td>
+                          <td>Mukta Vision</td>
+                          <td>Raikia</td>
+{#                          <td>9437242672</td>#}
+                          <td>154</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KANDHAMAL</td>
+                          <td>BMT Digital</td>
+                          <td>Sarangada</td>
+{#                          <td>7008750801</td>#}
+                          <td>142</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KENDRAPARA</td>
+                          <td>Mohanty and mohanty vision media</td>
+                          <td >Indupur</td>
+{#                          <td>6371917796</td>#}
+                          <td>95</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KENDRAPARA</td>
+                          <td>Sky Vision</td>
+                          <td>Kantapada</td>
+{#                          <td>9777577905</td>#}
+                          <td>4</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KENDRAPARA</td>
+                          <td>Amit Cable</td>
+                          <td>Kaladia</td>
+{#                          <td>9583457947</td>#}
+                          <td>124</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KENDRAPARA</td>
+                          <td>Namah Shivay Star Connection</td>
+                          <td>Narasinghpur / Danapur</td>
+{#                          <td>8908374734</td>#}
+                          <td>131</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KENDRAPARA</td>
+                          <td>Music track multi vision</td>
+                          <td >Sanagaon</td>
+{#                          <td>9853113119</td>#}
+                          <td>3</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KENDRAPARA</td>
+                          <td>Kantheswari Cable Service</td>
+                          <td >Gopa PO. Aul,</td>
+{#                          <td>9437505535</td>#}
+                          <td>118</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KENDRAPARA</td>
+                          <td>Sairam Cable Network</td>
+                          <td>Narendrapur</td>
+{#                          <td>9861893619</td>#}
+                          <td>32</td>
+                      </tr>
+
+                      <tr>
+                      <td class="channelcell">KEONJHAR</td>
+                          <td>Maa Cable TV</td>
+                          <td>Belabahali</td>
+{#                          <td>9437085139</td>#}
+                          <td>113</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KEONJHAR</td>
+                          <td>Maa & Mahadev Vision </td>
+                          <td>Bangor</td>
+{#                          <td>9861488508</td>#}
+                          <td>116</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>Light Wave</td>
+                          <td>Bhubaneswar</td>
+{#                          <td>9040069675</td>#}
+                          <td>127</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>Mahalaxmi Cable Network digital</td>
+                          <td>Deuli</td>
+{#                          <td>9937415764</td>#}
+                          <td>15</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td >Prachi Vision </td>
+                          <td >Bhingarpur</td>
+{#                          <td>9583685472</td>#}
+                          <td>18</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>Shubham cable network</td>
+                          <td>Jaanla</td>
+{#                          <td>9337018834</td>#}
+                          <td>54</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>Mohini Vision</td>
+                          <td>Gudum</td>
+{#                          <td>9778252169</td>#}
+                          <td>122</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>ABCO </td>
+                          <td>Jankia / Siko</td>
+{#                          <td>9348162440</td>#}
+                          <td>123</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>Maruti Cable Network</td>
+                          <td>Hanspal</td>
+{#                          <td>9040148752</td>#}
+                          <td>20</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>Chilka Digital ( Subham Digital)</td>
+                          <td>Haripur / Chilka</td>
+{#                          <td>9438009527</td>#}
+                          <td>54</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>MRK Digital</td>
+                          <td>Haladia</td>
+{#                          <td>9040888888</td>#}
+                          <td>26</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>Sukanta Ten Digital</td>
+                          <td>Godi Sahi</td>
+{#                          <td>9438481465</td>#}
+                          <td>17</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>MBM Digital Network</td>
+                          <td>Dabarduanpatana</td>
+{#                          <td>8249995977</td>#}
+                          <td>131</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">KHURDA</td>
+                          <td>Tarini Sky Vision Digital</td>
+                          <td>Banamalipur</td>
+{#                          <td>9238590071</td>#}
+                          <td>31</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">MAYURBHANJA</td>
+                          <td>Maa Digital</td>
+                          <td>Karanjia</td>
+{#                          <td>9437294717</td>#}
+                          <td>19</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">MAYURBHANJA</td>
+                          <td>Shiva Communication </td>
+                          <td>Udala</td>
+{#                          <td>9437614680</td>#}
+                          <td>44</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">NAYAGARH</td>
+                          <td>Tarini cable network</td>
+                          <td>Badasahara</td>
+{#                          <td>9937717658</td>#}
+                          <td>18</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">NAYAGARH</td>
+                          <td >DAS & DAS Cable Network</td>
+                          <td>Paika Dholamara</td>
+{#                          <td>9439076213</td>#}
+                          <td>115</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">NAYAGARH</td>
+                          <td>DTN Digital</td>
+                          <td>Dashpalla</td>
+{#                          <td>9439308509</td>#}
+                          <td>30</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">NAYAGARH</td>
+                          <td>Adarsha Digital Network</td>
+                          <td>Kishorprasad</td>
+{#                          <td>9937278484</td>#}
+                          <td>25</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">NAYAGARH</td>
+                          <td>Modern Cable Digital Network</td>
+                          <td>Ittamati</td>
+{#                          <td>9861781835</td>#}
+                          <td>13</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">PURI</td>
+                          <td>Aftab Cable Vision</td>
+                          <td>Pipili</td>
+{#                          <td>9938231568</td>#}
+                          <td>523</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">PURI</td>
+                          <td>Krishna Sky Vision</td>
+                          <td>Gop</td>
+{#                          <td>9438742721</td>#}
+                          <td>23</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">Puri</td>
+                          <td>Spacenet Communication</td>
+                          <td>Nimapada</td>
+{#                          <td>9938119083</td>#}
+                          <td>11</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">PURI</td>
+                          <td>Star Vision</td>
+                          <td>Bramhagiri</td>
+{#                          <td>9658792134</td>#}
+                          <td>25</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">RAYAGADA</td>
+                          <td>ABC Digital</td>
+                          <td>Gunupur</td>
+{#                          <td>9337798831</td>#}
+                          <td>117</td>
+                      </tr>
+
+                      <tr>
+                          <td class="channelcell">SAMBALPUR</td>
+                          <td>Sun Cable Network</td>
+                          <td>Rengali</td>
+{#                          <td>9556467785</td>#}
+                          <td>19</td>
+                      </tr>
+                  </tbody>
+                </table>
+
+
+              {% if request.user_agent.is_mobile %}
+                {% include "components/mobile_web_footer.html" %}
+            {% endif %}
+            {# Prompt to download App in mobile site #}
+            {% include "components/download_app_prompt.html" %}
+            </div>
+
+
+          <div class="right-sidebar-main">
+        <div class="sticky-spacer"></div>
+        <div class="sticky-content">
+            <div class="d-none d-lg-block justify-content-between live-tv-comments-section right-pane position-relative" id="comments_home">
+                {% block right_section %}
+                    {% include "components/trending_right_section.html" %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% load filters %}
+{% for comment in comments %}
+    <div data-controller="comments">
+        <div>
+            <div class="card-title">
+                <img class="rounded-circle" src="{{ comment.created_by.get_profile_picture }}" alt="profile picture">
+                <span class="name">
+                    {{ comment.created_by.get_full_name }}
+                </span>
+                <!-- Get conformation about adding location or not -->
+<!--                                <span class="text-muted location">Location</span>-->
+                <span class="comment-duration">
+                    {{ comment.created | timesince | upto }}
+                </span>
+            </div>
+                {% if comment.text|cut:" "|length > 200 %}
+                    <span class="card-text truncated-comment comment" data-target="comments.truncated_comment"
+                          id="truncated-comment">{{ comment.text | safe}}
+                    </span>
+                    <button class="card-text comment more-button" data-target="comments.show_comment"
+                        data-action="click->comments#expand" id="show-comment">more
+                    </button>
+                {% else %}
+                    <span class="card-text comment">{{ comment.text | safe }}</span>
+                {% endif %}
+            <div class="comment-buttons">
+                <span class="comments-like">
+                    <input type="image" src="/app/static/img/comments_like.svg" border="0" alt="Submit"/>
+                    <span class="like-label">Like {{ comment.likes | safe }}</span>
+                </span>
+                <span class="comments-reply">
+                    <input type="image" src="/app/static/img/comments_reply.svg" border="0" alt="Submit"/>
+                    <span class="reply-label">Reply</span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="comment-end"></div>
+{% endfor %}

@@ -1,0 +1,101 @@
+{# Display admin Mobile top ad if it is present else display google top ad in that particular position #}
+{% load filters %}
+
+
+{#google ad start#}
+
+{#{% if request.user_agent.is_mobile and community.enable_ads %}#}
+{#    <div class="google-ad-square">#}
+{#            <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>#}
+{#            <script>#}
+{#              window.googletag = window.googletag || {cmd: []};#}
+{#              googletag.cmd.push(function() {#}
+{#                googletag.pubads().refresh()#}
+{#                googletag.defineSlot('/78016009/mob_web_top', [300, 111], 'div-gpt-ad-1659513683491-{{ div_id }}').addService(googletag.pubads());#}
+{#                googletag.pubads().enableSingleRequest();#}
+{#                googletag.enableServices();#}
+{#              });#}
+{#            </script>#}
+{##}
+{##}
+{#            <!-- /78016009/mob_web_top -->#}
+{#            <div id='div-gpt-ad-1659513683491-{{ div_id }}' style='min-width: 300px; min-height: 111px;'>#}
+{#              <script>#}
+{#                googletag.cmd.push(function() {#}
+{#                    googletag.pubads().clear()#}
+{#                    googletag.display('div-gpt-ad-1659513683491-{{ div_id }}');#}
+{#                });#}
+{#              </script>#}
+{#            </div>#}
+{#    </div>#}
+{##}
+{#{% endif %}#}
+
+{#google ad end#}
+
+    {% if request.user_agent.is_mobile and community.enable_ads %}
+        {% if top_ads %}
+            <div id="carousel-mob-top-ad" class="carousel slide" data-ride="carousel"
+                 data-interval="3000">
+            <div class="top-ad carousel-inner">
+                {% for top_ad in top_ads %}
+                    {% if forloop.counter == 1 %}
+                        <div class="carousel-item active" onclick='update_ad_clicks({{ top_ad.id }})'>
+                            <a target="_blank" href="{{ top_ad.ad_link }}">
+                                <img src="{{ top_ad.ad_image|get_webp_format_image }}" alt="creative">
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="carousel-item" onclick='update_ad_clicks({{ top_ad.id }})'>
+                            <a target="_blank" href="{{ top_ad.ad_link }}">
+                                <img src="{{ top_ad.ad_image|get_webp_format_image}}" alt="creative">
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+                {% if not top_ads|length == 1 %}
+                    <ol class="carousel-indicators" id="mobtop-ads-carousel-indicators">
+                        {% for top_ad in top_ads %}
+                            {% if forloop.counter == 1 %}
+                                <li data-target="#carousel-mob-top-ad" data-slide-to="{{ forloop.counter|get_loop_index }}" class="paging-dot active"></li>
+                            {% else %}
+                                <li data-target="#carousel-mob-top-ad" data-slide-to="{{ forloop.counter|get_loop_index }}" class="paging-dot"></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ol>
+                {% endif %}
+        </div>
+
+
+        {% elif community.enable_google_ads and google_mobile_top_ad %}
+            <div style="margin:auto">
+                <div style=" height: {{ google_mobile_top_ad.ad_height }}px; object-position:center; margin:auto;"
+                     id="{{ google_mobile_top_ad.ad_unit_id }}">
+                </div>
+            </div>
+
+            <script>
+                $(document).ready(function () {
+                    window.googletag = window.googletag || {cmd: []};
+                    googletag.cmd.push(function () {
+                        googletag.defineSlot("{{ google_mobile_top_ad.ad_unit_path }}", [{{ google_mobile_top_ad.ad_width }}, {{ google_mobile_top_ad.ad_height }}], "{{ google_mobile_top_ad.ad_unit_id }}")
+                            .addService(googletag.pubads());
+                        googletag.pubads().enableSingleRequest();
+                        googletag.pubads().collapseEmptyDivs(true);
+                        googletag.enableServices();
+                    });
+                    $("#{{ google_mobile_top_ad.ad_unit_id }}").show();
+                    $("#{{ google_mobile_top_ad.ad_unit_id }}").empty();
+                    googletag.cmd.push(function () {
+                        googletag.display("{{ google_mobile_top_ad.ad_unit_id }}");
+                    });
+                    if ($.trim($("#{{ google_mobile_top_ad.ad_unit_id }}").text()) == "") {
+                        $("#{{ google_mobile_top_ad.ad_unit_id }}").hide();
+                    }
+                });
+            </script>
+
+        {% endif %}
+    {% endif %}

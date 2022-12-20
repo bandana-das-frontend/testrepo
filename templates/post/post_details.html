@@ -1,0 +1,406 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load i18n %}
+{% load compress static %}
+{% block head %}
+{% include "components/generic_google_ads.html" %}
+{% compress js %}
+<script async src='{% static "js/post_details.js" %}'></script>
+{% endcompress %}
+<meta content="{{ post.title.strip }}" property='twitter:title'/>
+<meta content="{{ post.get_large_image }}" property='twitter:image'/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="{{ post.title.strip }}" property="og:title"/>
+<meta content="{{ post.get_large_image }}" property="og:image"/>
+<meta content="{{ post.get_image }}" property="og:image"/>
+<meta content="{{ post.get_meta_description|striptags }}" property="og:description"/>
+<meta content="article" property="og:type">
+<meta content="Argus News" property="og:site_name">
+<link rel="amphtml" href="{{ post.get_amp_url }}">
+
+{% if request.user_agent.is_mobile %}
+<link async rel="preload" href="{{ post.get_mobile_image }}" as="image">
+{% else %}
+<link async rel="preload" href="{{ post.get_desktop_image }}" as="image">
+{% endif %}
+
+    {% if post.text|check_twitter_tag_in_text %}
+         <!-- js for twitter embed wiget  -->
+        <script defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    {% endif %}
+
+    {# canonical url #}
+    <link rel="canonical" href="{{ post.get_webapp_share_link }}">
+ {# show  seo_page_title if it exist else show post title in title tag #}
+    <title>{% block title %} {{ post.get_meta_title }} {% endblock %}</title>
+
+{# show  seo_meta_description if it exist else show post description in meta tag #}
+    <meta name="description" {% block meta_description %}  content="{{ post.get_meta_description|striptags }}" {% endblock %} >
+
+{% endblock %}
+
+{% block h1_tag %}
+    {# h1 to h6 tags are important for SEO (h1 tags are very important!) #}
+    <h1 class="d-none">{{ post.get_meta_title  }}</h1>
+{% endblock %}
+
+{% block content %}
+
+
+{# desktop top ad  #}
+{% if not request.user_agent.is_mobile %}
+   <div class="top-ads-container"></div>
+{% endif %}
+
+<div class="compressed">
+    <div class="wrapper position-relative details-container data-turbolinks-temporary" data-controller="postDetails" id="main-container">
+
+        {% if not request.user_agent.is_mobile %}
+        <div class="left-sidebar" class="bg-white d-none d-lg-block" data-target="postDetails.leftSection"
+             id="nav_and_topics">
+            {% block left_section %}
+            {% include "components/left_section_collapsed.html" %}
+            {% endblock %}
+        </div>
+        {% endif %}
+
+        <div class="content bg-white" data-target="postDetails.middleSection" id="post_detail">
+            <input data-target="postDetails.post" type="hidden" value="{{ post_id }}">
+            <input data-target="postDetails.postImage" type="hidden" value="{{ post.get_large_image }}">
+        {# mobile top ad  #}
+        {% if request.user_agent.is_mobile %}
+            <div class="top-ads-container padding-left-right-12"></div>
+        {% endif %}
+        <div id="bread_crumb">
+            <a href="/"><div class="bread_crumb_home">{% trans 'Home' %}</div></a>
+            <div class="bread_crumb_seperator"><img src="/app/static/img/bread_crumb_seperator.svg" alt="bread crumb seperator"></div>
+            <a href="/topics/{{ post.people_to_meet.all.0.url_path|urlencode|safe }}/"><div class="bread_crumb_topic">{{ post.people_to_meet.all.0|get_translated_name:language_code }}</div></a>
+            <div class="bread_crumb_seperator"><img src="/app/static/img/bread_crumb_seperator.svg" alt="bread crumb seperator"></div>
+            <div class="bread_crumb_post"> {% if request.user_agent.is_mobile %}{{ post.title.strip|truncatechars:15|safe }} {% else %}{{ post.title.strip|truncatechars:80|safe }} {% endif %}</div>
+        </div>
+            <div class="post-card fp-detail-post">
+
+                <div class="post-details-title">{{ post.title.strip|safe }}</div>
+                {% if post.created_by %}
+                <div class="details-author">by {{ post.created_by.get_full_name }}</div>
+                {% endif %}
+                <div class="timestamp-share-icons align-items-center">
+
+                    {# On click of location tag, go to search page with location as a search query and also location selected in location dropdown  #}
+                    <div class="floating-left details-timestamp">{% if post.locations.strip %}<a class='post_details_location' href="/search-articles?search_string={{ post.locations.strip }}">{{ post.locations.strip|title }}</a>|{% endif %} {{ post.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"D, M d | g:i a" }}</div>
+                    <!-- <div class="footer_share_icon">
+                        <img class="footer_share" alt="Share">
+                    </div> -->
+                    <div class="share_icons d-flex justify-content-end">
+                        {% include "components/post_share.html" %}
+                    </div>
+                </div>
+                <div class=" bg-white article position-relative">
+                    <div class="img-fluid">
+                        <!-- Showing post image, if it is available, otherwise not showing the post image   -->
+                        {% if request.user_agent.is_mobile %}
+                            <img fetchpriority="high" class="fp-img-border mx-auto center-cropped-fp details-fp shimmer-effect" src="{{ post.get_image_name|get_webp_format_image:"480x270" }}" alt="{{ post.get_meta_title  }}"
+                                 height="300px"
+                                 width="100%"/>
+                        {% else %}
+                            <img fetchpriority="high" class="fp-img-border mx-auto center-cropped-fp details-fp  shimmer-effect post-details-main-image" src="{{ post.get_image_name|get_webp_format_image:"652x366" }}" alt="{{ post.get_meta_title  }}"
+                                 height="300px"
+                                 width="100%"/>
+                        {% endif %}
+                    </div>
+                    {% if request.user_agent.is_mobile %}
+                        <div class="mob_top_share">
+                            <div class="btm_share_icons d-flex justify-content-start">
+                                {% include "components/post_share.html" %}
+                            </div>
+                        </div>
+                    {% endif %}
+                        {% if post.bulleted_highlights.strip|safe|striptags %}
+                            <div class="bulleted_highlights_div">
+                                <div class="bulleted_highlights_title">NEWS HIGHLIGHTS</div>
+                                <div class="bulleted_highlights" >
+                                    {{ post.bulleted_highlights.strip|safe }}
+                                </div>
+                            </div>
+
+                        {% endif %}
+                    {% autoescape off %}
+
+                    {% with post.text|arr_of_text as str_arr %}
+                        {% if str_arr.0.strip|safe|striptags %}
+                            <div class="details-description fp-para-text">{{ str_arr.0.strip|safe }}</div>
+                        {% endif %}
+
+                        {# Display admin ads if they are present after first para in post details page else display google ads #}
+                        {% if community.enable_ads %}
+                          {% if request.user_agent.is_mobile %}
+                              <div class="google-mobile-square-ad">
+                              </div>
+                          {% else %}
+                            {% if ads_list.0 %}
+                                <div class="ads-block">
+                                    <div class="main-ads details-ads" onclick='update_ad_clicks({{ ads_list.0.id }})' >
+                                        {% if ads_list.0.ad_format == "Video" and request.user_agent.is_mobile %}
+                                            {% include "components/home_page/admin_video_ad.html" with media_url=ads_list.0.get_ad_media ad_link=ads_list.0.ad_link %}
+                                        {% else %}
+                                            <a target="_blank" href="{{ ads_list.0.ad_link }}">
+                                                <img class="shimmer-effect lazyload"
+                                                     {% if  request.user_agent.is_mobile %}
+                                                        data-src="{{ ads_list.0.ad_image|get_webp_format_image }}"
+                                                     {% else %}
+                                                        data-src="{{ ads_list.0.ad_image|get_webp_format_image }}"
+                                                     {% endif %}
+                                                     alt="creative">
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% elif article_ad_status %}
+                                {% if community.enable_google_ads %}
+                                    {% if google_square_ad and request.user_agent.is_mobile %}
+                                        <div style="margin:24px auto;"
+                                             id="{{ google_square_ad.ad_unit_id }}">
+                                            <script>
+                                                googletag.display("{{ google_square_ad.ad_unit_id }}");
+                                            </script>
+                                        </div>
+                                    {% elif google_desktop_horizontal_ad and not request.user_agent.is_mobile %}
+                                        <div style="margin:24px auto;"
+                                             id="{{ google_desktop_horizontal_ad.ad_unit_id }}">
+                                            <script>
+                                                googletag.display("{{ google_desktop_horizontal_ad.ad_unit_id }}");
+                                            </script>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                          {% endif %}
+                        {% endif %}
+
+                        {% if str_arr.1.strip|safe|striptags %}
+                            <div class="details-description post-details-description post-text">{{ str_arr.1.strip|safe }}</div>
+                        {% endif %}
+                    {% endwith %}
+                    {% endautoescape %}
+                    <div class="btm_share_div">
+                        <div class="btm_share_icons d-flex justify-content-start">
+                        <div class="share-story">
+                            Share story
+                        </div>
+                        <img class="share_divider" alt="share section divider">
+                        <div class="footer_share_icon">
+                            <a onclick="send_ga_event('article-share-social-media','FB-share-article-end');" href="https://www.facebook.com/sharer/sharer.php?u={{ post.get_webapp_share_link|urlencode|safe }}"
+                               target="_blank">
+                                <img alt="Share on Facebook" class="footer_fb">
+                            </a>
+                        </div>
+                        <img class="share_divider" alt="share section divider">
+                        <div class="footer_share_icon">
+                            <a target="_blank" onclick="send_ga_event('article-share-social-media','WA-share-article-end');" href="https://api.whatsapp.com/send?text={{ post.get_webapp_share_link|urlencode|safe }}">
+                                <img alt="Share on WhatsApp" class="footer_whatsapp">
+                            </a>
+                        </div>
+                        <img class="share_divider" alt="share section divider">
+                        <div class="footer_share_icon">
+                            <a onclick="send_ga_event('article-share-social-media','Twitter-share-article-end');" data-show-count="false"
+                               href="https://twitter.com/intent/tweet?url={{ post.get_webapp_share_link|urlencode|safe }}"
+                               target="_blank">
+                                <img alt="Share on Twitter" class="footer_twitter">
+                            </a>
+                        </div>
+                        <img class="share_divider" alt="share section divider">
+                        <div class="footer_share_icon">
+                            <a onclick="send_ga_event('article-share-social-media','Email-share-article-end');"  href="mailto:?subject={{ post.title.strip }}&body=I%20found%20this%20article%20interesting%20and%20thought%20of%20sharing%20it%20with%20you.%20Check%20it%20out:%20{{ post.get_webapp_share_link|urlencode|safe }}">
+                                <img alt="Share on mail" class="footer_mail">
+                            </a>
+                        </div>
+                        <img class="share_divider" alt="share section divider">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            {% for scroll_post in scroll_posts %}
+            <div data-target="postDetails.middleSection" class="bg-white" id="post_detail">
+                {# Job Banner #}
+                {% if forloop.counter == 1 %}
+                    {#  if enable widgets is set  #}
+                    {% if community.enable_widgets %}
+                        <a onclick="send_ga_event('web_covid_widget','Click_CovidWidget');" href="http://{{ request.META.HTTP_HOST }}/{{ language_code }}/topics/corona-update">
+                            {% if request.user_agent.is_mobile %}
+                                {#  mobile widget section  #}
+                                {% include "components/widgets/mobile_web_widget.html" %}
+                            {% else %}
+                                {#  desktop widget section  #}
+                                {% include "components/widgets/desktop_web_widget.html" %}
+                            {% endif %}
+                        </a>
+                    {% endif %}
+
+                    <div class="post-details-job-banner-container">
+                        {% include "jobs/job_banner.html" %}
+                    </div>
+                    {% if request.user_agent.is_mobile %}
+                        <div style="margin:0px 12px;">
+                        {% include "components/home_page/newsletter_card.html" %}
+                        </div>
+                    {% endif %}
+                    {# If second admin ad object is present in the list, show the second ad below the main article shown in details page #}
+                    {% if community.enable_ads %}
+                        {% if ads_list.1 %}
+                            <div class="main-ads details-ads" onclick='update_ad_clicks({{ ads_list.1.id }})' >
+                                {% if ads_list.1.ad_format == "Video" and request.user_agent.is_mobile %}
+                                    {% include "components/home_page/admin_video_ad.html" with media_url=ads_list.1.get_ad_media ad_link=ads_list.1.ad_link %}
+                                {% else %}
+                                    <a target="_blank" href="{{ ads_list.1.ad_link }}">
+                                        <img class="shimmer-effect lazyload"
+                                        {% if request.user_agent.is_mobile %}
+                                                data-src="{{ ads_list.1.ad_image|get_webp_format_image }}"
+                                        {% else %}
+                                                data-src="{{ ads_list.1.ad_image|get_webp_format_image }}"
+                                        {% endif %}
+                                             alt="creative">
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <div class="post-details-divider"></div>
+                        {% elif community.enable_google_ads %}
+                            {% if google_square_ad  and request.user_agent.is_mobile %}
+                                <div style="margin:24px auto;" id="gpt-ad-{{ scroll_post.id }}">
+                                    <script>
+                                        generate_ad_unit("gpt-ad-{{ scroll_post.id }}");
+                                    </script>
+                                </div>
+                            {% elif google_desktop_horizontal_ad and not request.user_agent.is_mobile %}
+                                <div style="margin:24px auto;" id="gpt-ad-{{ scroll_post.id }}">
+                                    <script>
+                                        generate_ad_unit("gpt-ad-{{ scroll_post.id }}");
+                                    </script>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                <a href="/article/{{ scroll_post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ scroll_post.unique_url|urlencode|safe }}">
+                        <div class="post-card">
+                            <div class="details-title">{{ scroll_post.title.strip|safe }}</div>
+                            {% if scroll_post.created_by %}
+                                <div class="details-author">by {{ scroll_post.created_by.get_full_name }}</div>
+                            {% endif %}
+                        <div class="details-timestamp">
+                            <!-- keep below line in one single line to avoid UI break -->
+                            {{ scroll_post.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"D, M d | g:i a" }}
+                        </div>
+                        <div class=" bg-white article position-relative">
+                            <div class="img-fluid">
+                                <!-- Showing post image, if it is available, otherwise not showing the post image   -->
+                                {% if request.user_agent.is_mobile %}
+                                    {% if scroll_post.get_image and scroll_post.get_image.strip %}
+                                    <img alt="{{ scroll_post.get_meta_title }}" class="fp-img-border mx-auto details-fp center-cropped-fp shimmer-effect lazyload" data-src="{{ scroll_post.get_image_name|get_webp_format_image:"480x270" }}"
+                                         height="300px" width="100%" />
+                                    {% endif %}
+                                {% else %}
+                                    {% if scroll_post.get_image and scroll_post.get_image.strip %}
+                                    <img class="fp-img-border mx-auto details-fp center-cropped-fp shimmer-effect lazyload"
+                                         data-src='{{ scroll_post.get_image_name|get_webp_format_image:"652x366" }}'
+                                         height="300px" width="100%" alt="{{ scroll_post.get_meta_title }}" />
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            {% autoescape off %}
+                            <div class="details-description preview-description">
+                                {{ scroll_post.text.strip|striptags|safe|generate_short_description:78 }}
+                                <div class="blurred"></div>
+                            </div>
+                            {% endautoescape %}
+                            <div class="read-full-story">
+                                <a href="/article/{{ scroll_post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ scroll_post.unique_url|urlencode|safe }}">
+                                    {# keep below line in one single line to avoid UI break #}
+                                    {% trans 'Read full story' %}
+                                    <img src="/app/static/img/down_button.svg" alt="read full story"></a>
+                            </div>
+                        </div>
+                        </div>
+                    </a>
+                </div>
+            {# Check the next admin ad in a list, after every 4th news feed, if it is present place it below that coresponding 4 posts #}
+            {#  else place the google ad if enable_google_ads field is set  #}
+            {% if forloop.counter|divisibleby:3 and community.enable_ads %}
+                {% with  forloop.counter|index_divider:3|floatformat:"0" as index %}
+                    {% with ads_list|ad_from_second_index:index as ad_obj %}
+                        {% if ad_obj %}
+                            {% if request.user_agent.is_mobile %}
+                                <div class="post-details-divider"></div>
+                            {% endif %}
+                            <div class="main-ads details-ads" onclick='update_ad_clicks({{ ad_obj.id }})'>
+                                {# If the admin ad present,include generic ad component which manages both image and video ads #}
+                                {% include "components/home_page/generic_admin_ad.html" %}
+                            </div>
+                        {% elif community.enable_google_ads %}
+                            {% if google_square_ad  and request.user_agent.is_mobile %}
+                                <div style="margin:24px auto;" id="gpt-ad-{{ scroll_post.id }}">
+                                    <script>
+                                        generate_ad_unit("gpt-ad-{{ scroll_post.id }}");
+                                    </script>
+                                </div>
+                            {% elif google_desktop_horizontal_ad and not request.user_agent.is_mobile %}
+                                <div style="margin:24px auto;" id="gpt-ad-{{ scroll_post.id }}">
+                                    <script>
+                                        generate_ad_unit("gpt-ad-{{ scroll_post.id }}");
+                                    </script>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endwith %}
+                {% endwith %}
+            {% endif %}
+            <div class="post-details-divider"></div>
+<!--            {% if forloop.counter == 2 %}-->
+<!--                {% if request.user_agent.is_mobile %}-->
+<!--                    {% include "components/social_media_stats.html" %}-->
+<!--                {% endif %}-->
+<!--            {% endif %}-->
+            {% endfor %}
+
+            {% if request.user_agent.is_mobile %}
+                <div class="mob_whatsapp_share">
+                    <div class="footer_share_icon">
+                        <a target="_blank" onclick="send_ga_event('article-share-social-media','WA-share-article-scroll');" href="https://api.whatsapp.com/send?text=http://{{ request.META.HTTP_HOST }}/article/{{ post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ post.unique_url|urlencode|safe }}">
+                            <img alt="Share on WhatsApp" class="sticky_wa_share" src="/app/static/img/whatsapp_icon_mob.svg">
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            {# Prompt to download App in mobile site #}
+            {% include "components/download_app_prompt.html" %}
+            {% if request.user_agent.is_mobile %}
+                <div style="position: relative; bottom: 0px; margin:0px; display: none" id="post_details_footer_section">
+                    <div id='post_details_read_more' class="post_load_more"><span>Load More <img
+                            src="/app/static/img/load_more_arrow.png"> </span>
+                    </div>
+                    {% include "components/mobile_web_footer.html" %}
+                </div>
+            {% endif %}
+
+        </div>
+
+    {% if not request.user_agent.is_mobile %}
+        <!-- div id name has to be different than home div to avoid turbolink header merge -->
+        <div class="right-sidebar right-section-details-page" class="d-none d-lg-block bg-white mr-neg-8" data-target="postDetails.rightSection"
+             id="comments_post">
+            <div class="sticky-spacer"></div>
+            <div class="sticky-content">
+                {% block right_section %}
+                {% include "components/post_right_section.html" %}
+                {% endblock %}
+            </div>
+        </div>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block endscript %}
+{% endblock %}

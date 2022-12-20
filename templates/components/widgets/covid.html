@@ -1,0 +1,26 @@
+{% load humanize %}
+
+<div class="covid-cases">COVID-19 CASES</div>
+<div class="covid-state">Odisha</div>
+<div class="covid-stats-section d-flex justify-content-between align-items-end">
+    <div>
+        <div class="covid-total-text">Total</div>
+        {% if covid_data.total %}
+            <div class="covid-total">{{ covid_data.total|intcomma }}</div>
+        {% endif %}
+    </div>
+
+    <div>
+        {% if covid_data.active %}
+            <div class="covid-active-text">Active</div>
+            <div class="covid-active">{{ covid_data.active|intcomma }}</div>
+        {% endif %}
+        {% if covid_data.delta > 0 %}
+            <div class="d-flex justify-content-start align-items-center position-relative">
+                <img class="rise-indicator" src="/app/static/img/covid_rising_indicator.svg"
+                     alt="Rising indicator"/>
+                <div class="covid-delta">{{ covid_data.delta|intcomma }}</div>
+            </div>
+        {% endif %}
+    </div>
+</div>

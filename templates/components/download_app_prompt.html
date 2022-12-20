@@ -1,0 +1,31 @@
+{# This prompt is shown in all pages of mobile site, to prompt users to switch to the App #}
+
+<div class="download-app-prompt">
+    {# https://argusnews.in/download handles opening Google Play Store for Android device #}
+    {# and Apple App Store for IOS devices #}
+
+    <div class="d-flex justify-content-around download-app-prompt-items h-60" id="download-app-prompt"
+         data-controller="applink"
+         data-target="applink.wrapper"
+            {% if request.user_agent.os.family == "iOS" %}
+         onclick="window.open('{{ community.app_store_url }}'),send_ga_event('download_app_prompt_page','DLApp_NewPrompt_Click');"
+            {% else %}
+         onclick="window.open('{{ community.play_store_url }}'),send_ga_event('download_app_prompt_page','DLApp_NewPrompt_Click');"
+            {% endif %}>
+        <div class="app-prompt-desc-wrapper">
+            <div class="app-prompt-desc-line1">Download Argus News App</div>
+        </div>
+        {# App/Play Store <CTA></CTA>s #}
+        <div class="store-logo-div">
+            {% if request.user_agent.os.family == "iOS" %}
+                <img alt="App Store" src="/app/static/img/apple_logo.png" class="apple-logo"/>
+            {% else %}
+                <img alt="Play Store" src="/app/static/img/playstore_logo.png" class="play-store-logo"/>
+            {% endif %}
+        </div>
+    </div>
+    <div onclick="send_ga_event('download_app_prompt_page','DLApp_NewPrompt_Close');"
+         class="d-flex justify-content-center close-download-prompt">
+        <img alt="close_btn">
+    </div>
+</div>

@@ -1,0 +1,46 @@
+{% load filters %}
+
+<div id="user-info-section">
+    {% for user_activity in user_activities %}
+        {% if user_activity.activity_type == "LIKE_POST" %}
+            <div class="activity-item">
+                <div class="activity-head">
+                    <img class="activity-like-icon" alt="like icon"> <span class="activity-type-description">Liked</span> this article
+                </div>
+                <div class="activity-preview">
+                    <div class="row">
+                        <div class="col-1">
+                            <img class="activity-item-img" src="{{ user_activity.content_object.get_image }}" alt="image">
+                        </div>
+                        <div class="col position-relative">
+                            <span class="activity-item-title">{{ user_activity.content_object.title.strip }}</span>
+                            <div class="activities-timestamp">
+                                {{ user_activity.created|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"d M | g:i A" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if user_activity.activity_type == "COMMENT_POST" %}
+            <div class="activity-item">
+                <div class="activity-head">
+                    <img class="activity-like-icon" alt="image"> <span class="activity-type-description">Commented</span> on this article
+                </div>
+                <div class="activity-preview">
+                    <div class="row">
+                        <div class="col-1">
+                            <img class="activity-item-img" src="{{ user_activity.content_object.get_image }}" alt="image">
+                        </div>
+                        <div class="col">
+                            <span class="activity-item-title">{{ user_activity.content_object.title.strip }}</span>
+                            <div class="activities-timestamp">
+                                {{ user_activity.created|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"d M | g:i A" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>

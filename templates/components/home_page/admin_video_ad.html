@@ -1,0 +1,13 @@
+{# Generic video ad element where ad url and media url will be passed as a parameters #}
+<div id='ads-player'>
+    <div class="ad-text"> Advertisement</div>
+    <a target="_blank" href="{{ ad_link }}">
+        <video class="shimmer-effect" id="ad-video" autoplay muted>
+            <source src="{{ media_url }}" type="video/mp4">
+            <source src="{{ media_url }}" type="video/webm">
+            <source src="{{ media_url }}" type="video/ogg">
+            <source src="{{ media_url }}" type="video/mov">
+            Your browser does not support the video tag.
+        </video>
+    </a>
+</div>

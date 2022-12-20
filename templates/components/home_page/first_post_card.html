@@ -1,0 +1,151 @@
+{% load filters %}
+
+{% if request.user_agent.is_mobile %}
+    <div class="fp-wrapper bg-white position-relative cursor-pointer mobile-first-post">
+
+            {% if live_update %}
+                 <a href="/live-updates/{{  posts.0.unique_url|urlencode|safe  }}">
+                    <div class="live-update-box">
+                        <img alt="live_update_icon" src="/app/static/img/live_update_icon.svg">
+                        <span>LIVE UPDATE</span>
+                    </div>
+            {% else %}
+                  <a href="/article/{{ posts.0.people_to_meet.all.0.url_path|urlencode|safe }}/{{ posts.0.unique_url|urlencode|safe }}">
+            {% endif %}
+
+            {% if posts.0.get_image and posts.0.get_image.strip %}
+                <div class="img-fluid">
+                    <img class="fp-img-border mx-auto center-cropped-fp shimmer-effect"
+                     {% if live_update  %}
+                        src="{{ posts.0.image|get_webp_format_image:"320x180" }}"
+                     {% else %}
+                        src="{{ posts.0.get_image_name|get_webp_format_image:"320x180" }}"
+                     {% endif %}  alt="{{ posts.0.get_meta_title }}"/>
+                </div>
+            {% endif %}
+            {# Added first post topic timestamp component. #}
+            {% include "components/home_page/latest_firstpost_timestamp_topic.html" %}
+            {% if posts.0.title.strip and posts.0.title.strip %}
+                <div class="fp-title">{{ posts.0.title.strip }}</div>
+            {% endif %}
+
+            {% autoescape on %}
+            {% if posts.0.text and posts.0.text.strip %}
+                <div class="fp-text fp-topic-text">{{ posts.0.text.strip|safe|striptags|generate_short_description:80 }}</div>
+            {% endif %}
+            {% endautoescape %}
+        </a>
+    </div>
+    <div class="first-post-end"></div>
+{% else %}
+
+
+{% if breaking_news_post %}
+
+
+    <a href="/article/{{ breaking_news_post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ breaking_news_post.unique_url|urlencode|safe }}">
+        <div class="primary-post breaking-news-background">
+            {% if breaking_news_post.get_image and breaking_news_post.get_image.strip %}
+            <div class="primary-image">
+                <img class="primary-img-border mx-auto center-cropped-primary-image  shimmer-effect"  src="{{ breaking_news_post.get_image_name|get_webp_format_image:"320x180" }}"
+                    alt="{{ breaking_news_post.get_meta_title }}"/>
+            </div>
+            {% endif %}
+
+            <div class="breaking-primary-content">
+                <div class="bn-desktop-head">
+                    <div class="bn-head margin-right-6">
+                        <img class="menu-icon icon-flash" alt="Breaking news">
+                        <span>
+                                Breaking News
+                        </span>
+                    </div>
+
+                    {% if "0m" == breaking_news_post.published_date|timesince|upto|safe %}
+                        <span class="primary-topic-timestamp-dot topic-timestamp-dot margin-top-12"></span>
+                        <div class="primary-post-timestamp margin-top-6">now</div>
+                    {% elif 'min' in breaking_news_post.published_date|timesince and 'hour' not in breaking_news_post.published_date|timesince %}
+                        <span class="primary-topic-timestamp-dot topic-timestamp-dot margin-top-12"></span>
+                        <div class="primary-post-timestamp margin-top-6">{{ breaking_news_post.published_date|timesince|upto|safe }} ago</div>
+                    {% endif %}
+
+                </div>
+                {% if breaking_news_post.title.strip and breaking_news_post.title.strip %}
+                    <div class="primary-wrapper">
+
+                        <div class="primary-title" id="desk-bn">
+                            {{ breaking_news_post.title.strip }}
+                        </div>
+
+                        <div class="primary-title" style="visibility: hidden"  id="desk-bn-hidden">
+                            {{ breaking_news_post.title.strip }}
+                        </div>
+
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </a>
+
+{% else %}
+
+{% if live_update and not breaking_news_post  %}
+    <a href="/live-updates/{{  posts.0.unique_url|urlencode|safe  }}">
+{% else %}
+    <a href="/article/{{ posts.0.people_to_meet.all.0.url_path|urlencode|safe }}/{{ posts.0.unique_url|urlencode|safe }}">
+{% endif %}
+
+        <div class="primary-post" style="background-color: #{{ posts.0.get_image|get_dominant_color }}">
+            {% if posts.0.get_image and posts.0.get_image.strip %}
+            <div class="primary-image">
+                {% if live_update and not breaking_news_post  %}
+                    <div class="live-update-box">
+                        <img alt="live_update_icon" src="/app/static/img/live_update_icon.svg">
+                        <span>LIVE UPDATE</span>
+                    </div>
+                {% endif %}
+                <img class="primary-img-border mx-auto center-cropped-primary-image  shimmer-effect"
+                     {% if live_update  %}
+                     src="{{ posts.0.image|get_webp_format_image:"320x180" }}"
+                     {% else %}
+                     src="{{ posts.0.get_image_name|get_webp_format_image:"320x180" }}"
+                     {% endif %}
+                     alt="{{ posts.0.get_meta_title }}"/>
+            </div>
+            {% endif %}
+
+            <div class="primary-content">
+                <div class="topic-timestamp primary-topic-timestamp">
+                    {% if posts.0.label.strip %}
+                        <div class="primary-topic">
+                            {{posts.0.label.strip|truncatechars:25|safe}}
+                        </div>
+                    {% else %}
+                        <div class="primary-topic">
+                            {{posts.0.people_to_meet.all.first.name|truncatechars:25|safe}}
+                        </div>
+                    {% endif %}
+                    {# Check only if minute time unit present in publish date time of the primary post, if present show publish datetime #}
+                    {# else hide the publish date time in any other case #}
+                    {% if "0m" == posts.0.published_date|timesince|upto|safe %}
+                        <span class="primary-topic-timestamp-dot topic-timestamp-dot"></span>
+                        <div class="primary-post-timestamp">now</div>
+                    {% elif 'min' in posts.0.published_date|timesince and 'hour' not in posts.0.published_date|timesince %}
+                        <span class="primary-topic-timestamp-dot topic-timestamp-dot"></span>
+                        <div class="primary-post-timestamp">{{ posts.0.published_date|timesince|upto|safe }} ago</div>
+                    {% endif %}
+                </div>
+                {% if posts.0.title.strip and posts.0.title.strip %}
+                    <div class="primary-wrapper">
+                        <div class="primary-title">
+                            {{ posts.0.title.strip }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+
+{% endif %}
+{% endif %}

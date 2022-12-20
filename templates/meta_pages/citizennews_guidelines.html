@@ -1,0 +1,99 @@
+
+{% load filters %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+
+        <title>Argus News - Odisha Latest News, Breaking News</title>
+        <link rel="shortcut icon" href="/app/static/img/argus_favicon.png">
+        <meta property="og:image" content="{{ community.get_og_image }}" />
+        <meta property="og:title" content="{{ community.og_title }}">
+        <meta property="og:description" content="{{ community.og_description }}" />
+        <!--for twitter-->
+        <meta property='twitter:title' content="{{ community.og_title }}">
+        <meta property='twitter:image' content="{{ community.get_og_image }}" />
+        <meta name="twitter:card" content="summary_large_image"/>
+
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css.gz"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+
+    <!-- CSS for entire website -->
+    <link href="/app/static/css/main.css?v=1632593288" rel="stylesheet">
+
+
+    <style>
+        {{ theme.web_css|safe }}
+    </style>
+   
+</head>
+
+
+
+{% block content %}
+<div class="submission-guidelines container">
+    <span class="submission-header">Submission Guidelines</span>
+    <div class="submission-icon">
+        <img class="submission-avoid-icon" alt="avoid-icon">
+    </div>
+    <div class="submission-content">
+        <span>Avoid</span>
+        <li> Hurting religious sentiments.</li>
+        <li> Content that incites violence & creates law and order problem.</li>
+        <li> Vulgar and defamatory material.</li>
+        <li> Reports that violate the dignity of women and children.</li>
+    </div>
+
+    <div class="submission-icon">
+        <img class="submission-image-icon" alt="avoid-icon">
+    </div>
+    <div class="submission-content">
+        <span>Media</span>
+        <li> Add more than 1 video or photo to reinforce your story.</li>
+        <li> Shoot in good quality and landscape mode, this mode is better for viewing.</li>
+        <li> Limit the length of your videos to 2 mins or less.</li>
+    </div>
+
+    <div class="submission-icon">
+        <img class="submission-headline-icon" alt="avoid-icon">
+    </div>
+    <div class="submission-content">
+        <span>Headline</span>
+        <li> Convey the most important and unique thing about your news story.</li>
+        <li> Make it interesting. An article with a catchy headline will get more views.</li>
+        <li>Write your headline using 8 words or less.</li>
+        <li>Use actionable words and an active voice. E.g. ‘India wins world cup 2020’ is better than ‘World cup 2020
+            won by India’.</li>
+    </div>
+
+    <div class="submission-icon">
+        <img class="submission-description-icon" alt="avoid-icon">
+    </div>
+    <div class="submission-content">
+        <span>Description</span>
+        <li> Write in paragraphs.</li>
+        <li> Summarize the article in 2-3 sentences in the first paragraph.</li>
+        <li>Answer all the basic questions, i.e., who, what, where, when, why and how in your write-up.</li>
+        <li> Location and time of incident are important, make sure to get them right.</li>
+
+    </div>
+
+    <div class="submission-icon">
+        <img class="submission-factual-reporting-icon" alt="avoid-icon">
+    </div>
+    <div class="submission-content">
+        <span>Factual reporting</span>
+        <li> Avoid submitting any fake or false news. </li>
+        <li> Gather all evidence needed to support your story before submitting it to us.</li>
+        <li> Write without bias. Avoid any unfair representation of facts.</li>
+        <li> Do not send news copied from WhatsApp, Facebook or other Social media platforms. Write in paragraphs. </li>
+
+    </div>
+
+
+
+
+</div>
+{% endblock %}

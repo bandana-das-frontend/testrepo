@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load i18n %}
+{% load compress static %}
+
+{% block head %}
+<script async src='{% static "js/post_search.js" %}'></script>
+<link rel="shortcut icon" href="/app/static/img/argus_favicon.png">
+<meta content="{{ query_string }}: Latest Updates, News and Videos of {{ query_string }} on Argus News" property='twitter:title'/>
+<meta content="{{ query_string }}: Latest Updates, News and Videos of {{ query_string }} on Argus News" property="og:title"/>
+<meta content="{{ query_string }}: Latest Updates, News and Videos on {{ query_string }}. Explore {{ query_string }} profile on Argus News for photos, videos and latest news of {{ query_string }}." property="og:description"/>
+<meta content="https://{{ request.META.HTTP_HOST }}/search-articles?search_string={{ query_string }}" property="og:url"/>
+<meta content="article" property="og:type">
+<meta content="Argus News" property="og:site_name">
+
+{#     canonical url #}
+<link rel="canonical" href="https://{{ request.META.HTTP_HOST }}/search-articles?search_string={{ query_string }}">
+
+    <title>{% block title %} {{ query_string }}: Latest Updates, News and Videos of {{ query_string }} on Argus News. {% endblock %}</title>
+    <meta name="description" {% block meta_description %} content="{{ query_string }}: Latest Updates, News and Videos on {{ query_string }}. Explore {{ query_string }} profile on Argus News for photos, videos and latest news of {{ query_string }}." {% endblock %} >
+{% endblock %}
+
+{% block h1_tag %}
+{#     h1 to h6 tags are important for SEO (h1 tags are very important!) #}
+    <h1 class="d-none">
+    {{ query_string }}: Latest Updates, News and Videos of {{ query_string }} on Argus News.
+    </h1>
+{% endblock %}
+
+{% block content %}
+<div class="compressed">
+    <div class="wrapper position-relative details-container data-turbolinks-temporary" data-controller="searchResults" id="main-container">
+        {% if not request.user_agent.is_mobile %}
+            {# lef navigation bar in desktop   #}
+            <div class="left-sidebar" class="bg-white d-none d-lg-block" data-target="searchResults.leftSection"
+                 id="nav_and_topics">
+                {% block left_section %}
+                {% include "components/left_section_collapsed.html" %}
+                {% endblock %}
+            </div>
+        {% endif %}
+        <div class="content position-relative bg-white" id="home-posts">
+        <div class="sticky-spacer"></div>
+        <div class="sticky-content" id="search-result-div" style="margin-top: 20px;">
+            <div class="search-topic-header">
+                <div class="search_result_count">
+                    <a href="/latest-news">
+                        <span class="d-flex justify-content-start align-items-center">
+                            <img class="live-tv-header-back" alt="Back">
+                            <span class="topics-page-text">
+                                {% trans 'Search results' %}
+                            </span>
+                        </span>
+                    </a>
+                    {#  Search result post counts and its text #}
+                    {% if post_counts > 0 %}
+                        <div class="search-count">{{ post_counts }} results found for <span style="font-weight: bold;">"{{ query_string }}"</span></div>
+                    {% else %}
+                        <div class="search-count">No results found for <span style="font-weight: bold;">"{{ query_string }}"</span></div>
+                    {% endif %}
+                </div>
+                <div class="topic_loc_dropdown">
+                    <div class="btn-group">
+                        <button class="btn btn-sm dropdown-toggle search_topic_select" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">{% if topic %}{{ topic }}{% else %}Select Topic{% endif %}
+
+                        </button>
+                        <div class="dropdown-menu search_option_items" id="topic_search_options">
+                            {% for topic in all_people_to_meet %}
+                                <div class="search_topic_option dropdown-item">{{ topic }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-sm dropdown-toggle search_location_select" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">{% if location %}{{ location }}{% else %}Select Location{% endif %}
+                        </button>
+                        <div class="dropdown-menu search_option_items" id="location_search_options">
+                            {% for location in locations %}
+                                <div class="search_location_option dropdown-item">{{ location }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if location or topic %}
+                        <div class="clear_filter" id='clear_filter'>Clear</div>
+                    {% endif %}
+                </div>
+            </div>
+            <input data-target="searchResults.searchtype" type="hidden" value="{{ search_type }}">
+            <input data-target="searchResults.searchstring" type="hidden" value="{{ query_string }}">
+            <input data-target="searchResults.searchtopic" type="hidden" id="search_topic" value="{{ topic }}">
+            <input data-target="searchResults.searchlocation" type="hidden" id="search_location" value="{{ location }}">
+
+         {#  Search result types (all, news, video) #}
+        <div class="topics-section" style="margin-bottom: 18px; margin-top: 24px; padding-bottom: 8px;">
+            {% if not search_type  and request.path|get_nth_string_from_url:"1" == "search-articles" %}
+                <span class="search-topics active">
+                    <a>ALL</a>
+                </span>
+            {% else %}
+                <span class="search-topics">
+                    <a href="/search-articles?search_string={{ query_string|urlencode }}&topic={{ topic|urlencode|safe }}&location={{ location|urlencode|safe }}">ALL</a>
+                </span>
+            {% endif %}
+            {% if request.path|get_nth_string_from_url:"2" == "news" and request.path|get_nth_string_from_url:"1" == "search-articles" %}
+                <span class="search-topics active">
+                        <a>NEWS</a>
+                    </span>
+            {% else %}
+                <span class="search-topics">
+                        <a href="/search-articles/news?search_string={{ query_string|urlencode }}&topic={{ topic|urlencode|safe }}&location={{ location|urlencode|safe }}">NEWS</a>
+                    </span>
+            {% endif %}
+            {% if request.path|get_nth_string_from_url:"2" == "videos" and request.path|get_nth_string_from_url:"1" == "search-articles" %}
+                <span class="search-topics active">
+                        <a>VIDEOS</a>
+                    </span>
+            {% else %}
+                <span class="search-topics">
+                        <a href="/search-articles/videos?search_string={{ query_string|urlencode }}&topic={{ topic|urlencode|safe }}&location={{ location|urlencode|safe }}">VIDEOS</a>
+                    </span>
+            {% endif %}
+        </div>
+        <div class="post-end"></div>
+
+            <div data-target="searchResults.middleSection" class="bg-white" id="searched_posts">
+            {% if posts %}
+                {% for post in posts %}
+                     {#  if is_video field is true in post obj display video card else artile card #}
+                    {% if post.video %}
+                                <div class="bg-white cursor-pointer" onclick="Turbolinks.visit('/video/{{ post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ post.unique_url|urlencode|safe }}');">
+                                    <div class="bg-white d-flex gp-card position-relative">
+                                        {% if post.get_image and post.get_image.strip %}
+                                            <div class="play-btn">
+                                                <img class="play-btn-img lazyload" data-src="/app/static/img/play_btn.svg"
+                                                     alt="play button">
+                                            </div>
+                                            <div class="img-fluid">
+                                                <img class="gp-img-border mx-auto center-cropped-gp lazyload"
+                                                     data-src="{{ post.get_image|safe }}"
+                                                     alt="{{ post.title.strip|safe }}"/>
+                                            </div>
+                                        {% else %}
+                                            <!-- Showing placeholder image if post image is not available  -->
+                                            <div class="play-btn">
+                                                <img class="play-btn-img lazyload" data-src="/app/static/img/play_btn.svg"
+                                                     alt="play button">
+                                            </div>
+                                            <div class="img-fluid">
+                                                <img class="gp-img-border mx-auto center-cropped-gp post-placeholder"
+                                                     alt="Image"/>
+                                            </div>
+                                        {% endif %}
+                                        <div class="position-relative w-100">
+                                            {# Added generic ideo topic timestamp component. #}
+                                            {% include "components/home_page/generic_video_topic_timestamp.html" %}
+
+                                            <div class="gp-card-wrapper">
+                                                {% if post.title and post.title.strip %}
+                                                    <div class="gp-title">{{ post.title.strip|safe }}</div>
+                                                {% endif %}
+                                             {% autoescape off %}
+                                                {% if post.text %}
+                                                    <div class="gp-card-text">
+                                                        {{ post.text|striptags|safe|generate_short_description:50 }}</div>
+                                                {% endif %}
+                                            {% endautoescape %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        <div class="post-end"></div>
+                    {% else %}
+                        <a href="/article/{{ post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ post.unique_url|urlencode|safe }}" class="cursor-pointer">
+                        {% if post.get_image and post.get_image.strip %}
+                            <div class="bg-white d-flex gp-card">
+                                {% if post.get_image and post.get_image.strip %}
+                                    <div class="img-fluid">
+                                        <img class="gp-img-border mx-auto center-cropped-gp lazyload" data-src="{{ post.get_image|safe }}" alt="{{ post.title.strip|safe }}" />
+                                    </div>
+                                {% else %}
+                                <!-- Showing placeholder image if post image is not available  -->
+                                    <div class="img-fluid">
+                                        <img class="gp-img-border mx-auto center-cropped-gp post-placeholder" alt="Image"/>
+                                    </div>
+                                {% endif %}
+
+                                <div class="position-relative w-100">
+                                    {# Added generic posts topic timestamp component. #}
+                                    {% include "components/home_page/generic_post_topic_timestamp.html" %}
+                                    <div class="gp-card-wrapper">
+                                        {% if post.title and post.title.strip %}
+                                            <div class="gp-title">{{ post.title.strip|safe }}</div>
+                                        {% endif %}
+                                        {% autoescape off %}
+                                            {% if post.text %}
+                                                <div class="gp-card-text">{{ post.text|striptags|safe|generate_short_description:50 }}</div>
+                                            {% endif %}
+                                        {% endautoescape %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </a>
+                    <div class="post-end"></div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+    </div>
+        {# right section   #}
+        {#    div id name has to be different than home div to avoid turbolink header merge #}
+        <div class="right-sidebar right-section-details-page" class="d-none d-lg-block bg-white mr-neg-8" data-target="searchResults.rightSection" id="comments_post">
+            <div class="sticky-spacer"></div>
+            <div class="sticky-content">
+                {% block right_section %}
+                {% include "components/post_right_section.html" %}
+                {% endblock %}
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}

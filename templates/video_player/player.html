@@ -1,0 +1,30 @@
+<html>
+   <head>
+      <link rel="icon" type="image/png" href="/app/static/img/favicon.png"/>
+      <script src="https://glynk-web-assets.s3.ap-south-1.amazonaws.com/argus/video.js"></script>
+      <script src="https://glynk-web-assets.s3.ap-south-1.amazonaws.com/argus/videojs-ie8.min.js"></script>
+      <link href="https://glynk-web-assets.s3.ap-south-1.amazonaws.com/argus/video-js.css" rel="stylesheet" />
+      <link href="https://glynk-web-assets.s3.ap-south-1.amazonaws.com/argus/forest.css" rel="stylesheet">
+
+       <style>
+           .video-js{
+               width: auto !important;
+               height: 100% !important;
+           }
+       </style>
+   </head>
+   <body>
+      <video class="video-js vjs-theme-forest"
+         controls
+         preload="auto"
+         width="1280"
+         height="720"
+         poster="https://glynk-web-assets.s3.ap-south-1.amazonaws.com/argus/argus.png"
+         data-setup=''
+         autoplay
+         muted>
+             <source src="https://live.argusnews.in/hls/argustv.m3u8" type="application/x-mpegURL">
+      </video>
+   </body>
+</html>
+

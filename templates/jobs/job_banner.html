@@ -1,0 +1,19 @@
+{% load i18n %}
+
+
+{# Check if Job banner(show_footer_banner) is enabled in the community configurations #}
+{% if community.show_footer_banner == True %}
+    <a href='{{community.footer_banner_cta_link}}' target="_blank"
+       class="job-banner d-flex align-items-center justify-content-between cursor-pointer {% if not request.user_agent.is_mobile %} w-100 {% endif %}">
+        <div class="d-flex align-items-center w-100">
+            <img class="job-banner-img" src="/app/static/img/ic_job_search.svg" alt="job banner">
+            <div {% if not request.user_agent.is_mobile %}
+                class="d-flex justify-content-center align-items-center"
+            {% endif %}>
+                <div class="hiring-text-1">{% trans 'Argus News is hiring!' %}</div>
+                <div class="hiring-text-2">{% trans 'Seeking highly motivated professionals.' %}</div>
+            </div>
+        </div>
+        <div class="apply-job-button">{% trans 'APPLY NOW' %}</div>
+    </a>
+{% endif %}

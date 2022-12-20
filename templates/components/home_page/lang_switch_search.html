@@ -1,0 +1,22 @@
+{% if request.user_agent.is_mobile %}
+    <div class="d-flex justify-content-start align-items-center">
+        <img id="search-icon-mob" class="search-icon-mob" src="/app/static/img/search_icon_only_icon.svg"
+             alt="search icon">
+        {% if community.content_language_filter %}
+            {# Language switch in the header #}
+            <div class="lang-select">
+                <ul id="lang_options">
+                    {% if language == 'English' %}
+                        <li class="lang_opt active_lang">En</li>
+                        <li class="lang_opt" onclick="window.open('/or/latest-news','_self')" style='font-size:15px;'>ଓ</li>
+                    {% else %}
+                        <li class="lang_opt" onclick="window.open('/en/latest-news','_self')">En</li>
+                        <li class="lang_opt active_lang" style='font-size:15px;'>ଓ</li>
+                    {% endif %}
+                </ul>
+                <span style="display: none" id="selected_lang" data-lang={{ language }}></span>
+                <span id="lang_border" {% if language == 'English' %} style="position: absolute; left:0%;" {% else %} style="position: absolute; left:44%;" {% endif %}></span>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

@@ -1,0 +1,19 @@
+{# If the admin ad format is video and device is mobile then display video ad else display image ads #}
+{% if ad_obj.ad_format == "Video" and request.user_agent.is_mobile %}
+    <div id='ads-player'>
+        <div class="ad-text"> Advertisement</div>
+        <a target="_blank" href="{{ ad_obj.ad_link }}">
+            <video class="shimmer-effect" id="ad-video" autoplay muted>
+                <source src="{{ ad_obj.get_ad_media }}" type="video/mp4">
+                <source src="{{ ad_obj.get_ad_media }}" type="video/webm">
+                <source src="{{ ad_obj.get_ad_media }}" type="video/ogg">
+                <source src="{{ ad_obj.get_ad_media }}" type="video/mov">
+                Your browser does not support the video tag.
+            </video>
+        </a>
+    </div>
+{% else %}
+    <a target="_blank" href="{{ ad_obj.ad_link }}">
+        <img class="shimmer-effect lazyload" data-src="{{ ad_obj.get_ad_image }}" alt="creative">
+    </a>
+{% endif %}

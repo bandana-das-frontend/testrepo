@@ -1,0 +1,57 @@
+{% load filters %}
+{% load i18n %}
+
+
+<div class="second-post"  style="background-color: #{{ posts.1.get_image|get_dominant_color }}">
+        {% if live_update and breaking_news_post %}
+            <a href="/live-updates/{{ posts.1.unique_url|urlencode|safe }}">
+            <div class="live-update-box">
+                <img alt="live_update_icon" src="/app/static/img/live_update_icon.svg">
+                <span>LIVE UPDATE</span>
+            </div>
+        {% else %}
+            <a href="/article/{{ posts.1.people_to_meet.all.0.url_path|urlencode|safe }}/{{ posts.1.unique_url|urlencode|safe }}">
+        {% endif %}
+
+        <img class="sp-img-border mx-auto center-cropped-primary-image shimmer-effect lazyload"
+             {% if live_update and breaking_news_post  %}
+                src="{{ posts.1.image|get_webp_format_image:"320x180" }}"
+             {% else %}
+                src="{{ posts.1.get_image_name|get_webp_format_image:"320x180" }}"
+             {% endif %}
+
+             alt="{{ posts.1.get_meta_title }}"/>
+        <div class="secondary-posts-content">
+            <div class="topic-timestamp second-topic-timestamp">
+                {% if posts.1.label.strip %}
+                <div class="second-topic">
+                    {{posts.1.label.strip|truncatechars:25|safe}}
+                </div>
+                {% else %}
+                <div class="second-topic">
+                    {{posts.1.people_to_meet.all.first.name|truncatechars:25|safe}}
+                </div>
+                {% endif %}
+
+                {# Check only if minute time unit present in publish date time of the second post, if present show publish datetime #}
+                {# else hide the publish date time in any other case #}
+
+                {% if "0m" == posts.1.published_date|timesince|upto|safe %}
+                    <span class="second-topic-timestamp-dot topic-timestamp-dot"></span>
+                    <div class="second-post-timestamp">now</div>
+                {% elif 'min' in posts.1.published_date|timesince and 'hour' not in posts.1.published_date|timesince %}
+                    <span class="second-topic-timestamp-dot topic-timestamp-dot"></span>
+                    <div class="second-post-timestamp">{{ posts.1.published_date|timesince|upto|safe }} ago</div>
+                {% endif %}
+            </div>
+            {% if posts.1.title and posts.1.title.strip %}
+                <div class="second-post-title">
+                    <span class="second-post-title-span">
+                        {{ posts.1.title.strip }}
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+
+    </a>
+</div>

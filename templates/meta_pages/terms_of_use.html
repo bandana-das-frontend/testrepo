@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <meta property="og:image" content="{{ community.get_og_image }}" />
+    <meta property="og:title" content="{{ community.og_title }}">
+    <meta property="og:description" content="{{ community.og_description }}" />
+    <!--for twitter-->
+    <meta property='twitter:title' content="{{ community.og_title }}">
+    <meta property='twitter:image' content="{{ community.get_og_image }}" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <link rel="canonical" href="https://{{ request.META.HTTP_HOST }}/terms-of-use" >
+
+    <title>{% block title %} Argus News: Terms of Use {% endblock %}</title>
+    <meta name="description" {% block meta_description %} content="{{ community.og_description }}" {% endblock %} >
+
+{% endblock %}
+
+{% block h1_tag %}
+    {# h1 to h6 tags are important for SEO (h1 tags are very important!) #}
+    <h1 class="d-none">Argus News: Terms of Use</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container terms-and-condition-container">
+
+    <div class="terms-and-condition-wrapper">
+
+        <div class="tc-header">
+            <a href="{{request.META.HTTP_REFERER}}">
+                <span class="d-flex justify-content-start align-items-center">
+                    <img class="live-tv-header-back" alt="Back">
+                    <span class="topics-page-text">Back</span>
+                </span>
+            </a>
+        </div>
+
+        <div class="tc-title">
+            <span>
+                Terms of use
+            </span>
+        </div>
+
+        <div class="tc-main-text">
+            <span>
+                These terms and conditions of use ("Terms") along with privacy policy ("Privacy Policy") forms a legally
+                binding agreement ("Agreement") between You and Us ("Pratham Broadcast Pvt Ltd", "Argus").
+
+                </br>
+                </br>
+                Hence, We insist that You spend time reading these Terms and Privacy Policy and let Us know
+                at support@argusnews.in if You have any questions regarding the same. We will try our best to answer
+                your queries
+            </span>
+        </div>
+
+        <div class="tc-body">
+            <label>
+                A. DEFINITIONS AND INTERPRETATION
+            </label>
+            <p>
+                1. Capitalized terms, not defined elsewhere in this Agreement, shall mean as follows: </br>
+                (a) "App" means the android mobile platform owned by Argus, including any updates thereof. </br>
+                (b) "User" or "You" or "Your" refers to a natural person who has accepted this Agreement in order to
+                download and use the App. </br>
+                2. Any reference to the singular includes a reference to the plural and vice versa, and any reference to
+                one gender includes a reference to other gender(s), unless explicitly provided for. </br>
+                3. Headings and captions are used for convenience only and not for interpretation of the Agreement.
+                </br>
+                4. Any reference to a natural person shall, include his/her heirs, executors and permitted assignees and
+                any reference to a juristic person shall, include its affiliates, successors and permitted assignees,
+                unless repugnant to the context.
+            </p>
+
+            <label>
+                B. YOUR APPROVAL
+            </label>
+            <p>
+                1. You approve of and accept this Agreement by:</br>
+                (a) downloading and/or installing the App on Your device; or</br>
+                (b) accessing or using the App or any of the content available within the App from any device.</br>
+                2. You can accept this Agreement only if:</br>
+                (a) You are of the legal age, eligibility and mental capacity to form a binding contract with Argus
+                pursuant to your use of the App; and</br>
+                (b) You are not legally barred from using the App.</br>
+                3. You understand that we want you to not use the App if you do not understand, approve of or accept all
+                the terms specified in this Agreement. Hence, you are requested to read these Terms and Privacy Policy
+                carefully and understand the Agreement before You accept it and agree to be bound by it.
+            </p>
+            <label>
+                PROVISION OF THE APP
+            </label>
+            <p>
+                1. The App is designed to provide you an in-app browsing experience through an embedded browser.</br> 
+                2. The App may include links to other mobile applications and/or websites (some of which may be
+                automated search results) which may contain materials that are objectionable, unlawful, or inaccurate.
+                We do not endorse or support these links or the products and services they provide; these links are
+                provided for your convenience only. We are not responsible or liable for the content or accuracy of such
+                links.</br>
+                3. In order to provide the App to You, We may request You to register and/or provide information about
+                yourself. We trust that any information provided by You will always be true, accurate, complete and
+                updated.</br>
+                4. The content displayed on the App is for Your non-commercial and personal use. You are not allowed to
+                copy, reproduce, alter, modify, create derivative works of, or publicly display any content displayed on
+                the App.</br>
+                5. Your email address and phone number are used to identify you while logging into the App. Argus News
+                may use your personal information to control your access to the App as well as use of the App, to
+                communicate with the you, customize your experience of using the App and and/or the content of any email
+                newsletter or other material that Argus News may send from time to time and provide information that may
+                be useful or interesting based on the content and personally identifiable information relating to
+                you.</br>
+                6. We may stop provision of the App (or any part of the App), permanently or temporarily, to You or to
+                Users generally or may modify or change the nature of the App and/or these Terms at Our sole discretion,
+                without any prior notice to You. Your use of the App following any such modification constitutes Your
+                deemed acceptance to be bound by the Agreement (or as it may be modified).
+            </p>
+            <label>
+                D. YOUR AGREEMENT WITH ARGUS NEWS
+            </label>
+            <p>1. A violation of this Agreement may result in a legal liability upon you and that nothing in this
+                Agreement should be construed to confer any rights to any third party. You are responsible for your
+                conduct and activities while using the App, and for any consequences thereof.</br>
+                2. If any provision of the Agreement is found to be unenforceable under the applicable law, it will not
+                affect the enforceability of the other provisions of this Agreement. If any provision of this Agreement
+                is held to be invalid or unenforceable, such provision shall be deemed superseded by a valid enforceable
+                provision that most closely matches the intent of the original provision and the remaining provisions
+                shall be enforced.</br>
+                3. We may choose to not act with respect to a breach of this Agreement by You or others but this does
+                not mean that We cannot act with respect to subsequent or similar breaches. Our intended or intended
+                failure to exercise or enforce any provision of this Agreement shall not constitute a waiver of such
+                right or provision.
+            </p>
+
+            <label>
+                E. USING THE APP
+            </label>
+            <p>
+                1. You will download and install the App for using it. You will also download and update the relevant
+                latest versions of the App and any relevant updates provided by Us to avail continued access to the
+                App.</br>
+                2. While the App is available to You free of cost, We may amend these Terms and impose a cost on the App
+                in future. We donot promise to but will try our best to give You a prior notice in this regard.</br>
+                3. You will use the App only for such purposes as is permitted by (a) this Agreement; and (b) any law,
+                regulation or generally accepted practices or guidelines applicable in the country of which You are a
+                citizen, in which You are a resident or from where You use the App.</br>
+                4. For Your use of the App, Argus News grants You a limited, non-exclusive, non-transferable right to
+                install and use the App on Your android device. However, You shall not copy the App or any of its
+                components, except for the purpose of making a single archival back up copy.</br>
+                5. Argus News also grants you a non-exclusive, non-transferable license to access such content on the
+                App which is owned by Argus News. For using any content owned by a third party, You still require a
+                license from such third party, We donâ€™t license such content to You and Your use of content owned by a
+                third party is governed by applicable terms and conditions prescribed by such third party.
+            </p>
+
+            <label>
+                F. RESTRICTIONS ON YOUR USE
+            </label>
+            <p>
+                1. You will not use the App or any content provided thereof for any purpose that is illegal, unlawful or
+                prohibited by this Agreement.</br>
+                2. You will not access (or attempt to access) the content provided through the App by any means other
+                than through the App, unless You have been specifically allowed to do so in a separate written agreement
+                with Argus News</br>
+                3. You will not redistribute, sublicense, rent, publish, sell, assign, lease, market, transfer, or
+                otherwise make the App or any component or content thereof, available to third parties.</br>
+                4. You will not circumvent or disable any digital rights management, usage rules, or other security
+                features of App; remove, alter, or obscure any proprietary notices (including copyright notices) on any
+                portion of the App; and not use the App in a manner that threatens the integrity, performance, or
+                availability of the App.</br>
+                5. You will not attempt to or engage in any activity that may:</br>
+                (a) reverse engineer, decompile or otherwise extract the source code related to the App or any part
+                thereof, unless it is expressly permitted by Argus News to You in writing or is required by the
+                applicable law;</br>
+                (b) Use any robot, spider, retrieval application, or other device to retrieve or index any portion of
+                the App or content thereof;</br>
+                (c) Collect information about users of the App for any illegal or unlawful purpose;</br>
+                (d) Create any user accounts by automated means or under false or fraudulent pretences for using the
+                App;</br>
+                (e) Transmit any viruses, worms, defects, trojan horses, or any items of a destructive nature through
+                the App;</br>
+                (f) use the App in any manner that could damage, disable, overburden, or impair, or undertake any action
+                which is harmful or potentially harmful to, any of the servers, networks, computer systems or resources
+                connected to any of the servers connected, directly or indirectly to the App, or interfere with any
+                other third party's use and enjoyment of the App;</br>
+                (g) carry out any denial of service (DoS, DDoS) or any other harmful attacks on the App or; disrupt or
+                place unreasonable burdens or excessive loads on, or interfere with or attempt to make, or attempt any
+                unauthorized access to the App or any part of the App or any user of the App;</br>
+                (h) Forge headers or otherwise manipulate identifiers in order to disguise the origin of any content
+                transmitted through the App; or</br>
+                (i) Obtain any materials or information through any means not intentionally made available, in the
+                opinion of Argus News, through the App.</br>
+                6. You will not impersonate another person or impersonate, guide or host on behalf of, or falsely state
+                or otherwise misrepresent Your affiliation with any person or entity, including, but not limited to Our
+                officials, employees, agents, partners, affiliates, dealers and franchisees.
+            </p>
+            <label>
+                G. TERMINATION
+            </label>
+            <p>
+                1. Your access to the App may be terminated if:</br>
+                (a) You voluntarily uninstall the App from Your device;</br>
+                (b) You knowingly or unknowingly cause direct or indirect breach, as ascertained by Argus news, of these
+                Terms or Privacy Policy as a whole or in part; or</br>
+                (c) You do not pay the requisite fee, if any, should Argus News charge for use of the App.</br>
+                2. We may have to terminate your access to the App if:</br>
+                (a) We are required to do so by law (for example, where the access to and/or provision of the App to You
+                becomes, unlawful);</br>
+                (b) The third party, if any, with whom We offered the App to You has terminated its relationship with Us
+                or ceased to offer the related services to Us or to You;</br>
+                (c) The provision of App to You, is no longer commercially viable or feasible for us; or</br>
+                (d) You are a repeat infringer of this Agreement.</br>
+                3. We may terminate this Agreement at any time, with or without notice and may procure disabling Your
+                access to the App and/or barring You from any future use of the App.</br>
+
+                4. You may terminate this Agreement at any time by terminating Your access to the App. However, Your
+                certain obligations under this Agreement shall continue to prevail even on such termination.</br>
+                5. When this Agreement comes to an end, all of the legal rights, obligations and liabilities that You
+                and Argus News have benefited from, been subject to (or which have accrued over time whilst the
+                Agreement has been in force) or which are expressed to continue indefinitely, shall be unaffected by
+                this cessation, and shall continue to apply to such rights, obligations and liabilities indefinitely.
+            </p>
+            <label>
+                H. INTELLECTUAL PROPERTY
+            </label>
+            <p>
+                1. Your use of the App is, and at all times shall be, governed by and subject to the laws regarding
+                copyright, trademark, patent, and trade secret ownership and use of intellectual property. You agree to
+                abide by laws regarding copyright, trademark, patent, and trade secret ownership and use of intellectual
+                property, and You shall be solely responsible for any violations of any laws and for any infringements
+                of any intellectual property rights caused by Your use of the App through Your device.</br>
+                2.Argus News owns and retains all the intellectual property rights to the summarized content made
+                available to You through the App by Argus News but does not claim ownership rights to the original
+                sources of information, which are instead held by the sites to which the App may link You.</br>
+                3. All trademarks, brands and service marks of the App are the property of Argus News only. Argus News
+                owns all of the copyrights and database in relation to the App.</br>
+                4. The App and any underlying technology or software used in connection with the App may contain rights
+                of Argus News or its affiliates or any third party. For use of any third partyâ€™s intellectual
+                property, You may need to get permission directly from the owner of the intellectual property.</br>
+                5. Any intellectual property which is not specifically mentioned to be owned by Argus News is owned by
+                their respective owners and the owners have a right to take appropriate actions against You for any
+                violation, infringement or passing off.</br>
+                6. Argus News respects the intellectual property rights of others and does not hold any responsibility
+                for any violations of any intellectual property rights by You.
+            </p>
+            <label>
+                I. PRIVACY
+            </label>
+            <p>
+                1. Our Privacy Policy explains how We treat Your personal data and protect Your privacy when You use the
+                App. By using the App, You agree that We can use such data according to Privacy Policy.</br>
+                2. You are responsible for maintaining the confidentiality of passwords associated with any device You
+                use to access the App. Accordingly, You are solely responsible for all activities that occur with Your
+                device. If You become aware of any unauthorized use of Your device, You will notify the relevant
+                authorities as soon as possible.
+
+            </p>
+            <label>
+                J. LIMITATION OF LIABILITY AND INDEMNIFICATION
+            </label>
+            <p>
+                1. Your use of the App or any content available thereof is entirely at Your own risk and We shall not be
+                liable for any direct, indirect, incidental, consequential, special, exemplary, punitive, monetary or
+                any other damages, fees, fines, penalties or liabilities whatsoever arising out of or relating to Your
+                use of the App.</br>
+                2. You may terminate Your access to the App if You are not satisfied with the App.</br>
+                3. You shall defend, indemnify and hold Argus News, and its officers, directors, employees,
+                representatives and agents harmless from and against any claims, actions, demands, liabilities,
+                judgments, and settlements, including without limitation, reasonable legal fee that may result from or
+                alleged to result from (a) Your use of the App; or (b) Your breach of any rules, regulations and/or
+                orders under any applicable law.</br>
+                4. You are also responsible for any breach of Your obligations under the Agreement and/or for the
+                consequences of any such breach.
+            </p>
+            <label>
+                K. NO WARRANTIES
+            </label>
+            <p>
+                1. We shall make our best efforts to make the App available to You in the best possible manner. However,
+                We disclaim all warranties in relation to the App, whether express or implied, including but not limited
+                to:</br>
+                (a) the App being constantly available or available at all;</br>
+                (b) installation or un-installation choices in relation to the App being successfully executed in all
+                cases;</br>
+                (c) that App will always function without disruptions, delay or errors;</br>
+                (d) Your personal ability to use the App;</br>
+                (e) Your satisfaction with the use of the App;</br>
+                (f) the accuracy of the data provided by the App;</br>
+                (g) the security and privacy of Your data;</br>
+                (h) that all bugs or errors in relation to the App will be corrected;</br>
+                (i) that the App will be compatible with all devices and all networks;</br>
+                (j) that the App is fit for a particular purpose or use; or</br>
+                (k) that the App and the contents thereof are accessible in every location.</br>
+                2. Argus News, its officers, directors, employees, affiliates and agents and any other service provider
+                responsible for providing access to the App in connection with this Agreement will not be liable for any
+                acts or omissions, including of a third party, and including those vendors participating in Argus News’s
+                offerings made to You, or for any unauthorized interception of data or breaches of this Agreement
+                attributable in part to the acts or omissions of third parties, or for damages associated with Argus
+                News, or equipment that it does not furnish, or for damages that result from the operation systems,
+                equipment, facilities or services provided by third parties that are interconnected with Argus News.
+            </p>
+            <label>
+                L. GOVERNING LAW AND DISPUTE RESOLUTION
+            </label>
+            <p>
+                1. The App may be controlled and operated through any country and may be subject to the laws of that
+                country in which they are controlled and operated. If You use the App from any location, then, You are
+                responsible for compliance with the local laws applicable to You.</br>
+                2. This Agreement shall be governed by and shall be construed in accordance with the laws of India. All
+                disputes relating to this Agreement shall be settled in the courts located at Bangalore, India.</br>
+                3. You and Argus News agree that any cause of action arising out of Your use of the App must be
+                commenced within 3 (three) months after the cause of action accrues or You become aware of the facts
+                giving rise to the cause of action, whichever is later. Otherwise, such cause of action shall be
+                permanently barred.
+            </p>
+            <label>
+                M. NOTICES
+            </label>
+            <p>
+                1. Argus News may post notices within the App or send you notices on the e-mail address or the telephone
+                number that You may have shared with Us. You will have received such notices within 3 (three) days of Us
+                sending the notice. Your continued use of the App on expiry of such 3 (three) days shall constitute Your
+                receipt and acceptance of the notices sent to You.
+            </p>
+            <label>
+                N. DISCLAIMER
+            </label>
+            <p>
+                1. The contents provided through the App may include technical inaccuracies or typographical errors.
+                Argus News may make changes or improvements to the App at any time. The contents or any information
+                available on the App is provided "as is" and "as available" and without warranties of any kind either
+                expressed or implied, to the fullest extent permissible pursuant to applicable law. Argus News does not
+                warrant that the functions contained in the contents will be uninterrupted or error-free, that defects
+                will be corrected, or the servers that make them available, are free of viruses or other harmful
+                components. Argus News makes no commitment to update the materials on the interface. The above exclusion
+                may not apply to You, to the extent that applicable law may not allow the exclusion of implied
+                warranties. Argus News shall not be liable for any misuse or data theft as a consequence of Your use of
+                the App.</br>
+                2. THE APP, AND ALL NEWS CONTENTS ACCESSED THROUGH THE APP, ARE PROVIDED "AS IS", "AS AVAILABLE", AND
+                "WITH ALL FAULTS".</br>
+                3. YOU EXPRESSLY REPRESENT AND WARRANT THAT YOU WILL NOT USE THE APP IF YOU DO NOT UNDERSTAND, AGREE TO
+                BECOME A PARTY TO, AND ABIDE BY ALL THE TERMS SPECIFIED IN THIS AGREEMENT. ANY VIOLATION OF THIS
+                AGREEMENT MAY RESULT IN LEGAL LIABILITY UPON YOU. NOTHING IN THE AGREEMENT SHOULD BE CONSTRUED TO CONFER
+                ANY RIGHTS TO ANY THIRD PARTY OR ANY OTHER PERSON.
+            </p>
+        </div>
+    </div>
+    <div class="tc-end"></div>
+
+</div>
+
+    {% if request.user_agent.is_mobile %}
+        {% include "components/mobile_web_footer.html" %}
+    {% endif %}
+
+{% endblock %}

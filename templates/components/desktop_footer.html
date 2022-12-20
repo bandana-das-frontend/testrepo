@@ -1,0 +1,55 @@
+{% load i18n %}
+
+<div id='desktop_base_footer'>
+    <div class="footer_container">
+        <div class="footer_topics">
+            {% for meet in people_to_meet %}
+                <a href="/{{ language_code }}/topics/{{ meet.url_path|safe }}">
+                    <div class="footer-meet-name">{{ meet.name|safe }}</div>
+                </a>
+                {% if not forloop.last %}
+                    <span class="dot"></span>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="footer_static_data">
+            <div class="footer_logo_static_pages">
+                <a href="/">
+                    <img class="footer_logo" src="/app/static/img/argus_footer_logo.svg" alt="footer logo">
+                </a>
+                <div class="static_copyright_pages">
+                    <div class="static_content">
+                        <a class="footer-components" href="/about-us">{% trans 'About' %}</a>
+                        <a class="footer-components" href="/jobs">{% trans 'Jobs' %}</a>
+                        <a class="footer-components" href="/privacy-policy"> {% trans 'Privacy' %}</a>
+                        <a class="footer-components" href="/terms-of-use"> {% trans 'Terms' %}</a>
+                        <a class="footer-components" href="/contact-us"> {% trans 'Contact Us' %}</a>
+                    </div>
+                    <div class="footer_copyright">
+                        <span>Copyright © {% now 'Y' %} Argus News | Pratham Broadcast India Pvt. Ltd. | All right reserved.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer_app_social_section">
+                <div class="footer_social_media_sec">
+                    <div>FOLLOW US ON</div>
+                    <a title="Facebook" href="https://www.facebook.com/argusnews.in" target="_blank"><img
+                            src="/app/static/img/footer_fb_logo.svg"></a>
+                    <a title="Twitter" href="https://twitter.com/ArgusNews_in" target="_blank"><img
+                            src="/app/static/img/footer_twitter_logo.svg"></a>
+                    <a title="Youtube" href="https://www.youtube.com/c/TheArgusNewsOdia/featured" target="_blank"><img
+                            src="/app/static/img/footer_yt_logo.svg"></a>
+                    <a title="Rss feed" href="https://www.instagram.com/argusnewsin/"  target="_blank"><img
+                            class="social-media-instagram-icon" src="/app/static/img/instagram_app_icon.svg"></a>
+                </div>
+                <div class="footer_app_download">
+                    <div>DOWNLOAD APP</div>
+                    <a target="_blank" href="https://argusnews.in/download">
+                        <img src="/app/static/img/desktop_header_app_download_prompt.svg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<div id="footer_move_top" title="Move to top"><img src="/app/static/img/move_top_arrow.svg"></div>
+</div>

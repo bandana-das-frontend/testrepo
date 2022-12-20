@@ -1,0 +1,251 @@
+{% load filters %}
+{% load cache %}
+<section>
+    <div data-controller="load_more" class="comments-wrapper" id="comments-wrapper">
+        <div class=" bg-white mb-3">
+            {% if not request.user_agent.is_mobile %}
+
+            <div class="right-section-top-2">
+                {% include "components/home_page/desktop_square_ad.html" %}
+                {% include "components/social_media_stats.html" %}
+            </div>
+
+                {% include "components/home_page/newsletter_card.html" %}
+            {% endif %}
+            {% if recommended_posts %}
+            <div class="recommended-head">RECOMMENDED FOR YOU</div>
+
+            <div id="carousel-rs" class="carousel slide recommended-container" data-ride="carousel" data-interval="3000">
+                <div class="carousel-inner">
+                    {% for recommended in recommended_posts %}
+                    {% if forloop.counter == 1 %}
+                {% cache request.cache_time "recommended_" recommended.id recommended.edited_datetime %}
+                    <div class="carousel-item active">
+                        <a href="/article/{{ recommended.people_to_meet.all.0.url_path|urlencode|safe }}/{{ recommended.unique_url|urlencode|safe }}">
+                            <div class="recommended-card">
+                                <img class="recommended-image shimmer-effect" src="{{ recommended.get_image }}" alt="{{ recommended.title.strip|safe }}"/>
+                                <div class="recommended-gradient-overlay">
+                                </div>
+                                <div class="recommended-title">
+                                    {{ recommended.title.strip|safe }}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endcache %}
+                    {% else %}
+                {% cache request.cache_time "recommended_" recommended.id recommended.edited_datetime %}
+                    <div class="carousel-item">
+                        <a href="/article/{{ recommended.people_to_meet.all.0.url_path|urlencode|safe }}/{{ recommended.unique_url|urlencode|safe }}">
+                            <div class="recommended-card">
+                                <img class="recommended-image shimmer-effect" src="{{ recommended.get_image }}" alt="{{ recommended.title.strip|safe }}"/>
+                                <div class="recommended-gradient-overlay">
+                                </div>
+                                <div class="recommended-title">
+                                    {{ recommended.title.strip|safe }}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endcache %}
+                    {% endif %}
+
+                    {% endfor %}
+                </div>
+
+                <ol class="carousel-indicators">
+                    {% for recommended in recommended_posts %}
+                    {% if forloop.counter == 1 %}
+                    <li data-target="#carousel-rs" data-slide-to="{{ forloop.counter|get_loop_index }}" class="paging-dot active"></li>
+                    {% else %}
+                    <li data-target="#carousel-rs" data-slide-to="{{ forloop.counter|get_loop_index }}" class="paging-dot"></li>
+                    {% endif %}
+                    {% endfor %}
+                </ol>
+                <div style="display: flex;">
+                    <a class="carousel-control-prev rs-prev-nav" href="#carousel-rs" role="button" data-slide="prev" >
+                        <span  aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next rs-next-nav" href="#carousel-rs" role="button" data-slide="next">
+                        <span  aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+
+            {% endif %}
+
+
+            <div class="top-stories-container">
+
+                <div class="ts-title">TOP STORIES</div>
+
+                <div id="carousel-ts" class="carousel slide" data-ride="carousel" data-interval="3000">
+                    <div class="carousel-inner">
+                        {% for post_tuple in arr_of_post_tuples %}
+                        {% if forloop.counter == 1 %}
+
+                        <div class="carousel-item active">
+                            <div class="ts-post-container">
+                             {% cache request.cache_time "topstories_" post_tuple|get_id_from_post_tuple:0 post_tuple|get_edited_time_from_post_tuple:0 %}
+                                <a href="/article/{{ post_tuple|get_people_to_meet_from_post_tuple:0|urlencode|safe }}/{{ post_tuple|get_unique_url_from_post_tuple:0|urlencode|safe }}">
+                                    <div class="ts-post-card">
+                                        <div class="ts-post-image-container">
+                                            <img class="ts-post-image shimmer-effect" src="{{ post_tuple|get_image_from_post_tuple:0 }}" alt="{{ post_tuple|get_title_from_post_tuple:0 }}" />
+                                        </div>
+
+                                        <div class="ts-post-content">
+                                            <div class="topic-timestamp ts-topic-timestamp">
+                                                <div class="ts-post-topic">
+                                                    {{ post_tuple|get_label_from_post_tuple:0|truncatechars:25|safe }}
+                                                </div>
+                                                {# Check only if minute time unit present in publish date time of the post, if present show publish datetime #}
+                                                {# else hide the publish date time in any other case  #}
+                                                {% if "0m" == post_tuple.0.published_date|timesince|upto|safe %}
+                                                    <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                                    <div class="ts-timestamp">now</div>
+                                                {% elif 'min' in post_tuple.0.published_date|timesince and 'hour' not in post_tuple.0.published_date|timesince %}
+                                                    <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                                    <div class="ts-timestamp">
+                                                        {{ post_tuple|get_publish_time_from_post_tuple:0|timesince|upto|safe }} ago</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="ts-post-title">
+                                                {{ post_tuple|get_title_from_post_tuple:0 }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            {% endcache %}
+                                <div class="ts-post-divider"></div>
+                            {% cache request.cache_time "topstories_" post_tuple|get_id_from_post_tuple:1 post_tuple|get_edited_time_from_post_tuple:1 %}
+                                <a href="/article/{{ post_tuple|get_people_to_meet_from_post_tuple:1|urlencode|safe }}/{{ post_tuple|get_unique_url_from_post_tuple:1|urlencode|safe }}">
+                                    <div class="ts-post-card">
+                                        <div class="ts-post-image-container">
+                                            <img class="ts-post-image shimmer-effect" src="{{ post_tuple|get_image_from_post_tuple:1 }}" alt="{{ post_tuple|get_title_from_post_tuple:1 }}" />
+                                        </div>
+
+                                        <div class="ts-post-content">
+                                            <div class="topic-timestamp ts-topic-timestamp">
+                                                <div class="ts-post-topic">
+                                                    {{ post_tuple|get_label_from_post_tuple:1|truncatechars:25|safe }}
+                                                </div>
+                                                {# Check only if minute time unit present in publish date time of the post, if present show publish datetime #}
+                                                {# else hide the publish date time in any other case  #}
+                                                {% if "0m" == post_tuple.1.published_date|timesince|upto|safe %}
+                                                    <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                                    <div class="ts-timestamp">now</div>
+                                                {% elif 'min' in post_tuple.1.published_date|timesince and 'hour' not in post_tuple.1.published_date|timesince %}
+                                                    <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                                    <div class="ts-timestamp">
+                                                        {{ post_tuple|get_publish_time_from_post_tuple:1|timesince|upto|safe }} ago</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="ts-post-title">
+                                                {{ post_tuple|get_title_from_post_tuple:1 }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endcache %}
+                            </div>
+                        </div>
+
+                        {% else %}
+                        <div class="carousel-item">
+                            <div class="ts-post-container">
+                             {% cache request.cache_time "topstories_" post_tuple|get_id_from_post_tuple:0 post_tuple|get_edited_time_from_post_tuple:0 %}
+                                <a href="/article/{{ post_tuple|get_people_to_meet_from_post_tuple:0|urlencode|safe }}/{{ post_tuple|get_unique_url_from_post_tuple:0|urlencode|safe }}">
+                                    <div class="ts-post-card">
+                                        <div class="ts-post-image-container">
+                                            <img class="ts-post-image shimmer-effect" src="{{ post_tuple|get_image_from_post_tuple:0 }}" alt="{{ post_tuple|get_title_from_post_tuple:0 }}"/>
+                                        </div>
+
+                                        <div class="ts-post-content">
+                                            <div class="topic-timestamp ts-topic-timestamp">
+                                                <div class="ts-post-topic">
+                                                    {{ post_tuple|get_label_from_post_tuple:0|truncatechars:25|safe }}
+                                                </div>
+                                                {# Check only if minute time unit present in publish date time of the post, if present show publish datetime #}
+                                                {# else hide the publish date time in any other case  #}
+                                                {% if "0m" == post_tuple.0.published_date|timesince|upto|safe %}
+                                                    <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                                    <div class="ts-timestamp">now</div>
+                                                {% elif 'min' in post_tuple.0.published_date|timesince and 'hour' not in post_tuple.0.published_date|timesince %}
+                                                    <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                                    <div class="ts-timestamp">
+                                                        {{ post_tuple|get_publish_time_from_post_tuple:0|timesince|upto|safe }} ago</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="ts-post-title">
+                                                {{ post_tuple|get_title_from_post_tuple:0 }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            {% endcache %}
+                                <div class="ts-post-divider"></div>
+                             {% cache request.cache_time "topstories_" post_tuple|get_id_from_post_tuple:1 post_tuple|get_edited_time_from_post_tuple:1 %}
+                                <a href="/article/{{ post_tuple|get_people_to_meet_from_post_tuple:1|urlencode|safe }}/{{ post_tuple|get_unique_url_from_post_tuple:1|urlencode|safe }}">
+                                    <div class="ts-post-card">
+                                        <div class="ts-post-image-container">
+                                            <img class="ts-post-image shimmer-effect" src="{{ post_tuple|get_image_from_post_tuple:1 }}" alt="{{ post_tuple|get_title_from_post_tuple:1 }}"/>
+                                        </div>
+
+                                        <div class="ts-post-content">
+                                            <div class="topic-timestamp ts-topic-timestamp">
+                                                <div class="ts-post-topic">
+                                                    {{ post_tuple|get_label_from_post_tuple:1|truncatechars:25|safe }}
+                                                </div>
+                                                {# Check only if minute time unit present in publish date time of the post, if present show publish datetime #}
+                                                {# else hide the publish date time in any other case  #}
+                                                 {% if "0m" == post_tuple.1.published_date|timesince|upto|safe %}
+                                                    <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                                    <div class="ts-timestamp">now</div>
+                                                {% elif 'min' in post_tuple.1.published_date|timesince and 'hour' not in post_tuple.1.published_date|timesince %}
+                                                    <span class="ts-topic-timestamp-dot topic-timestamp-dot"></span>
+                                                    <div class="ts-timestamp">{{ post_tuple|get_publish_time_from_post_tuple:1|timesince|upto|safe }} ago</div>
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="ts-post-title">
+                                                {{ post_tuple|get_title_from_post_tuple:1 }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                             {% endcache %}
+                            </div>
+                        </div>
+
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="ts-paging-dot-conatiner">
+                        <ol class="carousel-indicators">
+                            {% for post_tuple in arr_of_post_tuples %}
+                            {% if forloop.counter == 1 %}
+                            <li data-target="#carousel-ts" data-slide-to="{{ forloop.counter|get_loop_index }}" class="ts-paging-dot active"></li>
+                            {% else %}
+                            <li data-target="#carousel-ts" data-slide-to="{{ forloop.counter|get_loop_index }}" class="ts-paging-dot"></li>
+                            {% endif %}
+                            {% endfor %}
+                        </ol>
+
+                        <div style="display: flex;">
+                            <a class="carousel-control-prev" href="#carousel-ts" role="button" data-slide="prev">
+                                <span class="icon-arrow-previous" aria-hidden="true"></span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel-ts" role="button" data-slide="next">
+                                <span class="icon-arrow-next" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

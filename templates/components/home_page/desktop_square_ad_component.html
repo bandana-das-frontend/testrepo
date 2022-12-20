@@ -1,0 +1,102 @@
+{% load filters %}
+{% if community.enable_ads  and not request.user_agent.is_mobile %}
+    <div class="right-ad-div">
+        <div class="desktop-ads-right">
+            <div id="carousel-desktop-square-ad" class="bg-white">
+
+                <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+                    <script>
+                      window.googletag = window.googletag || {cmd: []};
+                      googletag.cmd.push(function() {
+                        googletag.defineSlot('/78016009/website_square_ad', [300, 250], 'div-gpt-ad-1659505171267-0-{{ div_id }}').addService(googletag.pubads());
+                        {#googletag.pubads().collapseEmptyDivs();#}
+
+                          googletag.pubads().enableSingleRequest();
+                        googletag.enableServices();
+                      });
+                    </script>
+
+
+                    <!-- /78016009/website_square_ad -->
+                    <div id='div-gpt-ad-1659505171267-0-{{ div_id }}' style='min-width: 300px; min-height: 250px;'>
+                      <script>
+                        googletag.cmd.push(function() {
+                            googletag.pubads().clear()
+                            googletag.display('div-gpt-ad-1659505171267-0-{{ div_id }}'); });
+                      </script>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+{#    {% if desktop_square_ads %}#}
+{#        <div class="right-ad-div">#}
+{#            <div class="desktop-ads-right">#}
+{#                <div id="carousel-desktop-square-ad" class="carousel slide bg-white " data-ride="carousel">#}
+{#                    <div class=" bg-white carousel-inner">#}
+{#                        {% for desktop_square_ad in desktop_square_ads %}#}
+{#                            {% if forloop.counter == 1 %}#}
+{#                                <div class="carousel-item active" onclick='update_ad_clicks({{ desktop_square_ad.id }})'>#}
+{#                                    <a target="_blank" href="{{ desktop_square_ad.ad_link }}">#}
+{#                                        <img class="lazyload" data-src="{{ desktop_square_ad.ad_image|get_webp_format_image }}" alt="creative1"#}
+{#                                             height="250">#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            {% else %}#}
+{#                                <div class="  carousel-item" onclick='update_ad_clicks({{ desktop_square_ad.id }})'>#}
+{#                                    <a target="_blank" href="{{ desktop_square_ad.ad_link }}">#}
+{#                                        <img class="lazyload" data-src="{{ desktop_square_ad.ad_image|get_webp_format_image }}" alt="creative2"#}
+{#                                             height="250">#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+{#                    </div>#}
+{#                    {% if not desktop_square_ads|length == 1 %}#}
+{#                        <ol class="carousel-indicators" id="desktop-square-ads-carousel-indicators">#}
+{#                            {% for desktop_square_ad in desktop_square_ads %}#}
+{#                                {% if forloop.counter == 1 %}#}
+{#                                    <li data-target="#carousel-desktop-square-ad" data-slide-to="{{ forloop.counter|get_loop_index }}"#}
+{#                                    class="paging-dot active"></li>#}
+{#                                {% else %}#}
+{#                                    <li data-target="#carousel-desktop-square-ad" data-slide-to="{{ forloop.counter|get_loop_index }}"#}
+{#                                    class="paging-dot"></li>#}
+{#                                {% endif %}#}
+{#                            {% endfor %}#}
+{#                        </ol>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#    {% elif community.enable_google_ads and google_square_ad %}#}
+{#        <div class="right-ad-div bg-white">#}
+{#            <div class="desktop-ads-right" id="{{ google_square_ad.ad_unit_id }}"#}
+{#                 style='width: {{ google_square_ad.ad_width }}px; height: {{ google_square_ad.ad_height }}px;'>#}
+{##}
+{#            </div>#}
+{#        </div>#}
+{#        <script>#}
+{#            $(document).ready(function () {#}
+{#                window.googletag = window.googletag || {cmd: []};#}
+{#                googletag.cmd.push(function () {#}
+{#                    googletag.defineSlot("{{ google_square_ad.ad_unit_path }}", [{{ google_square_ad.ad_width }}, {{ google_square_ad.ad_height }}], "{{ google_square_ad.ad_unit_id }}")#}
+{#                        .addService(googletag.pubads());#}
+{#                    googletag.pubads().enableSingleRequest();#}
+{#                    googletag.pubads().collapseEmptyDivs(true);#}
+{#                    googletag.enableServices();#}
+{#                });#}
+{#                $('.desktop-ads-right').show();#}
+{#                $(".desktop-ads-right").empty();#}
+{#                googletag.cmd.push(function () {#}
+{#                    googletag.display("{{ google_square_ad.ad_unit_id }}");#}
+{#                });#}
+{#                if  ($.trim($('.desktop-ads-right').text()) == "") {#}
+{#                    $('.desktop-ads-right').hide();#}
+{#                }#}
+{#            });#}
+{#        </script>#}
+{#    {% endif %}#}
+
+{% endif %}

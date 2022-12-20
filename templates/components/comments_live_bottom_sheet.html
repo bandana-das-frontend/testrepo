@@ -1,0 +1,90 @@
+{% load filters %}
+
+<div class="modal fade" id="comments-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg w-100 modal-dialog-centered animate-bottom" role="document">
+        <div class="position-relative">
+            <div data-controller="videoDetails" class="comments-wrapper" id="comments-mobile-wrapper">
+                <input data-target="videoDetails.video" type="hidden" value="{{ live_id }}">
+                <div class="modal-content comments-modal-content position-fixed">
+                    <div class="comments-modal-header">
+                        <button type="button" class="close-comments-modal" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                <img src="/app/static/img/close_comments_modal.svg" height="12" width="12" alt="Close icon" />
+                            </span>
+                        </button>
+
+                        <div class="comments-thin-line"></div>
+
+                        <div class="d-flex justify-content-start align-items-center num_comments_bs_wrapper">
+                            {% if total_comments != 1 %}
+                                <div class="comments-footer-count">{{ total_comments }}</div>
+                                <div class="comment-footer-text">Comments</div>
+                            {% else %}
+                                <div class="comments-footer-count">{{ total_comments }}</div>
+                                <div class="comment-footer-text">Comment</div>
+                            {% endif %}
+                        </div>
+
+                        <div data-controller="comments" class="write-comment d-flex align-items-center position-relative">
+                            {% csrf_token %}
+                            <input data-target="comments.post" type="hidden" value="{{ live_id }}">
+                            <input data-target="comments.type" type="hidden" value="live">
+                            <input class="write-comment-hint" data-target="comments.comment_text" type="text"
+                                {% if not request.user.is_authenticated %} 
+                                    data-action="click->comments#open_login_prompt"
+                                {% endif %}
+                                    placeholder="Write a comment..." required />
+                            <input 
+                                {% if request.user.is_authenticated %} 
+                                    data-action="click->comments#write_comment" class="cursor-pointer"
+                                {% else %}
+                                    disabled 
+                                {% endif %}
+                                type="image" src="/app/static/img/post_a_comment.svg"
+                                border="0" alt="Submit" />
+                        </div>
+                    </div>
+                
+                    <div id="comments-mobile-card">
+                        {% for comment in comments %}
+                            <div data-controller="comments">
+                                <div>
+                                    <div class="card-title">
+                                        <img class="rounded-circle" src="{{ comment.created_by.get_profile_picture }}" alt="image">
+                                        <span class="name">
+                                            {{ comment.created_by.get_full_name }}
+                                        </span>
+                                        <span class="comment-duration">
+                                            {{ comment.created | timesince | upto }}
+                                        </span>
+                                    </div>
+                                    {% if comment.text|cut:" "|length > 200 %}
+                                        <span class="card-text truncated-comment comment" data-target="comments.truncated_comment"
+                                                id="truncated-comment">{{ comment.text | safe}}
+                                        </span>
+                                        <button class="card-text comment more-button" data-target="comments.show_comment"
+                                            data-action="click->comments#expand" id="show-comment">more
+                                        </button>
+                                    {% else %}
+                                        <span class="card-text comment">{{ comment.text | safe }}</span>
+                                    {% endif %}
+                                    <div class="comment-buttons">
+                                        <span class="comments-like">
+                                            <input type="image" src="/app/static/img/comments_like.svg" border="0" alt="Submit"/>
+                                            <span class="like-label">Like {{ comment.likes | safe }}</span>
+                                        </span>
+                                        <span class="comments-reply">
+                                            <input type="image" src="/app/static/img/comments_reply.svg" border="0" alt="Submit"/>
+                                            <span class="reply-label">Reply</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment-end"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

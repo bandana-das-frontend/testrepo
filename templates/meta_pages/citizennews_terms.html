@@ -1,0 +1,63 @@
+{% extends 'base.html' %} 
+
+{% block head %}
+    <meta property="og:image" content="{{ community.get_og_image }}" />
+    <meta property="og:title" content="{{ community.og_title }}">
+    <meta property="og:description" content="{{ community.og_description }}" />
+    <!--for twitter-->
+    <meta property='twitter:title' content="{{ community.og_title }}">
+    <meta property='twitter:image' content="{{ community.get_og_image }}" />
+    <meta name="twitter:card" content="summary_large_image"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="citizen-terms-page">
+        <div class="container citizen-news-terms">
+            <div class="title">
+                Terms and conditions for submitting content
+            </div>
+            <div class="description">
+                &nbsp; Through the&nbsp;Citizen&nbsp;Journalism forum, you can submit content for publication & circulation
+                on the Argus platform.<br>
+                <br>
+                These are our&nbsp;terms&nbsp;and conditions by which you agree to be bound should you submit any content to
+                us for publication, including any letters, comments or other correspondence, graphics, data and images you
+                may wish to send to us.<br>
+                <br>
+                You may submit letters, comments or other correspondence, graphics, videos, data and images etc.<br>
+                <br>
+                When you submit any content to us, you represent that the content is being created by you and not copyright
+                property of any organization or individual or that you have prior permission from the owner of the
+                content.&nbsp;<br>
+                <br>
+                You or the owner of the content still own the copyright of the content sent to us but by submitting it to
+                us, you are granting us an unconditional, irrevocable, non-exclusive, royalty-free, fully transferable,
+                perpetual worldwide license to use, publish or transmit, or to authorize third-parties to use, publish or
+                transmit your content in any format and on any platform.<br>
+                <br>
+                You acknowledge and agree that when you provide us with content, or view content provided by others, you are
+                doing so at your own discretion and risk, including any reliance on the accuracy, completeness, of this
+                content.<br>
+                <br>
+                You further acknowledge and agree that the views expressed by you and other users in this content do not
+                necessarily reflect the views of Argus&nbsp;News&nbsp;App, and we do not support or endorse any user
+                content. You acknowledge that we have no obligation to pre-screen, monitor, review, or edit any content
+                provided by you and other users to us.<br>
+                <br>
+                We, or authorized third parties, reserve the right to refuse to publish, cut, crop or edit your content at
+                our or their sole discretion. We may remove your content from use at any time. We accept no liability in
+                respect of any content submitted by users and published by us or by authorized third-parties.<br>
+                <br>
+                You warrant that the content you submit to us is not obscene, threatening, harassing, libelous, deceptive,
+                fraudulent, invasive of another's privacy, offensive, defamatory of any person or otherwise illegal. You
+                warrant that the content you submit to us does not infringe any patent, trademark, trade secret, copyright,
+                or other intellectual or proprietary or privacy right of any party or individual.<br>
+                <br>
+                Any queries regarding copyright contact&nbsp;copyright@argusnews.in
+            </div>
+        </div>
+        {% include "components/footer.html" %}
+    </div>
+    
+{% endblock %}

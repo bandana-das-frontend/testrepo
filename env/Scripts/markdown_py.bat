@@ -1,0 +1,1 @@
+@"d:\clean_python2\webapp\env\scripts\python.exe" "d:\clean_python2\webapp\env\Scripts\markdown_py" %*

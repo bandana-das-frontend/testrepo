@@ -1,0 +1,228 @@
+<!--Sign in first Modal-->
+<div class="modal fade" id="sign-in-first-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-width-custom modal-dialog-centered" role="document">
+        <div class="modal-content signup-modal-content position-relative">
+            <div class="brand-name"></div>
+            <button type="button" id="close-first-modal" class="close-modal" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">
+                    <img src="/app/static/img/close_icon.svg" height="24" width="24" alt="Close icon" />
+                </span>
+            </button>
+            <div class="w-100 mx-auto text-left login-hint">Login to participate in Argus</div>
+            <div id="login-with-phone"
+                class="d-flex login-phone w-100 mx-auto justify-content-center align-items-center">
+                <img src="/app/static/img/login_phone.svg" width="36" height="36" alt="Login with phone" />
+                <div class="login-phone-text" data-toggle="modal" data-target="sign-in-phone-modal">Login with Phone
+                </div>
+            </div>
+            <!-- <div class="or-separator w-100 text-center">OR</div>
+            <div class="login-social d-flex w-100 mx-auto justify-content-center align-items-center">
+                <div id="google-login" class="login-google d-flex w-100 justify-content-center align-items-center">
+                    <img class="social-icon" src="/app/static/img/login_google.svg" width="24" height="24"
+                        alt="Login with Google" />
+                    <div class="continue-with-google">Continue with Google</div>
+                </div>
+                <div class="login-fb d-flex w-100 justify-content-center align-items-center">
+                    <img class="social-icon" src="/app/static/img/login_fb.svg" width="24" height="24"
+                        alt="Login with Facebook" />
+                    <div class="continue-with-fb">Continue with Facebook</div>
+                </div>
+            </div> -->
+            {% include "components/modals/signin_modal_footer.html" %}
+        </div>
+    </div>
+</div>
+
+<!--Sign in Phone Modal-->
+<div class="modal fade" id="sign-in-phone-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-width-custom modal-dialog-centered" role="document">
+        <div class="modal-content signup-modal-content position-relative">
+            <div class="brand-name"></div>
+            <button type="button" id="close-phone-modal" class="close-modal" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">
+                    <img src="/app/static/img/close_icon.svg" height="24" width="24" alt="Close icon" />
+                </span>
+            </button>
+
+            <!-- ToDo: Un Comment this later -->
+            
+            <!-- <div class="modal-back-btn-wrapper w-100 mx-auto d-flex justify-content-start align-items-center">
+                <img id="phone-modal-back-icon" class="cursor-pointer" src="/app/static/img/modal_back.svg" alt="Back"
+                    width="8" height="12" />
+                <div id="phone-modal-back-text" class="modal-back-btn cursor-pointer">Login options</div>
+            </div> -->
+
+            <!-- Phone number section -->
+            <div class="enter-phone-hint">Enter your 10 digit mobile number to receive an OTP</div>
+            <div class="w-100 mx-auto d-flex justify-content-start align-items-center">
+                <div class="phone-code-wrapper d-flex justify-content-start align-items-center cursor-default">
+                    <img class="phone-code-content in-flag cursor-default" src="/app/static/img/phone_code_in.png"
+                        alt="Phone code India" width="28" height="28" />
+                    <div class="phone-code-content in-code cursor-default">+91</div>
+                    <!-- <img class="phone-code-content cursor-default" src="/app/static/img/phone_code_dropdown.svg"
+                        alt="Phone code drop down" width="9" height="6" /> -->
+                </div>
+                <div class="phone-num-wrapper cursor-pointer">
+                    <input id="phone_number" class="enter-mobile" type="text" name="phone_number" value=""
+                        placeholder="Enter mobile..." autocomplete="off" />
+                </div>
+                <div id="submit-phone" class="submit-phone cursor-pointer">Submit</div>
+            </div>
+            <div id="phone-error" class="w-100 text-center error-class w-100 text-left visibility-hidden">&nbsp;
+            </div>
+
+            <!-- OTP Section-->
+            <div id="otp-section-wrapper" class="otp-section-wrapper visibility-hidden">
+                <div class="otp-hint-wrapper w-100 mx-auto">
+                    <div class="enter-otp-hint">Enter OTP received on your phone</div>
+                    <div class="d-flex justify-content-start align-items-center">
+                        <div id="change_phone_number" class="otp-option-1">Change number</div>
+                        <div class="otp-options-separator"></div>
+                        <div id="resend_otp" class="otp-option-2">Resend</div>
+                    </div>
+                </div>
+                <div class="otp-submit-wrapper w-100 mx-auto d-flex justify-content-between align-items-center">
+                    <div class="otp-input-wrapper w-100 cursor-pointer">
+                        <input id="otp" class="w-100 enter-otp" type="text" name="otp" placeholder="Enter OTP..."
+                            autocomplete="off" />
+                    </div>
+                    <div id="submit-phone-otp" class="submit-otp-btn cursor-pointer">Login</div>
+                </div>
+            </div>
+            <div id="otp-error" class="w-100 text-center error-class w-100 text-left visibility-hidden">&nbsp;</div>
+            {% include "components/modals/signin_modal_footer.html" %}
+        </div>
+    </div>
+</div>
+
+<!-- User details Modal-->
+<div class="modal fade" id="user-details-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-width-custom modal-dialog-centered" role="document">
+        <div class="modal-content signup-modal-content position-relative">
+            <div class="brand-name"></div>
+            <button type="button" id="close-user-modal" class="close-modal d-none" data-dismiss="modal"
+                aria-label="Close">
+                <span aria-hidden="true">
+                    <img src="/app/static/img/close_icon.svg" height="24" width="24" alt="Close icon" />
+                </span>
+            </button>
+            <div class="tell-us-more-wrapper d-flex justify-content-between align-items-center">
+                <div class="tell-us-more">Tell us a little more about yourself</div>
+                <!-- ToDo Modal Logout button functinality in next release -->
+                <!-- <div class="modal-logout-btn cursor-pointer">Logout</div> -->
+            </div>
+            <div class="name-wrapper d-flex justify-content-between align-items-center">
+                <div class="fname-input-wrapper w-100 cursor-pointer">
+                    <input id="fname" class="w-100 enter-otp" type="text" name="fname" placeholder="First name"
+                        autocomplete="off" />
+                </div>
+                <div class="lname-input-wrapper w-100 cursor-pointer">
+                    <input id="lname" class="w-100 enter-otp" type="text" name="lname" placeholder="Last name"
+                        autocomplete="off" />
+                </div>
+            </div>
+            <div id="name-error" class="error-class w-100 text-left visibility-hidden">&nbsp;</div>
+            <div class="gender-text-wrapper">Gender</div>
+            <div>
+                <div>
+                    <div class="gender-options-wrapper d-flex justify-content-between align-items-center">
+                        <div class="gender-item">
+                            <input class="cursor-pointer" type="radio" id="male" name="gender" value="male">
+                            <label class="ml-11 cursor-pointer" for="male">Male</label><br>
+                        </div>
+                        <div class="gender-item">
+                            <input class="cursor-pointer" type="radio" id="female" name="gender" value="female">
+                            <label class="ml-11 cursor-pointer" for="female">Female</label><br>
+                        </div>
+                        <div class="gender-item">
+                            <input class="cursor-pointer" type="radio" id="others" name="gender" value="others">
+                            <label class="ml-11 cursor-pointer" for="others">Others</label>
+                        </div>
+                    </div>
+                    <div id="gender-error" class="error-class w-100 text-center visibility-hidden">&nbsp;</div>
+                </div>
+            </div>
+            <div id="enter-btn" class="enter-btn-wrapper">
+                <span class="enter-btn">Enter</span>
+                <span class="gt ml-11">&gt;</span>
+            </div>
+            {% include "components/modals/signin_modal_footer.html" %}
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--Sign in Email Modal-->
+<div class="modal fade" id="sign-in-email-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-width-custom modal-dialog-centered" role="document">
+        <div class="modal-content signup-modal-content position-relative">
+            <div class="brand-name"></div>
+            <button type="button" id="close-email-modal" class="close-modal" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">
+                    <img src="/app/static/img/close_icon.svg" height="24" width="24" alt="Close icon" />
+                </span>
+            </button>
+
+            <!-- ToDo: Un Comment this later -->
+
+            <!-- <div class="modal-back-btn-wrapper w-100 mx-auto d-flex justify-content-start align-items-center">
+                <img id="phone-modal-back-icon" class="cursor-pointer" src="/app/static/img/modal_back.svg" alt="Back"
+                    width="8" height="12" />
+                <div id="phone-modal-back-text" class="modal-back-btn cursor-pointer">Login options</div>
+            </div> -->
+
+            <!-- Phone number section -->
+            <div class="enter-email-hint">Enter your email id to receive an OTP</div>
+            <div class="w-100 mx-auto d-flex justify-content-start align-items-center">
+                <div class="email-input-wrapper cursor-pointer">
+                    <input id="user-email" class="enter-email" type="email" name="user_email" value=""
+                        placeholder="Enter Email..." autocomplete="off" />
+                </div>
+                <button id="submit-email" onclick="submit_email()" class="submit-email cursor-pointer" disabled>Submit</button>
+            </div>
+            <div id="user-email-error" class="d-flex w-100 text-center error-class w-100 text-left visibility-hidden">&nbsp;
+            </div>
+
+            <!-- OTP Section-->
+            <div id="email-otp-section-wrapper" class="otp-section-wrapper visibility-hidden">
+                <div class="otp-hint-wrapper w-100 mx-auto">
+                    <div class="enter-otp-hint">Enter OTP received on your Email</div>
+                    <div class="d-flex justify-content-start align-items-center">
+                        <div id="change_email" class="otp-option-1">Change email</div>
+                        <div class="otp-options-separator"></div>
+                        <div id="resend_email_otp" class="otp-option-2">Resend</div>
+                    </div>
+                </div>
+                <div class="otp-submit-wrapper w-100 mx-auto d-flex justify-content-between align-items-center">
+                    <div class="otp-input-wrapper w-100 cursor-pointer">
+                        <input id="email-otp" class="w-100 enter-otp" type="text" name="otp" placeholder="Enter OTP..."
+                            autocomplete="off" />
+                    </div>
+                    <div  id="submit-email-otp" class="submit-otp-btn cursor-pointer">Login</div>
+                </div>
+            </div>
+            <div id="email-otp-error" class="w-100 d-flex text-center error-class w-100 text-left visibility-hidden">&nbsp;</div>
+            {% include "components/modals/signin_modal_footer.html" %}
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Logout success Modal-->
+<div class="modal fade" id="logout-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-width-custom modal-dialog-centered" role="document">
+        <div class="modal-content logout-modal-content position-relative">
+            <button type="button" id="close-logout-modal" class="logout-close-modal" data-dismiss="modal"
+                aria-label="Close">
+                <span aria-hidden="true">
+                    <img src="/app/static/img/close_icon.svg" height="24" width="24" alt="Close icon" />
+                </span>
+            </button>
+            <div class="logged-out-text">Logged out successfully!</div>
+        </div>
+    </div>
+</div>

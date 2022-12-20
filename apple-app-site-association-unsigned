@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "M7Z997R489.com.argusnews.app",
+        "paths": ["*"]
+      }
+    ]
+  }
+}

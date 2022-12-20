@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load filters %}
+
+{% block head %}
+    <meta property="og:image" content="{{ community.get_og_image }}" />
+    <meta property="og:title" content="{{ community.og_title }}">
+    <meta property="og:description" content="{{ community.og_description }}" />
+    <!--for twitter-->
+    <meta property='twitter:title' content="{{ community.og_title }}">
+    <meta property='twitter:image' content="{{ community.get_og_image }}" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <link rel="canonical" href="https://{{ request.META.HTTP_HOST }}/about-us" >
+
+    <title>{% block title %} Argus News: About Us {% endblock %}</title>
+    <meta name="description" {% block meta_description %} content="{{ community.og_description }}" {% endblock %} >
+
+{% endblock %}
+
+{% block h1_tag %}
+    {# h1 to h6 tags are important for SEO (h1 tags are very important!) #}
+    <h1 class="d-none">Argus News: About Us</h1>
+{% endblock %}
+
+{% block content %}
+<div class="wrapper position-relative bg-white about-us-page container" id="main-container">
+    <div class="about-header-back">
+        <a href="{{request.META.HTTP_REFERER}}">
+            <span class="d-flex justify-content-start align-items-center">
+                <img class="live-tv-header-back" alt="Back">
+                <span class="about-us-back">Back</span>
+            </span>
+        </a>
+    </div>
+    <div class="about-header-about-us">
+        About us
+    </div>
+    <div class="about-header-description">
+        <p>
+            Argus in its last two years journey has emerged as a channel that champions the cause of poor and
+            downtrodden
+            in the state of Odisha. With tag line ‘In Search of Truth’ and ‘Argus always with the people’, the channel
+            has
+            reached out to the people in the remote part of the state which other established channels have even found
+            difficult to reach. Journalism with courage has been the channel’s identity.
+        </p>
+        <p>
+            Easy & accessible hyper local news:
+        </p>
+    </div>
+    <div class="about-header-categories">
+        <span class="about-bullet">●</span>&nbsp;Current affairs
+        <span class="about-bullet">●</span>&nbsp;Political news
+        <span class="about-bullet">●</span>&nbsp;Sports news
+        <span class="about-bullet">●</span>&nbsp;Crime news
+        <span class="about-bullet">●</span>&nbsp;National news
+        <span class="about-bullet">●</span>&nbsp;International news
+        <span class="about-bullet">●</span>&nbsp;Business news
+        <span class="about-bullet">●</span>&nbsp;Technology related news
+        <span class="about-bullet">●</span>&nbsp;Health news
+        <span class="about-bullet">●</span>&nbsp;Agricultural news
+        <span class="about-bullet">●</span>&nbsp;Entertainment news
+        <span class="about-bullet">●</span>&nbsp;Movie updates
+        <span class="about-bullet">●</span>&nbsp;Devotional content
+    </div>
+    <div class="about-bold-heading">
+        The Argus App
+    </div>
+    <div class="about-title-description">
+        <p>
+            Video news app to get your daily dose of information & news updates from across the world through our
+            secured
+            and trusted sources.
+        </p>
+        <p>
+            Argus News is a one-stop platform for a variety of hyperlocal content like news from agriculture to
+            politics,
+            daily information on essentials like food and petrol prices, classifieds by local businesses & individual
+            sellers, jobs updates ranging from local to government and life skill tips like finance, education, health,
+            farming and more.
+        </p>
+    </div>
+    <div class="about-bold-heading">
+        Features:
+    </div>
+    <div class="about-features row">
+        <div class="col-md-6 col-lg-6 col-sm-12">
+            <div class="about-features-heading">
+                <img class="about-local-news" alt="local news">Local news updates
+            </div>
+            <div class="about-features-description">
+                Get real-time updates on public news and hyperlocal content related to
+                politics, health, sports, agriculture and business in the form of articles and videos in the regional
+                language.
+            </div>
+
+            <div class="about-features-heading">
+                <img class="about-political-updates" alt="Political updates">Political updates
+            </div>
+            <div class="about-features-description">
+                Stay up to date with the current elections and latest political happenings in the form of local news
+                updates & alerts across the various cities and districts of Odisha. Learn about all the political
+                headlines and current affairs in the form of articles & videos that you can also share with your
+                friends and family.
+            </div>
+
+            <div class="about-features-heading">
+                <img class="about-sports-news" alt="Sports news">Sports news
+            </div>
+            <div class="about-features-description">
+                Get live updates on international and national sports news & more in the form of new articles and
+                viral videos. Find live cricket & kabaddi updates and also latest news on famous sports personalities
+                like Virat Kohli, Rohit Sharma, Mahendra Singh Dhoni, P.V Sindhu, Saina Nehwal and Sania Mirza.
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-12">
+            <div class="about-features-heading">
+                <img class="about-entertainment-news" alt="Entertainment news">Entertainment news
+            </div>
+            <div class="about-features-description">
+                Get all the latest celebrity gossip and industry news. Read about current and upcoming movies,
+                reviews and get the front row seats while your favorite stars get candid about what they are up to!
+                Find Ollywood news at it’s best.
+            </div>
+            <div class="about-features-heading">
+                <img class="about-viral-videos" alt="Viral videos">Online Viral Videos
+            </div>
+            <div class="about-features-description">
+                Latest popular and viral videos at your fingertips to keep you entertained and informed. Watch viral
+                videos and content in Odia from all around the world and share it with your friends and family on
+                WhatsApp, Telegram and other social media handles.
+            </div>
+            <div class="about-features-heading">
+                <img class="about-daily-horoscope" alt="Horoscope and Astrology">Daily Horoscopes & Astrology
+            </div>
+            <div class="about-features-description">
+                Get free daily predictions and horoscope updates for all the zodiac signs in your regional
+                languages Odia.
+            </div>
+        </div>
+        <div class="container">
+            <div class="about-heading">
+                Share News Online
+            </div>
+            <div class="about-title-description">
+                <p>
+                    Share the news that you read & watch with all your friends and family easily with the easy share
+                    button
+                    and stream live video news right from the app to various other platforms like Face book, WhatsApp or
+                    Instagram. Bring out the reporter in you & become a contributor/journalist and submit stories from
+                    around you through your Smartphone & get a chance to feature your articles & videos on our app.
+                </p>
+                <p>
+                    Argus News is on a mission to spread awareness and get you the right news from the right sources.
+                    From
+                    local news headlines to politics, agriculture to entertainment updates and bulletins. Stand a chance
+                    to
+                    become a contributor and a part of our diverse user base.
+                </p>
+            </div>
+            <div class="about-conclusion">
+                Argus News is on a mission to spread awareness and get you the right news from the right sources. From
+                local news headlines to politics, agriculture to entertainment updates and bulletins. Stand a chance to
+                become a contributor and a part of our diverse user base.
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% if request.user_agent.is_mobile %}
+        {% include "components/mobile_web_footer.html" %}
+    {% else %}
+        {% include "components/footer.html" %}
+    {% endif %}
+
+{% endblock %}
+
+
+
+{% block endscript %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load filters %}
+{#  Check the next admin ad in a list, after every 4th news feed, if it is present place it below that coresponding 4 posts #}
+{# else place the google ad if enable_google_ads field is set #}
+{% if forloop.counter|divisibleby:4 and community.enable_ads %}
+    {% with  forloop.counter|index_divider:4|floatformat:"0" as index %}
+        {% with ads_list|ad_from_zeroth_index:index as ad_obj %}
+            {% if ad_obj %}
+                <div class="main-ads" onclick='update_ad_clicks({{ ad_obj.id }})' >
+                    {# If the admin ad present,include generic ad component which manages both image and video ads #}
+                    {% include "components/home_page/generic_admin_ad.html" %}
+                </div>
+                {% if request.user_agent.is_mobile %}
+                    <div class="post-end"></div>
+                {% endif %}
+            {% elif community.enable_google_ads %}
+                {% if google_square_ad  and request.user_agent.is_mobile %}
+                    <div class="google_ad" id="gpt-ad-{{ post.id }}">
+                        <script>
+                            generate_ad_unit("gpt-ad-{{ post.id }}");
+                        </script>
+                    </div>
+                {% elif google_desktop_horizontal_ad and not request.user_agent.is_mobile %}
+                    <div class="google_ad" id="gpt-ad-{{ post.id }}">
+                        <script>
+                            generate_ad_unit("gpt-ad-{{ post.id }}");
+                        </script>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endwith %}
+    {% endwith %}
+{% endif %}

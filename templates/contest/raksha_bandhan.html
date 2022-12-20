@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load i18n %}
+{% load compress static %}
+{% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.794.0.min.js"></script>
+    {% compress js %}
+        <script src='{% static "js/event_manage.js" %}'></script>
+    {% endcompress %}
+    <meta property="og:image" content="{{ community.get_og_image }}"/>
+    <meta property="og:title" content="{{ community.og_title }}">
+    <meta property="og:description" content="{{ community.og_description }}"/>
+    <!--for twitter-->
+    <meta property='twitter:title' content="{{ community.og_title }}">
+    <meta property='twitter:image' content="{{ community.get_og_image }}"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="robots" content="noindex">
+
+    <title>{% block title %} Argus News: Raksha Bandhan {% endblock %}</title>
+    <meta name="description" {% block meta_description %} content="{{ community.og_description }}" {% endblock %} >
+
+{% endblock %}
+
+{% block h1_tag %}
+    {# h1 to h6 tags are important for SEO (h1 tags are very important!) #}
+    <h1 class="d-none">Raksha Bandhan - Argus News - Odisha Latest News, Breaking News</h1>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container" id="event_container">
+        <div id="event_banner_img">
+            <img src="/app/static/img/Rectangle_93.png">
+        </div>
+        <div id="event_title">
+            Raksha Bandhan
+        </div>
+        <p id="event_text">Fill out the details in form below</p>
+
+        <form id="event_form" role="form" action="/raksha-bandhan" method="POST" enctype="multipart/form-data" >
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group"><label for="user_name">Name <span class="required-label">*</span></label>
+                        <div class="input-group form-show-validation">
+                            <input class="form-control" id="user_name" name="user_name" type="text"
+                                   placeholder="Enter Name..."
+                                   value=""
+                                   required="required"
+                                   data-error="Name is required.">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group"><label for="sibling_name">Brother/Sister Name <span
+                            class="required-label">*</span></label> <input
+                            id="sibling_name"
+                            type="text"
+                            name="sibling_name"
+                            class="form-control"
+                            placeholder="Enter Brother/Sister Name... "
+                            data-error="Brother/Sister Name is required." required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group"><label for="phone_number">Phone Number<span
+                            class="required-label">*</span></label> <input
+                            id="phone_number"
+                            type="tel"
+                            name="phone_number"
+                            class="form-control"
+                            placeholder="Enter Phone Number... "
+                            required="required"
+                            data-error="phone_number is required.">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group"><label for="address">Address<span
+                            class="required-label">*</span></label> <input
+                            id="address"
+                            type="text"
+                            name="address"
+                            class="form-control"
+                            placeholder="Enter address... "
+                            required="required"
+                            data-error="address is required.">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-file input-file-image">
+                                    <label for="event_media">Image/Video<span
+                                            class="required-label">*</span></label>
+                                    <div  id='event_media_preview_section'>
+                                        <div id="empty_media_preview_div">
+                                            <input type="file" class="form-control form-control-file"
+                                                   id="event_media" name="article_image" accept="image/*,video/*"
+                                                   required>
+                                            <label
+                                                    for="event_media" id='event_empty_label' class="btn btn-round"><img
+                                                    src="/app/static/img/event_media_upload_icon.svg">
+                                                <br>Upload</label>
+                                        </div>
+                                        <span  style="display: none"  id='media_loading_icon'><i id='media_loading_spinner' class="fa fa-spinner fa-spin"></i></span>
+
+                                        <div id="img_preview_div" style="display: none">
+                                            <img id="image2_preview" src="">
+                                        </div>
+                                        <div style="display: none" id="event_media_modify">
+                                            <label for="event_media"><img src="/app/static/img/event_media_edit.svg"
+                                                                          id="event_media_edit"
+                                                                          style="margin-right: 4px;"></label>
+                                            <img src="/app/static/img/event_media_delete.svg" id="event_media_delete">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                <input class="form-control" id="media_url" name="media_url" type="hidden" value="">
+                <div class="col-md-6">
+                    <div class="form-group"><label for="form_message">Message <span
+                            class="required-label">*</span></label> <textarea id="form_message"
+                                                                              name="message"
+                                                                              class="form-control"
+                                                                              placeholder="Enter Mesasge... "
+                                                                              rows="5"
+                                                                              required="required"
+                                                                              data-error="Please, leave us a message."></textarea>
+                    </div>
+                </div>
+            </div>
+            <button id="submit_cta" class="buttonload btn btn-send pt-2 btn-block form_valid"><span id='form_submit'> Submit</span><span
+                    id='form_submitting'> <i id='event_submit_spinner' class="fa fa-spinner fa-spin"></i></span>
+            </button>
+        </form>
+    </div>
+{% endblock %}

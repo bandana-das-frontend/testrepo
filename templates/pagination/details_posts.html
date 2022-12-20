@@ -1,0 +1,78 @@
+{% load filters %}
+{% load i18n %}
+
+{% for scroll_post in scroll_posts %}
+    <div data-target="postDetails.middleSection" class="bg-white" id="post_detail">
+        <div class="post-card">
+            <div class="details-title">{{ scroll_post.title.strip|safe }}</div>
+                {% if scroll_post.created_by %}
+                    <div class="details-author">by {{ scroll_post.created_by.get_full_name }}</div>
+                {% endif %}
+            <div class="details-timestamp">
+                {# keep below line in one single line to avoid UI break #}
+                {{ scroll_post.published_date|date_to_string_format:"%Y-%m-%d %H:%M:%S"|date:"D, M d | g:i a" }}
+            </div>
+            <div class=" bg-white article position-relative">
+                <div class="img-fluid">
+                    {% if request.user_agent.is_mobile %}
+                        <img class="fp-img-border mx-auto center-cropped-fp details-fp shimmer-effect lazyload" data-src="{{ scroll_post.get_image }}" height="300px" width="100%" alt="{{ scroll_post.get_meta_title }}"/>
+                    {% else %}
+                        <img class="fp-img-border mx-auto center-cropped-fp details-fp shimmer-effect lazyload" data-src="{{ scroll_post.get_large_image }}" height="300px" width="100%" alt="{{ scroll_post.get_meta_title }}"/>
+                    {% endif %}
+                </div>
+                {% autoescape off %}
+                    <div class="details-description preview-description">
+                        {{ scroll_post.text|striptags|safe|generate_short_description:78 }}
+                        <div class="blurred"></div>
+                    </div>
+                {% endautoescape %}
+                <div class="read-full-story">
+                    <a href="/article/{{ scroll_post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ scroll_post.unique_url|urlencode|safe }}">
+                        {# keep below line in one single line to avoid UI break #}
+                        {% trans 'Read full story' %}
+                        <img src="/app/static/img/down_button.svg" alt="Read full story"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Check the next admin ad in a list, after every 4th news feed, if it is present place it below that corresponding 4 posts #}
+    {# else place the google ad if enable_google_ads field is set #}
+{% if forloop.counter|divisibleby:3 and community.enable_ads %}
+    {% with  forloop.counter|index_divider:3|floatformat:"0" as index %}
+        {% with ads_list|ad_from_zeroth_index:index as ad_obj %}
+            {#  If page number is 2 and ads object list is not empty then show ad below 3rd set of news cards(4 cards) #}
+            {% if ad_obj %}
+                {% if request.user_agent.is_mobile %}
+                    <div class="post-details-divider"></div>
+                {% endif %}
+                <div class="main-ads details-ads" onclick='update_ad_clicks({{ ad_obj.id }})' >
+                    {# If the admin ad present,include generic ad component which manages both image and video ads #}
+                    {% include "components/home_page/generic_admin_ad.html" %}
+                </div>
+            {% elif community.enable_google_ads %}
+                {% if google_square_ad  and request.user_agent.is_mobile %}
+                    <div style="margin:24px auto;" id="gpt-ad-{{ scroll_post.id }}">
+                        <script>
+                            generate_ad_unit("gpt-ad-{{ scroll_post.id }}");
+                        </script>
+                    </div>
+                {% elif google_desktop_horizontal_ad and not request.user_agent.is_mobile %}
+                    <div style="margin:24px auto;" id="gpt-ad-{{ scroll_post.id }}">
+                        <script>
+                            generate_ad_unit("gpt-ad-{{ scroll_post.id }}");
+                        </script>
+                    </div>
+                {% endif %}
+
+                <div style="margin:24px auto;" id="gpt-ad-{{ scroll_post.id }}">
+                    <script>
+                        generate_ad_unit("gpt-ad-{{ scroll_post.id }}");
+                    </script>
+                </div>
+            {% endif %}
+        {% endwith %}
+    {% endwith %}
+{% endif %}
+<div class="post-details-divider"></div>
+{% endfor %}

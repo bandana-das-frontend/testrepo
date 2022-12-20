@@ -1,0 +1,47 @@
+<div class="comments-footer-wrapper" id="comments-footer-wrapper" data-controller="comments">
+    <div class="comments-thin-line"></div>
+    <div class="d-flex justify-content-between align-items-center comments-footer">
+        <div class="d-flex justify-content-start align-items-center">
+            <!-- <div></div> 
+                {% if total_comments != 1 %}
+                <div class="comments-footer-count">{{ total_comments }}</div>
+                <div class="comment-footer-text">Comments</div>
+            {% else %}
+                <div class="comments-footer-count">{{ total_comments }}</div>
+                <div class="comment-footer-text">Comment</div>
+            {% endif %}
+            <div class="comments-footer-view-text" data-action="click->comments#open_mobile_comments" >View</div> -->
+            <div class="share-story-msite">Share Story</div>
+        </div>
+        <div class="d-flex justify-content-end align-items-center">
+            <!-- <div class="footer_share_icon">
+                <img class="footer_share" alt="Share">
+            </div> -->
+            <img class="share_divider" alt="image">
+            <div class="footer_share_icon">
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.META.HTTP_HOST }}/article/{{ post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ post.unique_url|urlencode|safe }}" target="_blank">
+                    <img class="footer_fb" alt="Share on Facebook">
+                </a>
+            </div>
+            <img class="share_divider" alt="image">
+            <div class="footer_share_icon">
+                <a href="https://api.whatsapp.com/send?text=http://{{ request.META.HTTP_HOST }}/article/{{ post.people_to_meet.all.0.url_path|urlencode|safe }}/{{ post.unique_url|urlencode|safe }}">
+                    <img class="footer_whatsapp" alt="Share on WhatsApp">
+                </a>
+            </div>
+            <img class="share_divider" alt="image">
+            <div class="footer_share_icon">
+                <a href="https://twitter.com/intent/tweet?url={{ request.META.HTTP_HOST }}%2Farticle%2F{{ post.people_to_meet.all.0.url_path|urlencode|safe }}%2F{{ post.unique_url|urlencode|safe }}" target="_blank" data-show-count="false">
+                    <img class="footer_twitter" alt="Share on Twitter">
+                </a>
+            </div>
+            <img class="share_divider" alt="image">
+            <div class="footer_share_icon">
+                <a href="mailto:?subject={{ post.title.strip }}&body=I%20found%20this%20article%20interesting%20and%20thought%20of%20sharing%20it%20with%20you.%20Check%20it%20out:%20{{ request.META.HTTP_HOST }}%2Farticle%2F{{ post.people_to_meet.all.0.url_path|urlencode|safe }}%2F{{ post.unique_url|urlencode|safe }}">
+                    <img class="footer_mail" alt="Share on mail">
+                </a>
+            </div>
+            <img class="share_divider" alt="image">
+        </div>
+    </div>
+</div>

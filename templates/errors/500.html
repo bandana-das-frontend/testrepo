@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load filters %}
+​
+
+{% block title %} Error 500 – Argus News {% endblock %}
+
+{% block head %}
+{% endblock %}
+​
+{% block content %}
+    <div class="container internal-server-error">
+        <div class="row">
+            <div class="error-message col">
+                <div class="error-num">
+                    Error 500
+                </div>
+                <div class="error-description-head">Whoops, something went wrong!</div>
+                <div class="error-description-body">We can’t get that information right now. Please try again later.</div>
+            </div>
+            <div class="col">
+                <img class="icon-error" src="/app/static/img/error_page.svg" alt="error"/>
+            </div>
+        </div>
+    </div>
+​
+{% endblock %}
+​
+{% block endscript %}
+{% endblock %}

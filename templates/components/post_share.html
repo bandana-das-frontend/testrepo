@@ -1,0 +1,32 @@
+
+    <div class="share-story">
+        Share story
+    </div>
+    <img class="share_divider" alt="share section divider">
+    <div class="footer_share_icon">
+        <a onclick="send_ga_event('article-share-social-media','FB-share-article-start');" href="https://www.facebook.com/sharer/sharer.php?u={{ post.get_webapp_share_link|urlencode|safe }}"
+           target="_blank">
+            <img alt="Share on Facebook" class="footer_fb">
+        </a>
+    </div>
+    <img class="share_divider" alt="share section divider">
+    <div class="footer_share_icon">
+        <a target="_blank" onclick="send_ga_event('article-share-social-media','WA-share-article-start');" href="https://api.whatsapp.com/send?text={{ post.get_webapp_share_link|urlencode|safe }}">
+            <img alt="Share on WhatsApp" class="footer_whatsapp">
+        </a>
+    </div>
+    <img class="share_divider" alt="share section divider">
+    <div class="footer_share_icon">
+        <a data-show-count="false" onclick="send_ga_event('article-share-social-media','Twitter-share-article-start');"
+           href="https://twitter.com/intent/tweet?url={{ post.get_webapp_share_link|urlencode|safe }}"
+           target="_blank">
+            <img alt="Share on Twitter" class="footer_twitter">
+        </a>
+    </div>
+    <img class="share_divider" alt="share section divider">
+    <div class="footer_share_icon">
+        <a onclick="send_ga_event('article-share-social-media','Email-share-article-start');" href="mailto:?subject={{ post.title.strip }}&body=I%20found%20this%20article%20interesting%20and%20thought%20of%20sharing%20it%20with%20you.%20Check%20it%20out:%20{{ post.get_webapp_share_link|urlencode|safe }}">
+            <img alt="Share on mail" class="footer_mail">
+        </a>
+    </div>
+    <img class="share_divider" alt="share section divider">

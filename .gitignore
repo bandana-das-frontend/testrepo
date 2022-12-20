@@ -1,0 +1,14 @@
+*.pyc
+.idea/*
+node_modules/*
+glynk_website/settings.py
+webapp/migrations/*
+venv/*
+.vscode/*
+locale/**/*.mo
+www/static/CACHE
+.DS_Store
+templates/robots.txt
+templates/firebase-messaging-sw.js
+www/static/js/firebase_configs.js
+emailer_files/*

@@ -1,0 +1,23 @@
+<style>
+    .d-flex{
+        display: flex;
+    }
+    .align-items-center{
+        align-items: center;
+    }
+</style>
+
+{# Custom widget template #}
+<div class="custom-widget-wrapper"
+        {% if custom_widget_config and custom_widget_config.bg_color %}
+     style="background: {{ custom_widget_config.bg_color }};"
+        {% endif %}>
+    <div class="d-flex align-items-center">
+        {# news icon and title section #}
+        <div class="news-icon"></div>
+        <div class="custom-title">{{ custom_widget_config.title|safe }}</div>
+    </div>
+
+    {# text section #}
+    <div class="custom-text">{{ custom_widget_config.text|safe }}</div>
+</div>

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load i18n %}
+
+{% block head %}
+    <meta property="og:image" content="{{ community.get_og_image }}" />
+    <meta property="og:title" content="{{ community.og_title }}">
+    <meta property="og:description" content="{{ community.og_description }}" />
+    <!--for twitter-->
+    <meta property='twitter:title' content="{{ community.og_title }}">
+    <meta property='twitter:image' content="{{ community.get_og_image }}" />
+    <meta name="twitter:card" content="summary_large_image"/>
+
+    <title>{% block title %} Argus News: Jobs at Argus News {% endblock %}</title>
+    <meta name="description" {% block meta_description %} content="{{ community.og_description }}" {% endblock %} >
+
+{% endblock %}
+
+{% block h1_tag %}
+    {# h1 to h6 tags are important for SEO (h1 tags are very important!) #}
+    <h1 class="d-none">Jobs page - Argus News - Odisha Latest News, Breaking News</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container jobs-container">
+    <a class="jobs-image-link" href="mailto:hr@argusnews.in?subject=Applying for:">
+         <img class="job-image-banner" src="{{ community.get_jobs_image }}" alt="job banner"/>
+    </a>
+</div>
+
+{% endblock %}
+
+{% block endscript %}
+{% endblock %}

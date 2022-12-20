@@ -1,0 +1,961 @@
+{% load filters %}
+{% load i18n %}
+<!DOCTYPE html>
+<html amp lang="en">
+<head>
+    <meta charset="utf-8">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+    <script async custom-element="amp-font" src="https://cdn.ampproject.org/v0/amp-font-0.1.js"></script>
+    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+    <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+
+    {# canonical url kept same as homepage url #}
+    <link rel="canonical" href="https://{{ request.META.HTTP_HOST }}/{{ language }}/trending">
+
+    <title>{% block title %} Trending News Odisha, India News & World News | Live TV| Argus News {% endblock %}</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <meta name="amp-script-src" content="sha384--wleWhB5uIUJryOGIaf-q7vLY7WxcFWD80NEeWEe-CDKF3QLVBDCLY_mIdaA0ITo"/>
+
+    {% for post in posts %}
+    <script type="application/ld+json">
+        {
+           "@context":"http://schema.org",
+           "@type":"NewsArticle",
+           "headline":"{{ post.title.strip|safe|strip_double_quotes }}",
+           "datePublished":"{{ post.published_date|date:'c' }}",
+           "author":{
+              "@type":"Person",
+              "name":"{{ post.created_by.first_name }} {{ post.created_by.last_name }}"
+           },
+           "publisher":{
+              "@type":"Organization",
+              "name":"Argus News",
+              "logo":{
+                 "@type":"ImageObject",
+                 "url":"https://argusnews.in/app/static/img/argus_logo.svg"
+              }
+           },
+           "image":[
+              "{{ post.get_large_image }}"
+           ]
+        }
+    </script>
+    {% endfor %}
+
+
+    <style amp-boilerplate>body {
+        -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        -moz-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        -ms-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        animation: -amp-start 8s steps(1, end) 0s 1 normal both
+    }
+
+    @-webkit-keyframes -amp-start {
+        from {
+            visibility: hidden
+        }
+        to {
+            visibility: visible
+        }
+    }
+
+    @-moz-keyframes -amp-start {
+        from {
+            visibility: hidden
+        }
+        to {
+            visibility: visible
+        }
+    }
+
+    @-ms-keyframes -amp-start {
+        from {
+            visibility: hidden
+        }
+        to {
+            visibility: visible
+        }
+    }
+
+    @-o-keyframes -amp-start {
+        from {
+            visibility: hidden
+        }
+        to {
+            visibility: visible
+        }
+    }
+
+    @keyframes -amp-start {
+        from {
+            visibility: hidden
+        }
+        to {
+            visibility: visible
+        }
+    }</style>
+    <noscript>
+        <style amp-boilerplate>body {
+            -webkit-animation: none;
+            -moz-animation: none;
+            -ms-animation: none;
+            animation: none
+        }</style>
+    </noscript>
+    <style amp-custom>
+        .text-centered {
+            text-align: center;
+        }
+
+        amp-iframe{
+            max-width: 100%;
+        }
+
+
+        .headerbar {
+            display: flex;
+            align-items: center;
+        }
+
+        .art-image-div {
+            position: relative;
+            width: 336px;
+            height: 190px;
+            margin: auto;
+        }
+
+        .ad-image_tag {
+            position: relative;
+            width: 300px;
+            height: 250px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .ad_text{
+            position: absolute;
+            color: floralwhite;
+            z-index: 1;
+            top: 2px;
+            right: 3px;
+            font-size: 12px;
+            font-weight: 500;
+            font-style: normal;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 0px 3px;
+        }
+
+        .ad-image_tag amp-image{
+            height: 200px;
+        }
+
+        .article-image {
+            overflow: hidden;
+            border-radius: 6px;
+
+        }
+
+        .center-cropped-gp {
+            height: 70px;
+            width: 125px;
+            max-height: 70px;
+            max-width: 125px;
+            object-fit: cover;
+            object-position: top;
+            margin-top: 6px;
+        }
+
+        .gp-card .img-fluid img {
+            animation: shimmer 2s infinite linear;
+            background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 15%, #eff1f3 24%);
+            background-size: 1000px 100%;
+        }
+
+        .gp-img-border {
+            border-radius: 6px;
+        }
+
+        .ad_image{
+            overflow: hidden;
+            border-radius: 6px;
+            height: 250px;
+            width: 300px;
+            margin-top: 2px;
+            position: relative;
+            margin-bottom: 30px;
+
+        }
+
+        amp-img.cover img {
+            object-fit: cover;
+            object-position: top;
+            border-radius: 6px;
+        }
+
+
+        .logo-svg {
+            display: block;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+        }
+
+        .container {
+            margin: 12px;
+        }
+
+        .title-name {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 19px;
+            margin: 0px 12px 0px 12px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 25px;
+            color: #333333;
+            margin-top: 16px;
+        }
+
+        .desciption {
+            font-family: 'Noto Sans', sans-serif;
+            font-style: normal;
+            color: #333333;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 22px;
+        }
+
+        .wrapper-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .wrapper-link:visited {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .wrapper-link:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .horizontal-line {
+            background: #f1f1f1;
+            height: 1px;
+            width: 100%;
+            margin: 10px auto;
+        }
+
+        .details-author {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 11px;
+            color: #333333;
+            margin: 4px 12px 0px 12px;
+            line-height: 15px;
+        }
+
+        .details-timestamp {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 16px;
+            color: #888888;
+            margin: 12px;
+            margin-top: 2px;
+            padding: 0;
+        }
+
+        .gp-title {
+            font-style: normal;
+            max-height: 19px;
+            width: calc(100vw - 165px);
+            overflow: hidden;
+            overflow-wrap: break-word;
+            text-overflow: ellipsis;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 19px;
+            color: #333333;
+            margin: 4px 12px;
+        }
+
+        .fp-topic, .gp-topic {
+            font-style: normal;
+            font-weight: normal;
+            line-height: 16px;
+            color: #7E8487;
+            text-transform: uppercase;
+            font-size: 10px;
+            margin: 6px 6px 0 12px;
+        }
+
+        .gp-card-text {
+            margin-left: 12px;
+            font-size: 11px;
+            line-height: 15px;
+            margin-right: 16px;
+            font-style: normal;
+            font-weight: normal;
+            color: #666666;
+            max-height: 30px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .gp-card {
+            margin-bottom: 8px;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .first-post-end, .post-end {
+            height: 2px;
+            background: #F6F6F6;
+            width: 100%;
+            margin-bottom: 8px;
+            margin-top: 8px;
+        }
+
+        a {
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .center-cropped-fp {
+            background-position: center center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            object-position: top;
+            object-fit: cover;
+            height: 220px;
+        }
+
+        .fp-img-border {
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+
+        .fp-title {
+            font-style: normal;
+            font-weight: bold;
+            color: #333333;
+            margin: 0 14px;
+            overflow: hidden;
+            overflow-wrap: break-word;
+            text-overflow: ellipsis;
+            max-height: 52px;
+            line-height: 25px;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .fp-text {
+            color: #666666;
+            font-size: 14px;
+            margin: 4px 14px 0 14px;
+            overflow: hidden;
+            overflow-wrap: break-word;
+            text-overflow: ellipsis;
+            max-height: 35px;
+            min-height: 35px;
+            font-style: normal;
+            font-weight: normal;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+        }
+
+        .fp-text.fp-topic-text {
+            max-height: 97px;
+        }
+
+        .fp-wrapper {
+            margin-top: 10px;
+            min-height: 385px;
+            margin-bottom: 20px;
+        }
+
+        .header-live-tv-btn {
+            background: linear-gradient(180deg, #E21E22 0%, #B02023 100%);
+            border-radius: 4px;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 11px;
+            line-height: 16px;
+            color: #FFFFFF ;
+            border: none;
+            margin-left: 16px;
+            height: 28px;
+            width: auto;
+            padding: 0px 8px;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            right: 100px;
+
+        }
+
+        .header-live-tv-btn img {
+            margin-left: 0px ;
+            padding-bottom: 2px;
+            padding-right: 6px;
+        }
+
+                .lang-select {
+            width: 60px;
+            height: 40px;
+            top: 8px;
+            position: relative;
+            display: block;
+        }
+
+        .lang-select ul {
+            width: 60px;
+            height: 30px;
+            margin: 0px;
+            display: block;
+            list-style-type: none;
+            position: relative;
+            padding: 0px;
+            left: 0px;
+        }
+
+        .lang-select ul a {
+            width: 28px;
+            line-height: 20px;
+        }
+
+        .lang-select ul a {
+            font-style: normal;
+            float: left;
+            font-weight: 400;
+            text-align: left;
+            font-size: 14px;
+
+            color: rgba(51, 51, 51, 0.5);
+            cursor: pointer;
+        }
+
+        .active_lang {
+            font-style: normal;
+            font-size: 12px;
+            font-weight: 700 ;
+            color: #333333 ;
+            line-height: 16px;
+        }
+
+
+        #lang_border {
+            display: block;
+            height: 3px;
+            width: 15px;
+            background: red;
+            position: absolute;
+            top: 20px;
+            transition: 0.4s ease-in-out;
+        }
+
+        .lang-switch {
+            position: absolute;
+            right: 10px;
+        }
+
+                .header-nav-menu-mob {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 27px;
+            color: #333333;
+        }
+
+        .active {
+            filter: invert(14%) sepia(96%) saturate(6763%) hue-rotate(
+                    354deg
+            ) brightness(99%) contrast(81%);
+            color: #E21E22;
+        }
+
+        .position-relative {
+            position: relative;
+        }
+
+        .mob-hor-menu {
+            height: 48px;
+            margin-left: 14px;
+        }
+
+        .justify-content-start {
+
+            justify-content: flex-start;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+
+        .header-nav-indicator {
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 32px;
+            z-index: 2;
+            height: 4px;
+            background: linear-gradient(
+                    0deg, #E21E22, #E21E22), #2B2B2B;
+            display: none;
+        }
+
+        .ml-28 {
+            margin-left: 28px;
+        }
+
+        .header-nav-indicator.active {
+            display: block;
+        }
+
+        .active-indicator-row {
+            width: 100%;
+            height: 4px;
+            background: #f6f6f6;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        #mobile_base_footer {
+            width: 100%;
+            background: #FAFAFA;
+            position: relative;
+            height: 450px;
+            border: 1px #FAFAFA solid;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border-top: 2px solid #F2F2F2;
+        }
+
+        .footer_topics {
+            width: 100%;
+            padding: 32px 14px 20px 14px;
+            margin: 0px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+        }
+
+        .footer_topics a {
+            margin-bottom: 6px;
+        }
+
+
+        .footer-meet-name {
+            font-size: 12px;
+            line-height: 16px;
+            color: #666666;
+            margin: 0px 6px;
+        }
+
+        .dot {
+            height: 3px;
+            width: 3px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 6px;
+            margin-top: 6px;
+        }
+
+        .footer_logo {
+            width: 120px;
+            height: 34px;
+        }
+
+        .static_content {
+            display: flex;
+        }
+
+        .static_content a {
+            display: inline-block;
+
+            margin: 12px;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 16px;
+            color: #333333;
+        }
+
+        .footer_copyright {
+            margin-top: 4px;
+            text-align: center;
+            width: 250px;
+            margin-left: 10px;
+        }
+
+        .footer_copyright span {
+            font-size: 10px;
+            line-height: 14px;
+            color: #666666;
+        }
+
+        .footer_app_download {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .footer_app_download div {
+            line-height: 20px;
+            font-size: 12px;
+            color: #888888;
+            margin-right: 10px;
+        }
+
+        .footer_social_media_sec {
+            display: flex;
+            margin-top: 24px;
+        }
+
+        .footer_social_media_sec div {
+            font-size: 12px;
+            line-height: 16px;
+            color: #888888;
+            margin-right: 12px;
+            margin-top: 4px;
+        }
+
+        .footer_app_download amp-img {
+            height: 20px;
+            width: 41px;
+            margin-top: -6px;
+        }
+
+        .footer_social_media_sec amp-img {
+            height: 20px;
+            width: 20px;
+            margin: auto 4px;
+        }
+        .active_lang {
+            font-style: normal;
+            font-size: 12px;
+            font-weight: 700 ;
+            color: #333333 ;
+            line-height: 16px;
+        }
+
+
+        #lang_border {
+            display: block;
+            height: 3px;
+            width: 15px;
+            background: red;
+            position: absolute;
+            top: 20px;
+            transition: 0.4s ease-in-out;
+        }
+
+        .lang-switch {
+            position: absolute;
+            right: 10px;
+        }
+
+        .amp-carousel-button{
+            display: none;
+        }
+
+        .top-ad{
+            margin-top: 12px;
+        }
+
+        .top-ad img{
+            object-fit: contain;
+        }
+
+        .gp-topic-timestamp{
+            display: flex;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<amp-analytics type="gtag" data-credentials="include">
+    <script type="application/json">
+        {
+          "vars" : {
+            "gtag_id": "{{ community.ga_tracking_id }}",
+            "config" : {
+              "{{ community.ga_tracking_id }}": { "groups": "default" }
+            }
+          }
+        }
+    </script>
+</amp-analytics>
+<header class="headerbar">
+    <a class="wrapper-link"  href="/amp/{{ language }}/latest-news">
+        <amp-img class="logo-svg" src="https://argusnews.in/app/static/img/argus_logo.svg" alt="Argus" height="38"
+                 width="130"></amp-img>
+    </a>
+
+    <a class="header-live-tv-btn" href="/live-tv">
+            <img  src="/app/static/img/live_tv_play_icon.svg"/>
+            LIVE TV
+    </a>
+
+    <div class="d-flex justify-content-start align-items-center lang-switch">
+        {% if community.content_language_filter %}
+            {# Language switch in the header #}
+            <div class="lang-select">
+                <ul id="lang_options">
+                    {% if language == 'en' %}
+                        <a class="lang_opt active_lang">En</a>
+                        <a class="lang_opt" href="/amp/or/latest-news" style='font-size:15px;'>ଓ</a>
+                    {% else %}
+                        <a class="lang_opt" href="/amp/en/latest-news">En</a>
+                        <a class="lang_opt active_lang" style='font-size:15px;'>ଓ</a>
+                    {% endif %}
+                </ul>
+                <span style="display: none" id="selected_lang" data-lang={{ language }}></span>
+                <span id="lang_border" {% if language == 'en' %} style="position: absolute; left:0%;" {% else %} style="position: absolute; left:44%;" {% endif %}></span>
+            </div>
+        {% endif %}
+    </div>
+</header>
+<div class="horizontal-line"></div>
+
+<div class="container">
+            <div class="position-relative">
+            <div class="header-mob-seperator"></div>
+            <div class="mob-hor-menu d-flex justify-content-start align-items-center">
+                {% if request.path == "/" or request.path|get_nth_string_from_url:"2" == "latest-news" or request.path|get_nth_string_from_url:"3" == "latest-news" or request.path|get_nth_string_from_url:"1" == "profile" %}
+                    <div class="position-relative">
+                        <a href="/amp/{{ language }}/latest-news">
+                            <div class="header-nav-menu-mob cursor-pointer active">
+                                {% trans 'Latest' %}
+                            </div>
+                            <div class="header-nav-indicator active"></div>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="position-relative">
+                        <a href="/amp/{{ language }}/latest-news">
+                            <div class="header-nav-menu-mob cursor-pointer">
+                                {% trans 'Latest' %}
+                            </div>
+                            <div class="header-nav-indicator"></div>
+                        </a>
+                    </div>
+                {% endif %}
+
+
+                {% if request.path|get_nth_string_from_url:"3" == "trending" %}
+                    <div class="position-relative">
+                        <a href="/amp/{{ language }}/trending">
+                            <div class="header-nav-menu-mob cursor-pointer ml-28 active">
+                                {% trans 'Trending' %}
+                            </div>
+                            <div class="ml-28 header-nav-indicator active"></div>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="position-relative">
+                        <a href="/amp/{{ language }}/trending">
+                            <div class="header-nav-menu-mob cursor-pointer ml-28">
+                                {% trans 'Trending' %}
+                            </div>
+                            <div class="ml-28 header-nav-indicator"></div>
+                        </a>
+                    </div>
+                {% endif %}
+
+
+                {% if request.path|get_nth_string_from_url:"1" == "channel_number" %}
+                <div class="position-relative">
+                    <a href="/channel_number">
+                        <div class="header-nav-menu-mob cursor-pointer ml-28 active">
+                            {% trans 'Channel Number' %}
+                        </div>
+                        <div class="ml-28 header-nav-indicator active"></div>
+                    </a>
+                </div>
+                {% else %}
+                    <div class="position-relative">
+                        <a href="/channel_number">
+                            <div class="header-nav-menu-mob cursor-pointer ml-28">
+                                {% trans 'Channel Number' %}
+                            </div>
+                            <div class="ml-28 header-nav-indicator"></div>
+                        </a>
+                    </div>
+                {% endif %}
+                 <div class="active-indicator-row"></div>
+            </div>
+        </div>
+        {% if top_ads %}
+            {% if  top_ads|length > 1 %}
+            <div class="top-ad-div">
+                <amp-carousel aria-label="Carousel with autoplay" type="slides"   class="top-ad" width="390" height="160" layout="responsive" role="region" controls loop autoplay delay="3000" role="region">
+                    {% for top_ad in top_ads %}
+                    <a href="/redirect_to_amp_ad_link?ad_id={{ top_ad.id }}">
+                      <amp-img src="{{ top_ad.ad_image|get_webp_format_image}}" layout="responsive" width="360" height="160"></amp-img>
+                    </a>
+                    {% endfor %}
+                </amp-carousel>
+            </div>
+            {% else %}
+                <a href="/redirect_to_amp_ad_link?ad_id={{ top_ads.0.id }}">
+                 <amp-img class="top-ad" src="{{ top_ads.0.ad_image|get_webp_format_image}}" layout="responsive" width="360" height="160"></amp-img>
+                </a>
+            {% endif %}
+        {% endif %}
+
+    {% if first_post %}
+            <div class="fp-wrapper bg-white position-relative cursor-pointer">
+                <a href="/amp/article/{{ first_post.unique_url|urlencode|safe }}">
+                    {% if first_post.get_image and first_post.get_image.strip %}
+                        <div class="img-fluid">
+                            <amp-img layout="responsive" width="1200" height="300" class="fp-img-border mx-auto center-cropped-fp shimmer-effect lazyload"
+                                     src="{{ first_post.get_large_image|safe }}"  alt="{{ first_post.get_meta_title|safe|striptags }}"></amp-img>
+                        </div>
+                    {% endif %}
+                    {# Added first post topic timestamp component. #}
+                    {% include "components/home_page/firstpost_topic_timestamp.html" %}
+                    {% if first_post.title and first_post.title.strip %}
+                        <div class="fp-title">{{first_post.title.strip}}</div>
+                    {% endif %}
+
+                    {% autoescape off %}
+                        {% if first_post.text and first_post.text.strip %}
+
+                            <div class="fp-text fp-topic-text">
+                                {% if request.user_agent.is_mobile %}
+                                {{ first_post.text.strip|safe|striptags|generate_short_description:50 }} {% else %}
+                                {{ first_post.text.strip|safe|striptags|generate_short_description:80 }} {% endif %}
+                            </div>
+
+                        {% endif %}
+                    {% endautoescape %}
+                </a>
+            </div>
+
+            <div class="post-end"></div>
+    {% endif %}
+
+    {% for post in posts %}
+            <a href="/amp/article/{{ post.unique_url|urlencode|safe }}" class="cursor-pointer">
+
+                <div class="bg-white d-flex gp-card">
+
+                        <div class="img-fluid">
+                            {% if post.get_image and post.get_image.strip %}
+                            <amp-img  width="1200" height="300" layout="responsive" class="article-image gp-img-border mx-auto center-cropped-gp" alt="creative" src="{{ post.get_large_image }}"></amp-img>
+                            {% else %}
+                            <amp-img  width="1200" height="300" layout="responsive" class="article-image gp-img-border mx-auto center-cropped-gp" alt="creative" src="https://d267x6x6dh1ejh.cloudfront.net/posts/a4d8815a-53e9-440c-9859-2042cfd8d836.png"></amp-img>
+                             {% endif %}
+                        </div>
+
+
+                    <div class="position-relative w-100">
+                        <div class="topic-timestamp gp-topic-timestamp">
+                            <div class="gp-topic">
+                                {% if post.label.strip %}
+                                    {{ post.label.strip|truncatechars:25|safe}}
+                                {% else %}
+                                    {{ post.people_to_meet.all.first.name|truncatechars:25|safe}}
+                                {% endif %}
+                            </div>
+                            {# check only if minute time unit present in publish date time of the post, if present show publish datetime #}
+                            {# else hide the publish date time in any other case  #}
+                            {% if "0m" == post.published_date|timesince|upto|safe %}
+                                <span class="gp-topic-timestamp-dot topic-timestamp-dot"></span>
+                                <div class="gp-timestamp">now</div>
+                            {% elif 'min' in post.published_date|timesince and 'hour' not in post.published_date|timesince %}
+                                <span class="gp-topic-timestamp-dot topic-timestamp-dot"></span>
+                                <div class="gp-timestamp">{{ post.published_date|timesince|upto|safe }} ago
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="gp-card-wrapper">
+                            {% if post.title and post.title.strip %}
+                                <div class="gp-title">{{ post.title.strip|safe }}</div>
+                            {% endif %}
+                            {% autoescape off %}
+                                {% if post.text %}
+                                    <div class="gp-card-text">{{ post.text|striptags|safe|generate_short_description:40 }}</div>
+                                {% endif %}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+                </div>
+
+        </a>
+        <div class="post-end"></div>
+
+    {% endfor %}
+
+</div>
+
+<div id='mobile_base_footer'>
+    <div class="footer_topics">
+        {% for meet in people_to_meet %}
+            <a href="/amp/{{ language }}/topics/{{ meet.url_path|safe }}">
+                <div class="footer-meet-name">{{ meet.name|safe }}</div>
+            </a>
+            {% if not forloop.last %}
+                <span class="dot"></span>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="mob_footer_logo_div">
+        <a href="/amp/{{ language }}/latest-news" >
+            <amp-img width="1200px" height="100px" layout="responsive" class="footer_logo" src="/app/static/img/argus_footer_logo.svg" alt="footer logo"></amp-img>
+        </a>
+    </div>
+    <div class="static_content">
+        <a href="/about-us">{% trans 'About' %}</a>
+        <a href="/jobs">{% trans 'Jobs' %}</a>
+        <a href="/privacy-policy"> {% trans 'Privacy' %}</a>
+        <a href="/terms-of-use"> {% trans 'Terms' %}</a>
+        <a href="/contact-us"> {% trans 'Contact Us' %}</a>
+    </div>
+    <div class="footer_copyright">
+        <span>Copyright © {% now 'Y' %} Argus News | Pratham Broadcast India Pvt. Ltd. | All right reserved.</span>
+    </div>
+    <div class="footer_app_download">
+        <div>DOWNLOAD APP</div>
+        <a target="_blank" href="https://argusnews.in/download">
+            <amp-img width="1200px" height="100px" layout="responsive"   src="/app/static/img/desktop_header_app_download_prompt.svg"></amp-img>
+        </a>
+    </div>
+    <div class="footer_social_media_sec">
+        <div>FOLLOW US ON</div>
+        <a href="https://www.facebook.com/argusnews.in" target="_blank">
+            <amp-img width="1200px" height="100px" layout="responsive" src="/app/static/img/footer_fb_logo.svg"></amp-img></a>
+        <a href="https://twitter.com/ArgusNews_in" target="_blank">
+            <amp-img width="1200px" height="100px" layout="responsive" src="/app/static/img/footer_twitter_logo.svg"></amp-img></a>
+        <a href="https://www.youtube.com/c/TheArgusNewsOdia/featured" target="_blank">
+            <amp-img width="1200px" height="100px" layout="responsive" src="/app/static/img/footer_yt_logo.svg"></amp-img></a>
+        <a href="https://www.instagram.com/argusnewsin/" target="_blank">
+            <amp-img width="1200px" height="100px" layout="responsive" class="social-media-instagram-icon"  src="/app/static/img/instagram_app_icon.svg"></amp-img></a>
+    </div>
+</div>
+
+</body>
+</html>
